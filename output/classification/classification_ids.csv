@@ -1,0 +1,294 @@
+province,country,id,value,color
+,Antigua and Barbuda,0,0.1,green
+,West Bank and Gaza,,0.17105263157894737,yellow
+,Barbados,10,0.0,green
+,Latvia,100,0.10344827586206896,yellow
+,Algeria,1,0.6192513368983957,orange
+,Belarus,101,0.8828405491024287,red
+,Lithuania,102,0.102,yellow
+,Liberia,103,1.1333333333333333,red
+,Slovakia,104,0.022222222222222223,green
+,Liechtenstein,105,0.0,green
+,Libya,106,1.0066666666666666,red
+,Madagascar,107,0.9400000000000001,red
+,Mongolia,109,0.5166666666666667,orange
+,North Macedonia,111,1.0046052631578946,red
+,Mali,112,0.9712500000000001,red
+,Morocco,113,0.25775401069518716,yellow
+,Mauritius,114,0.016666666666666666,green
+,Mauritania,115,1.005,red
+,Malta,116,0.07500000000000001,green
+,Oman,117,1.0000730994152045,red
+,Maldives,118,0.7918181818181818,red
+,Mexico,119,0.0,green
+,Bahamas,12,0.1,green
+,Malaysia,120,0.38727810650887573,yellow
+,Mozambique,121,0.9571428571428572,red
+,Niger,125,0.03333333333333333,green
+,Belgium,128,0.09763585038814396,green
+"""Korea"," South""",95,0.017135325131810195,green
+,Bangladesh,13,1.0004155730533681,red
+,Andorra,132,0.30689655172413793,yellow
+,Luxembourg,135,0.020987654320987655,green
+,Monaco,137,0.03333333333333333,green
+,Montenegro,139,0.0,green
+,Belize,14,0.1,green
+,Bosnia and Herzegovina,15,0.36836734693877554,yellow
+,Nigeria,152,0.9525936599423631,red
+,Norway,154,0.05138339920948617,green
+,Nepal,155,1.0014423076923078,red
+,Suriname,157,1.1214285714285714,red
+,Nicaragua,158,0.4325301204819277,orange
+,New Zealand,159,0.0,green
+,Bolivia,16,0.9455197132616487,red
+,Paraguay,160,0.4693181818181818,orange
+,Peru,161,0.07253653936822253,green
+,Pakistan,162,1.0000324464633354,red
+,Poland,163,0.7960659898477157,red
+,Panama,164,0.9861323155216285,red
+,Portugal,165,0.35780456852791875,yellow
+,Guinea-Bissau,167,0.31842105263157894,yellow
+,Qatar,168,0.9486928104575163,red
+,Romania,170,0.436027397260274,orange
+,Moldova,171,0.9610526315789474,red
+,Philippines,172,0.9595673876871881,red
+Puerto Rico,US,173,0.991732283464567,red
+,Russia,174,0.36459028550241007,yellow
+,Rwanda,175,0.775,orange
+,Saudi Arabia,176,0.7062183235867446,orange
+,South Africa,179,1.000190943807965,red
+,Benin,18,0.21666666666666667,yellow
+,Senegal,182,0.9575757575757575,red
+,Slovenia,183,0.02,green
+,Singapore,185,0.49283405172413797,orange
+,Somalia,186,0.911320754716981,red
+,Spain,187,0.05307219662058372,green
+,Saint Lucia,188,0.1,green
+,Sudan,189,0.852,red
+,Sweden,190,0.9197674418604651,red
+,Syria,191,0.049999999999999996,green
+,Switzerland,192,0.015366972477064221,green
+,Trinidad and Tobago,193,0.014285714285714287,green
+,Thailand,194,0.0430327868852459,green
+,Togo,198,0.5111111111111111,orange
+,Tunisia,200,0.09473684210526316,green
+,Azerbaijan,2,1.0018987341772152,red
+,Brazil,20,0.0,green
+,Turkey,201,0.20466455839168737,yellow
+,Tanzania,204,0.0,green
+,Uganda,205,0.9666666666666667,red
+,Ukraine,207,0.39906832298136646,yellow
+,Burkina Faso,209,0.2475,yellow
+,Uruguay,210,0.17272727272727273,yellow
+,Bulgaria,21,0.3078947368421053,yellow
+,Uzbekistan,211,0.6843434343434344,orange
+,Saint Vincent and the Grenadines,212,0.8,red
+,Venezuela,213,0.9967391304347827,red
+,Vietnam,215,0.009090909090909092,green
+Virgin Islands,US,216,0.05,green
+,Namibia,217,0.35,yellow
+,Eswatini,220,0.48125,orange
+,Brunei,22,0.0,green
+,Zambia,222,0.17033898305084746,yellow
+,Zimbabwe,223,0.9,red
+,Indonesia,224,0.9042105263157894,red
+,United Arab Emirates,227,0.7168229777256742,orange
+,Timor-Leste,228,0.0,green
+,San Marino,234,0.084375,green
+,Serbia,237,0.11851851851851852,yellow
+,Cambodia,24,0.0125,green
+,Taiwan*,245,0.011111111111111112,green
+,Sri Lanka,25,0.6672131147540984,orange
+,Congo (Brazzaville),26,0.6625,orange
+,Congo (Kinshasa),27,0.9551851851851851,red
+Qinghai,China,29,0.0,green
+Inner Mongolia,China,29,0.04285714285714286,green
+Jilin,China,29,0.0,green
+Xinjiang,China,29,0.0,green
+Gansu,China,29,0.0,green
+Hong Kong,China,29,0.0811111111111111,green
+Heilongjiang,China,29,0.006060606060606061,green
+Shaanxi,China,29,0.0071428571428571435,green
+Zhejiang,China,29,0.0,green
+Shanxi,China,29,0.0,green
+Ningxia,China,29,0.0,green
+Hebei,China,29,0.0,green
+Macau,China,29,0.0,green
+Yunnan,China,29,0.0,green
+Guizhou,China,29,0.0,green
+Beijing,China,29,0.005,green
+Fujian,China,29,0.0029411764705882353,green
+Jiangsu,China,29,0.0,green
+Anhui,China,29,0.0,green
+Liaoning,China,29,0.0,green
+Guangxi,China,29,0.0,green
+Shandong,China,29,0.014285714285714287,green
+Guangdong,China,29,0.010975609756097562,green
+Jiangxi,China,29,-0.008620689655172414,green
+Hubei,China,29,0.0,green
+Tianjin,China,29,0.0,green
+Hainan,China,29,0.0,green
+Hunan,China,29,0.0,green
+Henan,China,29,0.0,green
+Sichuan,China,29,0.055999999999999994,green
+Chongqing,China,29,0.0,green
+Shanghai,China,29,0.0325,green
+,Albania,3,0.8214285714285714,red
+,Afghanistan,30,0.9750714285714285,red
+,Bhutan,31,1.025,red
+,Chile,32,0.0,green
+,Cameroon,34,0.8394849785407725,red
+,Chad,35,0.4589285714285714,orange
+,Colombia,37,0.06640530759951749,green
+,Costa Rica,38,1.032,red
+,Central African Republic,39,1.005921052631579,red
+,Cuba,40,0.31634615384615383,yellow
+,Armenia,4,0.9927230046948357,red
+,Cyprus,43,0.06363636363636364,green
+,Djibouti,45,0.950925925925926,red
+,Dominica,46,0.2,yellow
+,Dominican Republic,47,0.8929166666666666,red
+,Ecuador,48,0.2200228832951945,yellow
+,Egypt,49,0.9862468931234466,red
+,Angola,5,0.5166666666666667,orange
+,Ireland,50,0.04539170506912442,green
+,Equatorial Guinea,51,0.536734693877551,orange
+,Estonia,52,0.11967213114754098,yellow
+,Eritrea,53,0.0,green
+,El Salvador,54,0.8994186046511627,red
+,Ethiopia,55,1.0083333333333333,red
+,Austria,56,0.03689986282578875,green
+,Czechia,57,0.16763636363636364,yellow
+,Finland,59,0.19379310344827588,yellow
+,Fiji,60,0.0,green
+,Gambia,65,0.1,green
+,Gabon,66,0.7545871559633027,orange
+Georgia,US,67,0.7286951501154734,orange
+,Georgia,geo_67,0.42058823529411765,orange
+,Ghana,68,0.6336569579288026,orange
+,Grenada,69,0.0,green
+,Argentina,7,0.9708984374999999,red
+,Germany,71,0.06537540619120917,green
+Guam,US,72,0.17500000000000002,yellow
+,Greece,73,0.0808139534883721,green
+,Guatemala,74,0.9439922480620155,red
+,Guinea,75,0.9127906976744186,red
+,Guyana,76,0.4666666666666666,orange
+,Haiti,77,0.8993975903614458,red
+,Honduras,78,0.704126213592233,orange
+,Croatia,79,0.004285714285714286,green
+,Hungary,80,0.2,yellow
+,Iceland,81,0.0020833333333333333,green
+,India,82,0.9781560368553308,red
+,Iran,83,0.9247480013903372,red
+,Israel,84,0.13160535117056857,yellow
+,Italy,85,0.06497354497354497,green
+,Cote d'Ivoire,86,1.004945054945055,red
+,Iraq,87,1.0009278350515465,red
+,Japan,88,0.002302631578947368,green
+,Jamaica,89,0.12954545454545455,yellow
+,Jordan,90,0.21666666666666667,yellow
+,Bahrain,9,1.0013953488372094,red
+,Kenya,91,0.976605504587156,red
+,Kyrgyzstan,92,0.9404255319148936,red
+,Kuwait,96,0.8233475479744136,red
+,Kazakhstan,97,0.8845403899721449,red
+,Laos,98,0.0,green
+,Lebanon,99,0.5767857142857142,orange
+Diamond Princess,Cruise Ship,cruise,0.0,green
+,Diamond Princess,cruise,0.0,green
+Faroe Islands,Denmark,den_44,0.0,green
+,Denmark,den_46,0.13894389438943894,yellow
+Aruba,Netherlands,dutch_153,0.0,green
+Sint Maarten,Netherlands,dutch_155,0.0,green
+,Netherlands,dutch_156,0.13494525547445255,yellow
+French Guiana,France,fr_64,0.8083333333333332,red
+French Polynesia,France,fr_65,0.0,green
+Guadeloupe,France,fr_66,0.04285714285714286,green
+Mayotte,France,fr_67,0.829245283018868,red
+New Caledonia,France,fr_68,0.2,yellow
+Reunion,France,fr_69,0.0891304347826087,green
+St Martin,France,fr_71,0.05,green
+Martinique,France,fr_72,0.05555555555555555,green
+,France,fr_73,0.09005892025212386,green
+North Dakota,US,mixed_10,0.43082191780821916,orange
+Manitoba,Canada,mixed_11,0.05,green
+Michigan,US,mixed_12,0.21225720026791692,yellow
+Maine,US,mixed_13,0.7326530612244898,orange
+Quebec,Canada,mixed_14,0.33883541867179984,yellow
+New Brunswick,Canada,mixed_15,0.19285714285714287,yellow
+Ohio,US,mixed_16,0.5792464878671776,orange
+New Hampshire,US,mixed_17,0.7388297872340426,orange
+New York,US,mixed_18,0.12197830578512396,yellow
+Vermont,US,mixed_19,0.15263157894736842,yellow
+Pennsylvania,US,mixed_20,0.359942638623327,yellow
+Minnesota,US,mixed_2,0.671549295774648,orange
+Arizona,US,mixed_21,1.0010899182561308,red
+California,US,mixed_22,0.9796353166986563,red
+New Mexico,US,mixed_23,0.881547619047619,red
+Texas,US,mixed_24,0.9953835709436525,red
+Alaska,US,mixed_25,0.8653846153846154,red
+Louisiana,US,mixed_27,0.26280962491153576,yellow
+Mississippi,US,mixed_28,0.8785060975609755,red
+Alabama,US,mixed_29,0.7372141372141373,orange
+Florida,US,mixed_30,0.806735057983943,red
+Ontario,Canada,mixed_3,0.5392911010558069,orange
+South Carolina,US,mixed_32,1.0011945392491468,red
+North Carolina,US,mixed_33,1.0011046511627908,red
+Virginia,US,mixed_34,0.8257561436672968,red
+District of Columbia,US,mixed_35,0.42081218274111676,orange
+Maryland,US,mixed_36,0.8099442379182156,red
+Delaware,US,mixed_37,0.3342995169082126,yellow
+New Jersey,US,mixed_38,0.19794843360133074,yellow
+Connecticut,US,mixed_39,0.21494538232373386,yellow
+Rhode Island,US,mixed_40,0.2980719794344473,yellow
+Washington,US,mixed_4,0.5671218487394958,orange
+Massachusetts,US,mixed_41,0.3641193903471634,yellow
+Oregon,US,mixed_42,0.7881944444444444,orange
+Newfoundland and Labrador,Canada,mixed_44,0.00625,green
+Nova Scotia,Canada,mixed_45,0.016176470588235296,green
+Hawaii,US,mixed_47,0.07592592592592592,green
+Prince Edward Island,Canada,mixed_48,0.0,green
+Utah,US,mixed_49,1.0034883720930232,red
+Wyoming,US,mixed_50,0.3391304347826087,yellow
+British Columbia,Canada,mixed_5,0.1291044776119403,yellow
+Nevada,US,mixed_51,0.7930921052631579,yellow
+Colorado,US,mixed_52,0.5429097605893186,orange
+South Dakota,US,mixed_53,0.5089743589743589,orange
+Nebraska,US,mixed_54,0.6099531615925058,orange
+Kansas,US,mixed_55,0.35366666666666663,yellow
+Oklahoma,US,mixed_56,0.6805785123966942,orange
+Iowa,US,mixed_57,0.5939047619047619,orange
+Missouri,US,mixed_58,0.7379921259842519,orange
+Wisconsin,US,mixed_59,0.8495841995841995,red
+Idaho,US,mixed_6,0.48225806451612907,orange
+Illinois,US,mixed_60,0.47351109381082135,orange
+Kentucky,US,mixed_61,0.9437500000000001,red
+Arkansas,US,mixed_62,0.9969135802469136,red
+Tennessee,US,mixed_63,0.9003937007874016,red
+West Virginia,US,mixed_64,0.6420454545454546,orange
+Indiana,US,mixed_65,0.6288937409024745,orange
+Western Australia,Australia,mixed_66,0.09285714285714286,green
+Northern Territory,Australia,mixed_67,0.0,green
+South Australia,Australia,mixed_68,0.0,green
+Queensland,Australia,mixed_69,0.005769230769230769,green
+Montana,US,mixed_7,0.32105263157894737,yellow
+New South Wales,Australia,mixed_70,0.012576687116564416,green
+Victoria,Australia,mixed_72,0.08405797101449275,green
+Tasmania,Australia,mixed_73,0.0,green
+Australian Capital Territory,Australia,mixed_77,0.0,green
+Alberta,Canada,mixed_8,0.075,green
+Saskatchewan,Canada,mixed_9,0.07941176470588236,green
+Bermuda,United Kingdom,uk_206,0.05,green
+Cayman Islands,United Kingdom,uk_207,0.6375,orange
+Channel Islands,United Kingdom,uk_208,0.0062499999999999995,green
+Gibraltar,United Kingdom,uk_209,0.2642857142857143,yellow
+Isle of Man,United Kingdom,uk_211,0.0,green
+,United Kingdom,uk_214,0.31490872210953347,yellow
+,Botswana,181,0.5,orange
+,Burundi,28,1.05,red
+,Sierra Leone,184,0.5551724137931034,orange
+,Malawi,22,1.0266666666666666,red
+,Sao Tome and Principe,199,0.24782608695652175,yellow
+,Yemen,221,0.984090909090909,red
+,Burma,17,0.3333333333333333,yellow
