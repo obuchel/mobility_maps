@@ -37,7 +37,7 @@
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
   line-height: 18px;
   height: 10px;
-  margin-bottom: 40px;
+  margin-bottom: 60px;
   width: 280px;
 }
 
@@ -90,6 +90,8 @@
     var arrD= [];
         var arrE= [];
         var arrF= [];
+         var arrG= [];
+        var arrH= [];
 var data3=[];    
 var z0=[];
 var z1=[];
@@ -131,7 +133,21 @@ var z15=[];
 var z25=[];
 var z35=[];
 var z45=[];   
-var z55=[];     
+var z55=[];  
+    
+    var z06=[];
+var z16=[];
+var z26=[];
+var z36=[];
+var z46=[];   
+var z56=[];  
+    
+        var z07=[];
+var z17=[];
+var z27=[];
+var z37=[];
+var z47=[];   
+var z57=[];  
     //April05-11
 var communitiesA={0: 0, 1: 0, 2: 1, 3: 0, 4: 1, 5: 2, 6: 3, 7: 3, 8: 1, 9: 1, 10: 3, 11: 3, 12: 4, 13: 0, 14: 0, 15: 1, 16: 1, 17: 3, 18: 0, 19: 2, 20: 3, 21: 0, 22: 4, 23: 4, 24: 0, 25: 0, 26: 0, 27: 3, 28: 3, 29: 3, 30: 2, 31: 2, 32: 2, 33: 1, 34: 1, 35: 2, 36: 2, 37: 2, 38: 2, 39: 4, 40: 0, 41: 2, 42: 1, 43: 2, 44: 2, 45: 2, 46: 0, 47: 2, 48: 2, 49: 4, 50: 4, 51: 4, 52: 1, 53: 0, 54: 0, 55: 4, 56: 4, 57: 1, 58: 2, 59: 2, 60: 1, 61: 3, 62: 1, 63: 2, 64: 1, 65: 4, 66: 3, 67: 0, 68: 1};
 
@@ -150,7 +166,12 @@ var communities_Mar15_21= {0: 0, 1: 0, 2: 0, 3: 1, 4: 0, 5: 0, 6: 0, 7: 0, 8: 2,
     
 var communities_Mar29_Apr04={0: 0, 1: 0, 2: 1, 3: 0, 4: 0, 5: 0, 6: 2, 7: 0, 8: 3, 9: 3, 10: 2, 11: 2, 12: 3, 13: 4, 14: 0, 15: 1, 16: 0, 17: 2, 18: 0, 19: 0, 20: 0, 21: 3, 22: 3, 23: 1, 24: 0, 25: 4, 26: 2, 27: 4, 28: 4, 29: 0, 30: 4, 31: 3, 32: 2, 33: 3, 34: 3, 35: 3, 36: 0, 37: 5, 38: 4, 39: 5, 40: 3, 41: 5, 42: 5, 43: 0, 44: 3, 45: 1, 46: 5, 47: 5, 48: 2, 49: 4, 50: 1, 51: 0, 52: 4, 53: 1, 54: 0, 55: 1, 56: 4, 57: 4, 58: 3, 59: 2, 60: 3, 61: 1, 62: 3, 63: 4, 64: 0};    
     
-var communities_Mar22_28= {0: 0, 1: 0, 2: 1, 3: 0, 4: 1, 5: 0, 6: 2, 7: 3, 8: 3, 9: 0, 10: 3, 11: 0, 12: 4, 13: 0, 14: 4, 15: 4, 16: 4, 17: 0, 18: 5, 19: 5, 20: 5, 21: 5, 22: 3, 23: 2, 24: 4, 25: 3, 26: 2, 27: 2, 28: 0, 29: 2, 30: 3, 31: 5, 32: 5, 33: 2, 34: 2, 35: 2, 36: 3, 37: 4, 38: 4, 39: 4, 40: 2, 41: 4, 42: 4, 43: 5, 44: 4, 45: 5, 46: 5, 47: 1, 48: 5, 49: 4, 50: 5, 51: 5, 52: 5, 53: 4, 54: 3, 55: 1, 56: 5}
+var communities_Mar22_28= {0: 0, 1: 0, 2: 1, 3: 0, 4: 1, 5: 0, 6: 2, 7: 3, 8: 3, 9: 0, 10: 3, 11: 0, 12: 4, 13: 0, 14: 4, 15: 4, 16: 4, 17: 0, 18: 5, 19: 5, 20: 5, 21: 5, 22: 3, 23: 2, 24: 4, 25: 3, 26: 2, 27: 2, 28: 0, 29: 2, 30: 3, 31: 5, 32: 5, 33: 2, 34: 2, 35: 2, 36: 3, 37: 4, 38: 4, 39: 4, 40: 2, 41: 4, 42: 4, 43: 5, 44: 4, 45: 5, 46: 5, 47: 1, 48: 5, 49: 4, 50: 5, 51: 5, 52: 5, 53: 4, 54: 3, 55: 1, 56: 5};
+
+
+var communities_Apr26_May02={0: 0, 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 1, 7: 1, 8: 1, 9: 2, 10: 0, 11: 1, 12: 0, 13: 3, 14: 0, 15: 0, 16: 1, 17: 0, 18: 2, 19: 4, 20: 1, 21: 0, 22: 4, 23: 4, 24: 1, 25: 3, 26: 1, 27: 1, 28: 3, 29: 2, 30: 2, 31: 2, 32: 2, 33: 4, 34: 4, 35: 2, 36: 0, 37: 1, 38: 3, 39: 0, 40: 1, 41: 4, 42: 2, 43: 4, 44: 3, 45: 1, 46: 4, 47: 3, 48: 3, 49: 4, 50: 2, 51: 3, 52: 3, 53: 1, 54: 1, 55: 4, 56: 4, 57: 4, 58: 4, 59: 2, 60: 0, 61: 4};
+    
+var communities_Apr19_25={0: 0, 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 1, 7: 0, 8: 0, 9: 2, 10: 0, 11: 1, 12: 3, 13: 0, 14: 4, 15: 1, 16: 0, 17: 2, 18: 1, 19: 1, 20: 1, 21: 1, 22: 2, 23: 3, 24: 3, 25: 3, 26: 0, 27: 1, 28: 3, 29: 3, 30: 3, 31: 4, 32: 1, 33: 0, 34: 2, 35: 2, 36: 2, 37: 4, 38: 4, 39: 1, 40: 1, 41: 1, 42: 1, 43: 1, 44: 2, 45: 4, 46: 1, 47: 4, 48: 1, 49: 4, 50: 4, 51: 4, 52: 4, 53: 2, 54: 1, 55: 4, 56: 4, 57: 3, 58: 4, 59: 4, 60: 0};
     
 var zeros=["#023858","#9ecae1","#6baed6","#4292c6","#2171b5","#08519c","#08306b","#74a9cf","#3690c0","#0570b0","#045a8d","#a6bddb","#4682b4","#d0d1e6","#c6dbef","#d0d1e6","#a6bddb",      "#023858","#9ecae1","#6baed6","#4292c6","#2171b5","#08519c","#08306b","#74a9cf","#3690c0","#0570b0","#045a8d","#a6bddb","#4682b4","#d0d1e6","#c6dbef","#d0d1e6","#a6bddb"];
 var ones=["#feb24c","#fd8d3c","#fc4e2a","#fdae6b","#fd8d3c","#f16913","#d94801","#a63603","#7f2704","#fec44f","#fe9929","#ec7014","#cc4c02","#993404","#662506",         "#feb24c","#fd8d3c","#fc4e2a","#fdae6b","#fd8d3c","#f16913","#d94801","#a63603","#7f2704","#fec44f","#fe9929","#ec7014","#cc4c02","#993404","#662506","#feb24c","#fd8d3c","#fc4e2a","#fdae6b","#fd8d3c","#f16913","#d94801","#a63603","#7f2704","#fec44f","#fe9929","#ec7014","#cc4c02","#993404","#662506"];
@@ -328,7 +349,55 @@ for (var i=0; i<d3.keys(communities).length; i++) {
     }
     
 }
-    console.log(arrF);
+    
+     for (var i=0; i<d3.keys(communities_Apr26_May02).length; i++) {
+    if (d3.values(communities_Apr26_May02)[i]==0) {
+        arrG.push(zeros[z06.length]);
+      z06.push(d3.values(communities_Apr26_May02)[i])  
+    } else if (d3.values(communities_Apr26_May02)[i]==1) {
+        arrG.push(twos[z16.length]);       
+      z16.push(d3.values(communities_Apr26_May02)[i])     
+    } else if (d3.values(communities_Apr26_May02)[i]==2) {
+        arrG.push(threes[z26.length]);       
+      z26.push(d3.values(communities_Apr26_May02)[i])  
+    } else if (d3.values(communities_Apr26_May02)[i]==3) {
+        arrG.push(fours[z36.length]);       
+      z36.push(d3.values(communities_Apr26_May02)[i])  
+    } else if (d3.values(communities_Apr26_May02)[i]==4) {
+        arrG.push(ones[z46.length]);       
+      z46.push(d3.values(communities_Apr26_May02)[i])    
+    } else {
+         arrG.push(fives[z56.length]);       
+      z56.push(d3.values(communities_Apr26_May02)[i])  
+
+    }
+    
+}
+    
+     for (var i=0; i<d3.keys(communities_Apr19_25).length; i++) {
+          //console.log(d3.values(communities_Mar08_14)[i]);
+    if (d3.values(communities_Apr19_25)[i]==0) {
+        arrH.push(zeros[z07.length]);
+      z07.push(d3.values(communities_Apr19_25)[i])  
+    } else if (d3.values(communities_Apr19_25)[i]==1) {
+        arrH.push(twos[z17.length]);       
+      z17.push(d3.values(communities_Apr19_25)[i])     
+    } else if (d3.values(communities_Apr19_25)[i]==2) {
+        arrH.push(fours[z27.length]);       
+      z27.push(d3.values(communities_Apr19_25)[i])  
+    } else if (d3.values(communities_Apr19_25)[i]==3) {
+        arrH.push(threes[z37.length]);       
+      z37.push(d3.values(communities_Apr19_25)[i])  
+    } else if (d3.values(communities_Apr19_25)[i]==4) {
+        arrH.push(ones[z47.length]);       
+      z47.push(d3.values(communities_Apr19_25)[i])    
+    } else {
+
+    }
+    
+}
+    
+    //console.log(arrF);
     var arr=[];
     
     for (var i=0; i<arr0.length; i++) {
@@ -394,9 +463,9 @@ for (var i=0; i<d3.keys(communities).length; i++) {
      var arr2=[[1, 0.1], [100, 0.2],[200, 0.7],[500, 1],[1000, 1],[2000, 1],[2500, 1],[3000, 1],[50000, 1]];  
 var comms=["All",0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 13, 14, 15, 16, 17, 18, 19, 20, 21];  
 var data3=[];    
-        var vals=["Feb23-29","Mar01-07","Mar08-14","Mar15-21","Mar22-28","Mar29-Apr04","Apr05-11"];
+        var vals=["Feb23-29","Mar01-07","Mar08-14","Mar15-21","Mar22-28","Mar29-Apr04","Apr05-11","Apr19-25","Apr26-May02"];
 var x = document.getElementById("mySelect");
-for (var i=0; i<7; i++) {        
+for (var i=0; i<9; i++) {        
 var option = document.createElement("option");
 option.text = "Communities during week "+vals[i];
 option.value = vals[i];    
@@ -491,7 +560,28 @@ type: 'geojson',
 map.addSource('communities_small_Apr05-11', {
 type: 'geojson',
 'data': "Apr05-11_small_simplified.json"    
-});    
+});  
+    
+map.addSource('communities_large_Apr19-25', {
+type: 'geojson',
+ data: 'Apr19-25_large_simplified.json'  
+});   
+
+map.addSource('communities_small_Apr19-25', {
+type: 'geojson',
+'data': "Apr19-25_small_simplified.json"    
+});  
+       
+    
+map.addSource('communities_large_Apr26-May02', {
+type: 'geojson',
+ data: 'Apr26-May02_large_simplified.json'  
+});   
+
+map.addSource('communities_small_Apr26-May02', {
+type: 'geojson',
+'data': "Apr26-May02_small_simplified.json"    
+});      
     
 map.addSource('states', {
 type: 'geojson',
@@ -1480,8 +1570,275 @@ arrF[54],
          
     
 /* other */ '#ccc'
+],"Apr26-May02":[
+'match',
+['get', 'GEOID'],
+'com_55',
+arrG[55],
+'com_51',
+arrG[51],
+'com_50',
+arrG[50],
+'com_39',
+arrG[39], 
+'com_56',
+arrG[56],
+'com_23',
+arrG[23],  
+'com_49',
+arrG[49],  
+'com_41',
+arrG[41], 
+'com_22',
+arrG[22], 
+'com_35',
+arrG[35],   
+'com_0',
+arrG[0], 
+    'com_1',
+arrG[1], 
+    'com_2',
+arrG[2], 
+        'com_3',
+arrG[3], 
+        'com_4',
+arrG[4], 
+        'com_5',
+arrG[5], 
+        'com_6',
+arrG[6], 
+        'com_7',
+arrG[7], 
+        'com_8',
+arrG[8], 
+        'com_9',
+arrG[9], 
+        'com_10',
+arrG[10], 
+     'com_11',
+arrG[11], 
+     'com_12',
+arrG[12],
+     'com_13',
+arrG[13], 
+      'com_14',
+arrG[14], 
+    
+     'com_15',
+arrG[15], 
+     'com_16',
+arrG[16], 
+     'com_17',
+arrG[17], 
+     'com_18',
+arrG[18], 
+     'com_19',
+arrG[19], 
+     'com_20',
+arrG[20], 
+        'com_21',
+arrG[21],
+      'com_24',
+arrG[24], 
+    
+     'com_25',
+arrG[25], 
+     'com_26',
+arrG[26], 
+     'com_27',
+arrG[27], 
+     'com_28',
+arrG[28], 
+     'com_29',
+arrG[29], 
+     'com_30',
+arrG[30], 
+    'com_31',
+arrG[31], 
+    'com_32',
+arrG[32], 
+        'com_33',
+arrG[33], 
+        'com_34',
+arrG[34], 
+
+        'com_36',
+arrG[36], 
+        'com_37',
+arrG[37], 
+        'com_38',
+arrG[38], 
+    'com_40',
+arrG[40], 
+   
+    'com_42',
+arrG[42], 
+        'com_43',
+arrG[43], 
+        'com_44',
+arrG[44], 
+        'com_45',
+arrG[45], 
+        'com_46',
+arrG[46], 
+       'com_47',
+arrG[47], 
+        'com_48',
+arrG[48], 
+    
+     'com_52',
+arrG[52], 
+        'com_53',
+arrG[53], 
+        'com_54',
+arrG[54], 
+         'com_57',
+arrG[57], 
+        'com_58',
+arrG[58], 
+        'com_59',
+arrG[59], 
+        'com_60',
+arrG[60], 
+     'com_61',
+arrG[61], 
+    
+/* other */ '#ccc'
+],"Apr19-25":[
+'match',
+['get', 'GEOID'],
+'com_55',
+arrH[55],
+'com_51',
+arrH[51],
+'com_50',
+arrH[50],
+'com_39',
+arrH[39], 
+'com_56',
+arrH[56],
+'com_23',
+arrH[23],  
+'com_49',
+arrH[49],  
+'com_41',
+arrH[41], 
+'com_22',
+arrH[22], 
+'com_35',
+arrH[35],   
+'com_0',
+arrH[0], 
+    'com_1',
+arrH[1], 
+    'com_2',
+arrH[2], 
+        'com_3',
+arrH[3], 
+        'com_4',
+arrH[4], 
+        'com_5',
+arrH[5], 
+        'com_6',
+arrH[6], 
+        'com_7',
+arrH[7], 
+        'com_8',
+arrH[8], 
+        'com_9',
+arrH[9], 
+        'com_10',
+arrH[10], 
+     'com_11',
+arrH[11], 
+     'com_12',
+arrH[12],
+     'com_13',
+arrH[13], 
+      'com_14',
+arrH[14], 
+    
+     'com_15',
+arrH[15], 
+     'com_16',
+arrH[16], 
+     'com_17',
+arrH[17], 
+     'com_18',
+arrH[18], 
+     'com_19',
+arrH[19], 
+     'com_20',
+arrH[20], 
+        'com_21',
+arrH[21],
+      'com_24',
+arrH[24], 
+    
+     'com_25',
+arrH[25], 
+     'com_26',
+arrH[26], 
+     'com_27',
+arrH[27], 
+     'com_28',
+arrH[28], 
+     'com_29',
+arrH[29], 
+     'com_30',
+arrH[30], 
+    'com_31',
+arrH[31], 
+    'com_32',
+arrH[32], 
+        'com_33',
+arrH[33], 
+        'com_34',
+arrH[34], 
+
+        'com_36',
+arrH[36], 
+        'com_37',
+arrH[37], 
+        'com_38',
+arrH[38], 
+    'com_40',
+arrH[40], 
+   
+    'com_42',
+arrH[42], 
+        'com_43',
+arrH[43], 
+        'com_44',
+arrH[44], 
+        'com_45',
+arrH[45], 
+        'com_46',
+arrH[46], 
+       'com_47',
+arrH[47], 
+        'com_48',
+arrH[48], 
+    
+     'com_52',
+arrH[52], 
+        'com_53',
+arrH[53], 
+        'com_54',
+arrH[54], 
+         'com_57',
+arrH[57], 
+        'com_58',
+arrH[58], 
+        'com_59',
+arrH[59], 
+        'com_60',
+arrH[60], 
+
+    
+/* other */ '#ccc'
 ]};   
-console.log(arrC);
+//console.log(arrC);
     for (var i=0; i<large_layers.length; i++){
        // map.setPaintProperty(large_layers[i], 'fill-opacity',0);
         map.removeLayer(large_layers[i]);
