@@ -1,0 +1,229 @@
+
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>COVID TRENDS</title>
+<meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
+    
+<script src="https://api.mapbox.com/mapbox-gl-js/v1.10.1/mapbox-gl.js"></script>
+<link href="https://api.mapbox.com/mapbox-gl-js/v1.10.1/mapbox-gl.css" rel="stylesheet" />
+    <link href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css" rel="stylesheet" />
+    
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/motion-ui/1.1.1/motion-ui.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/motion-ui/1.2.3/motion-ui.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/5.16.0/d3.js" integrity="sha256-LHLWSn9RC2p119R1eT2pO3Om+Ir2G0kTZOJmWQ2//pw=" crossorigin="anonymous"></script>
+    <script src='https://unpkg.com/@turf/turf/turf.min.js'></script>
+  <script src='https://code.jquery.com/jquery-3.5.1.js'></script>
+  <script src='https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js'></script>
+<style>
+	body { margin: 0; padding: 0;}
+	#map { position: absolute; top: 0;  width: 90%; height:100%;}
+  
+#plot {  background-color: #F0F0F0; visibility:hidden; /*z-index:100000000;*/}
+.map-overlay {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  background: rgba(255, 255, 255, 0.8);
+  margin-right: 20px;
+/*z-index:100000000;*/
+  overflow: auto;
+  border-radius: 3px;
+  width: 20%; 
+height:35% !important;
+      right:29%;
+}
+    .map-overlay1 {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  background: rgba(255, 255, 255, 0.8);
+  margin-right: 20px;
+
+  overflow: auto;
+  border-radius: 3px;
+  width: 30%; 
+height:31% !important;
+      right:29%;
+}
+    
+    #features {
+  top: 0;
+  height: 100px;
+  margin-top: 20px;
+  width: 250px;
+        visibility:hidden
+}
+    
+     #legend {
+        padding: 10px;
+       /* box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);*/
+        line-height: 15px;
+       /* height: 80px;*/
+        margin-bottom: 20px;
+        width: 30%;
+         height:31% !important;
+         right:30%;
+      /*   z-index:100000000;*/
+        
+      }
+      .legend-key {
+        display: inline-block;
+
+        width: 10px;
+        height: 10px;
+        margin-right: 5px;
+          /*font-size: 12% !important;*/
+      }
+    .mapbox-improve-map {
+    display: none !important;
+}
+    
+    .mapboxgl-ctrl mapboxgl-ctrl-group {
+         visibility: visible !important;
+        
+    }
+    
+    #example1_wrapper{
+        width:25% !important;
+        float:right;
+        margin-right:5%;
+ 
+    }
+    .alert1 {
+color: #800026;
+}
+    .alert2 {
+ color: #fed976;
+}
+    .alert3 {
+color: #fd8d3c;
+}
+    .alert4 {
+ color: #1a9850;
+}
+    .alert5 {
+color: darkseagreen;
+}
+/* .mapboxgl-ctrl-compass { display: none !important; }*/
+</style>
+</head>
+<body>
+<div id="map"></div>
+   <!---- <div class="map-overlay" id="features">
+    <div id="plot"></div>
+    </div>
+     <div class="map-overlay1" id="legend"></div>
+    <table id="example1" class="hover" style="width:25% !important;   margin-right:5%;"></table>-->
+<script>
+    var llist=[];
+    var popup;
+ var layerM;
+    var map;
+        
+
+  mapboxgl.accessToken = 'pk.eyJ1Ijoib2J1Y2hlbCIsImEiOiJjanlrY3diNzIwZDdxM25uN2owN2c5ZHpiIn0.XzMbcbHF6H42u0Uxo1L8lg';
+map = new mapboxgl.Map({
+container: 'map',
+style: 'mapbox://styles/mapbox/light-v10',
+zoom: 3,
+  //  attributionControl: false,
+center: [-98.5795,39.828175]
+});
+     
+        
+
+      var hoveredStateId = null;      
+            
+            
+map.addControl(new mapboxgl.NavigationControl(), 'top-left');      
+map.addControl(new mapboxgl.FullscreenControl(), 'top-right');
+ fetch('Apr26-May02_small_simplified2.json').then(res => res.json()) 
+.then(data => { 
+     
+     for (var i=0; i<data["features"].length; i++) {
+         data["features"][i]["id"]=i;
+     }
+     console.log(data);
+var arrG=["#023858","#9ecae1","#6baed6","#4292c6","#2171b5","#08519c","#bdbdbd","#969696","#737373","#D8BFD8","#08306b","#525252","#74a9cf","#bcbddc","#3690c0","#0570b0","#808080","#045a8d","#FF00FF","#feb24c","#B8B8B8","#a6bddb","#fd8d3c","#fc4e2a","#DCDCDC","#9e9ac8","#D3D3D3","#C0C0C0","#807dba","#fcc5c0","#fa9fb5","#f768a1","#dd3497","#fdae6b","#fd8d3c","#ae017e","#4682b4","#696969","#6a51a3","#d0d1e6","#778899","#f16913","#fa9fb5","#d94801","#54278f","#708090","#a63603","#3f007d","#8c6bb1","#7f2704","#f768a1","#8c96c6","#88419d","#2F4F4F","#546161","#fec44f","#fe9929","#ec7014","#cc4c02","#dd3497","#c6dbef","#993404","#ccc"];
+    
+map.on('load', function() {    
+
+    
+map.addSource('ethnicity', {
+type: 'geojson',
+'data': data
+});
+   
+
+map.addLayer({
+'id': 'place_data0',
+'type': 'fill',
+'source': 'ethnicity',
+'paint': {
+'fill-color': { "type": "identity", "property": "color" },
+'fill-opacity': [
+'case',
+['boolean', ['feature-state', 'hover'], false],
+1,
+0.4
+],
+    'fill-outline-color':"black"
+}
+});  
+    
+
+
+map.on('mousemove', 'place_data0', function(e) {
+     if (typeof popup=="object") popup.remove();
+    //e.features[0].id=1;
+        //e.features[0].properties.GEOID;
+    //console.log(e.features);     
+    popup=new mapboxgl.Popup()
+.setLngLat(e.lngLat)
+.setHTML(e.features[0]["properties"]["GEOID"])
+.addTo(map);
+   if (e.features.length > 0) {
+if (hoveredStateId) {
+map.setFeatureState(
+{ source: 'ethnicity', id: hoveredStateId },
+{ hover: false }
+);
+}
+hoveredStateId = e.features[0].id;
+  
+map.setFeatureState(
+{ source: 'ethnicity', id: hoveredStateId },
+{ hover: true }
+);
+}
+  });
+    map.on('mouseleave', 'place_data0', function() {
+          if (typeof popup=="object") popup.remove();
+if (hoveredStateId) {
+map.setFeatureState(
+{ source: 'ethnicity', id: hoveredStateId },
+{ hover: false }
+);
+}
+hoveredStateId = null;
+});
+
+      
+
+});
+
+
+    
+   
+    });
+      
+  //   });
+
+
+        
+    </script>
+</body>
+</html>
