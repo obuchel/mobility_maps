@@ -69,7 +69,7 @@
         <div id='pd'>
         <br> <input type="checkbox" id="covid" name="checks" value="covid"> COVID-19 cases
         <br> <input type="checkbox" id="counties" name="checks" value="counties"> Counties
-        <br><input type="checkbox" id="communities" name="checks" value="communities"> Small communities
+       <!---- <br><input type="checkbox" id="communities" name="checks" value="communities"> Small communities--->
         <br><input type="checkbox" id="states" name="checks" value="states"> State borders
         </div></div>
 <div class='map-overlay' id='legend'>
@@ -373,6 +373,7 @@ for (var i=0; i<d3.keys(communities).length; i++) {
     }
     
 }
+       console.log(JSON.stringify(arrG));
     
      for (var i=0; i<d3.keys(communities_Apr19_25).length; i++) {
           //console.log(d3.values(communities_Mar08_14)[i]);
@@ -399,7 +400,7 @@ for (var i=0; i<d3.keys(communities).length; i++) {
     
     
     
-   // console.log(JSON.stringify(arrG));
+
     var arr=[];
     
     for (var i=0; i<arr0.length; i++) {
