@@ -178,7 +178,7 @@ var map;
 mapboxgl.accessToken = 'pk.eyJ1Ijoib2J1Y2hlbCIsImEiOiJjanlrY3diNzIwZDdxM25uN2owN2c5ZHpiIn0.XzMbcbHF6H42u0Uxo1L8lg';
 map = new mapboxgl.Map({
 container: 'map',
-style: 'mapbox://styles/mapbox/streets-v11',
+style: 'mapbox://styles/mapbox/light-v10',
 zoom: 3,
   //  attributionControl: false,
 center: [-98.5795,39.828175]
@@ -394,7 +394,10 @@ var val=getRadioVal( document.getElementById('demoForm'), 'direction' );
 'circle-radius': { "type": "identity", "property": "weight" },
 // color circles by ethnicity, using a match expression
 // https://docs.mapbox.com/mapbox-gl-js/style-spec/#expressions-match
-'circle-color':  '#000'
+
+    'circle-color':  '#cccccc',
+'circle-stroke-color':'#000000',
+'circle-stroke-width':0.4
 
 }
 });
@@ -553,10 +556,9 @@ if (typeof map.getLayer('points')=="object") {
 'circle-radius': { "type": "identity", "property": "weight" },
 // color circles by ethnicity, using a match expression
 // https://docs.mapbox.com/mapbox-gl-js/style-spec/#expressions-match
-
-    'circle-color':  '#FFffff',
-    'circle-stroke-color':'#000000',
-    'circle-stroke-width':0.4
+'circle-color':  '#cccccc',
+'circle-stroke-color':'#000000',
+'circle-stroke-width':0.4
 
 }
 });
@@ -593,7 +595,9 @@ if (typeof map.getLayer('points')=="object") {
 'circle-radius': { "type": "identity", "property": "weight" },
 // color circles by ethnicity, using a match expression
 // https://docs.mapbox.com/mapbox-gl-js/style-spec/#expressions-match
-'circle-color':  '#FF0000'
+'circle-color':  '#FF0000',
+'circle-stroke-color':'#000000',
+'circle-stroke-width':0.4
 }
 });
     
@@ -664,7 +668,9 @@ function add_ins(){
 'circle-radius': { "type": "identity", "property": "weight_in" },
 // color circles by ethnicity, using a match expression
 // https://docs.mapbox.com/mapbox-gl-js/style-spec/#expressions-match
-'circle-color':  '#FF0000'
+'circle-color':  '#FF0000',
+'circle-stroke-color':'#000000',
+'circle-stroke-width':0.4
 }
 });  
 }
@@ -705,7 +711,9 @@ function add_outs(){
 'source': 'points2',
 'paint': {
 'circle-radius': { "type": "identity", "property": "weight_out" },
-'circle-color':  '#FF0000'
+'circle-color':  '#FF0000',
+'circle-stroke-color':'#000000',
+'circle-stroke-width':0.4
 }
 });
     
