@@ -199,17 +199,17 @@ map.addControl(new mapboxgl.FullscreenControl(), 'top-right');
          var cc=data["features"][i]["properties"]["GEOID"].replace("com_","");
          if (cc.indexOf("_")>-1) {
              
-           //  console.log(d3.values(comms[cc]));
+            // console.log(d3.values(comms[cc]));
          htm.push(["Main: "+cc.split("_")[0]+" subcom:"+cc.split("_")[1],d3.sum(d3.values(comms2[cc])),d3.sum(d3.values(comms[cc]))]);
          }
          data["features"][i]["id"]=i;
         // if (data["features"][i]["geometry"]["coordinates"].length==1) {
          data_keys[data["features"][i]["properties"]["GEOID"].replace("com_","")]=data["features"][i]["properties"]["center"];
-         //console.log(data["features"][i]["properties"]);
+         
        //  } 
      
      }
-     console.log(data_keys);
+     
       $(document).ready(function() {
     var table=$('#example1').DataTable( {
          scrollY:        '70vh',
@@ -251,8 +251,6 @@ map.addControl(new mapboxgl.FullscreenControl(), 'top-right');
         var data = table.row( this ).data();
         //alert( 'You clicked on '+data[0]+'\'s row' );
               //Main: 0 subcom:0
-              
-             // console.log(data_keys[data[0].replace("Main: ","").replace(" subcom:","_")]);
               map.flyTo({
 center: data_keys[data[0].replace("Main: ","").replace(" subcom:","_")],
 zoom:7,                  
@@ -294,7 +292,7 @@ map.on('click', 'place_data0', function(e) {
        current_selection=[];
         map.removeLayer('points');
       map.removeSource('points');
-       document.getElementById("description").innerHTML="";
+       docoment.getElementById("description").innerHTML="";
        
        if (typeof popup=="object") popup.remove();
 if (hoveredStateId) {
@@ -360,8 +358,6 @@ var val=getRadioVal( document.getElementById('demoForm'), 'direction' );
              var temp={"type":"Feature","geometry":{"type":"Point","coordinates":data_keys[kk[i]]},"properties":{}}
              temp["properties"]["weight"]=Math.log(comms[vari.replace("com_","")][kk[i]]+0.1)+2;
              var ll=temp;
-             
-           //  console.log(temp);
         lines.push(ll);
     }
         
@@ -383,7 +379,7 @@ var val=getRadioVal( document.getElementById('demoForm'), 'direction' );
 // color circles by ethnicity, using a match expression
 // https://docs.mapbox.com/mapbox-gl-js/style-spec/#expressions-match
 
-    'circle-color':  '#C0C0C0',
+    'circle-color':  '#cccccc',
 'circle-stroke-color':'#000000',
 'circle-stroke-width':0.4
 
@@ -403,7 +399,6 @@ var val=getRadioVal( document.getElementById('demoForm'), 'direction' );
              var ll=temp;
              temp["properties"]["weight"]=Math.log(comms2[vari.replace("com_","")][kk0[i]]+0.1)+2;
              var ll=temp;
-             //console.log(temp);
         lines0.push(ll);
     }
         
@@ -551,7 +546,7 @@ if (typeof map.getLayer('points')=="object") {
 'circle-radius': { "type": "identity", "property": "weight" },
 // color circles by ethnicity, using a match expression
 // https://docs.mapbox.com/mapbox-gl-js/style-spec/#expressions-match
-'circle-color':  '#C0C0C0',
+'circle-color':  '#cccccc',
 'circle-stroke-color':'#000000',
 'circle-stroke-width':0.4
 
