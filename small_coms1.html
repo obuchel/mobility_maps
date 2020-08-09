@@ -17,7 +17,7 @@
     <script src='https://unpkg.com/@turf/turf/turf.min.js'></script>
   <script src='https://code.jquery.com/jquery-3.5.1.js'></script>
   <script src='https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js'></script>
-    <script src='https://cdn.jsdelivr.net/npm/@turf/turf@5/turf.min.js'></script>
+    <script src='https://cdn.jsdelivr.net/npm/@turf/turf@5.1.6/turf.min.js'></script>
     
         <link href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css" rel="stylesheet" />
     
@@ -434,8 +434,9 @@ var val=getRadioVal( document.getElementById('demoForm'), 'direction' );
 'circle-radius': { "type": "identity", "property": "weight" },
 // color circles by ethnicity, using a match expression
 // https://docs.mapbox.com/mapbox-gl-js/style-spec/#expressions-match
-'circle-color':  '#FF0000',
-    'circle-stroke-color':'#000000'
+'circle-color':  '#d94801',
+   'circle-stroke-color':'#000000',
+'circle-stroke-width':0.4
 }
 });
     
@@ -595,7 +596,7 @@ if (typeof map.getLayer('points')=="object") {
 'circle-radius': { "type": "identity", "property": "weight" },
 // color circles by ethnicity, using a match expression
 // https://docs.mapbox.com/mapbox-gl-js/style-spec/#expressions-match
-'circle-color':  '#FF0000',
+'circle-color':  '#d94801',
 'circle-stroke-color':'#000000',
 'circle-stroke-width':0.4
 }
@@ -668,7 +669,7 @@ function add_ins(){
 'circle-radius': { "type": "identity", "property": "weight_in" },
 // color circles by ethnicity, using a match expression
 // https://docs.mapbox.com/mapbox-gl-js/style-spec/#expressions-match
-'circle-color':  '#FF0000',
+'circle-color':  '#d94801',
 'circle-stroke-color':'#000000',
 'circle-stroke-width':0.4
 }
@@ -711,7 +712,7 @@ function add_outs(){
 'source': 'points2',
 'paint': {
 'circle-radius': { "type": "identity", "property": "weight_out" },
-'circle-color':  '#FF0000',
+'circle-color':  '#d94801',
 'circle-stroke-color':'#000000',
 'circle-stroke-width':0.4
 }
