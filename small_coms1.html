@@ -186,12 +186,22 @@ center: [-98.5795,39.828175]
 var hoveredStateId = null;      
 map.addControl(new mapboxgl.NavigationControl(), 'top-left');      
 map.addControl(new mapboxgl.FullscreenControl(), 'top-right');
-        fetch('May24-30_comms_from_rels.json').then(res => res.json()) 
+        fetch('Apr26-May02_comms_from_rels.json').then(res => res.json()) 
 .then(comms0 => { 
             comms=comms0;
-    fetch('May24-30_comms_to_rels.json').then(res => res.json()) 
+         /*   var all1=[];
+        for (var i=0; i<d3.keys(comms).length; i++) {
+            all1.push(d3.sum(d3.values(comms[d3.keys(comms)[i]]))); 
+        }*/
+        // console.log(d3.sum(all1));
+    fetch('Apr26-May02_comms_to_rels.json').then(res => res.json()) 
 .then(comms20 => { 
         comms2=comms20;
+       /* var all=[];
+        for (var i=0; i<d3.keys(comms2).length; i++) {
+            all.push(d3.sum(d3.values(comms2[d3.keys(comms2)[i]]))); 
+        }*/
+         //console.log(d3.sum(all));
  fetch('Apr26-May02_small_simplified2.json').then(res => res.json()) 
 .then(data => { 
     
