@@ -186,10 +186,10 @@ center: [-98.5795,39.828175]
 var hoveredStateId = null;      
 map.addControl(new mapboxgl.NavigationControl(), 'top-left');      
 map.addControl(new mapboxgl.FullscreenControl(), 'top-right');
-        fetch('comms_from_rels.json').then(res => res.json()) 
+        fetch('May24-30_comms_from_rels.json').then(res => res.json()) 
 .then(comms0 => { 
             comms=comms0;
-    fetch('comms_to_rels.json').then(res => res.json()) 
+    fetch('May24-30_comms_to_rels.json').then(res => res.json()) 
 .then(comms20 => { 
         comms2=comms20;
  fetch('Apr26-May02_small_simplified2.json').then(res => res.json()) 

@@ -1,0 +1,766 @@
+
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>COVID TRENDS</title>
+<meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
+    
+<script src="https://api.mapbox.com/mapbox-gl-js/v1.10.1/mapbox-gl.js"></script>
+<link href="https://api.mapbox.com/mapbox-gl-js/v1.10.1/mapbox-gl.css" rel="stylesheet" />
+    <link href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css" rel="stylesheet" />
+    
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/motion-ui/1.1.1/motion-ui.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/motion-ui/1.2.3/motion-ui.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/5.16.0/d3.js" integrity="sha256-LHLWSn9RC2p119R1eT2pO3Om+Ir2G0kTZOJmWQ2//pw=" crossorigin="anonymous"></script>
+    <script src='https://unpkg.com/@turf/turf/turf.min.js'></script>
+  <script src='https://code.jquery.com/jquery-3.5.1.js'></script>
+  <script src='https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js'></script>
+   <!---- <script src='https://cdn.jsdelivr.net/npm/@turf/turf@5.1.6/turf.min.js'></script>--->
+    
+        <link href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css" rel="stylesheet" />
+    
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/motion-ui/1.1.1/motion-ui.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/motion-ui/1.2.3/motion-ui.min.js"></script>
+  <script src='https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js'></script>
+
+    
+<style>
+     #example1_wrapper{
+        width:25% !important;
+        float:right;
+        margin-right:5%;
+ 
+    }
+	body { margin: 0; padding: 0;}
+	#map { position: absolute; top: 0;  width: 70%; height:100%;}
+  
+#plot {  background-color: #F0F0F0; visibility:hidden; /*z-index:100000000;*/}
+.map-overlay {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  background: rgba(255, 255, 255, 0.8);
+  margin-right: 20px;
+/*z-index:100000000;*/
+  overflow: auto;
+  border-radius: 3px;
+  width: 20%; 
+height:35% !important;
+      right:29%;
+}
+    .map-overlay1 {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  background: rgba(255, 255, 255, 0.8);
+  margin-right: 20px;
+
+  overflow: auto;
+  border-radius: 3px;
+  width: 30%; 
+height:31% !important;
+      right:28%;
+}
+    
+    #features {
+  top: 0;
+  height: 100px;
+  margin-top: 20px;
+  width: 250px;
+        visibility:hidden
+}
+    
+     #legend {
+        padding: 10px;
+       /* box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);*/
+        line-height: 15px;
+       /* height: 80px;*/
+        margin-bottom: 20px;
+        width: 30%;
+         height:31% !important;
+         right:28%;
+      /*   z-index:100000000;*/
+        
+      }
+      .legend-key {
+        display: inline-block;
+
+        width: 10px;
+        height: 10px;
+        margin-right: 5px;
+          /*font-size: 12% !important;*/
+      }
+    .mapbox-improve-map {
+    display: none !important;
+}
+    
+    .mapboxgl-ctrl mapboxgl-ctrl-group {
+         visibility: visible !important;
+        
+    }
+    
+    #example1_wrapper{
+        width:25% !important;
+        float:right;
+        margin-right:5%;
+ 
+    }
+    .alert1 {
+color: #800026;
+}
+    .alert2 {
+ color: #fed976;
+}
+    .alert3 {
+color: #fd8d3c;
+}
+    .alert4 {
+ color: #1a9850;
+}
+    .alert5 {
+color: darkseagreen;
+}
+/* .mapboxgl-ctrl-compass { display: none !important; }*/
+</style>
+</head>
+<body>
+<div id="map"></div>
+    <div class="map-overlay" id="features">
+    <div id="plot"></div>
+    </div>
+     <div class="map-overlay1" id="legend">
+         <form action="#" method="post" class="demoForm" id="demoForm">
+    <!----     <input type="radio" id="rels" name="type" value="rels" checked>---> Relationships: <input type="radio" id="from" name="direction" value="from" checked>
+<label for="from">from</label>
+         <input type="radio" id="to" name="direction" value="to">
+<label for="to">to</label>
+         <br><button id="butt" type="button">Clear relationships</button>
+         </form>
+         
+         <div id="description"></div>
+       <!----  <br><input type="radio" id="degs" name="type" value="degs"> Degrees of subcommunities:
+        <input type="radio" id="in" name="degrees" value="in">
+<label for="in">indegrees</label>
+         <input type="radio" id="out" name="degrees" value="out">
+<label for="out">outdgrees</label>--->
+         <div id="relationships"></div>
+         <br>Data source: <a target="_blank" href="https://www.safegraph.com/?utm_campaign=branded_exact&utm_term=safegraph&rm_ci=8481213813&rm_gid=88800951800&utm_medium=cpc&utm_source=google&utm_content=404850132212&utm_term=safegraph&rm_kw=safegraph&rm_mt=e&rm_n=g&rm_cr=404850132212device=c&creative=404850132212&placement=&gclid=EAIaIQobChMI0_jik6SI6wIVkI3ICh0Upgd3EAAYASAAEgJswvD_BwE">SafeGraph</a></div>
+    
+     <table id="example1" class="hover" style="width:25% !important;   margin-right:5%;"></table>
+
+<script>
+    
+    /*
+    {0: 0, 1: 0, 2: 0, 3: 0, 4: 0, 5: 1, 6: 2, 7: 1, 8: 1, 9: 1, 10: 2, 11: 2, 12: 0, 13: 1, 14: 3, 15: 3, 16: 4, 17: 0, 18: 2, 19: 0, 20: 4, 21: 4, 22: 0, 23: 0, 24: 0, 25: 4, 26: 1, 27: 4, 28: 4, 29: 2, 30: 3, 31: 4, 32: 4, 33: 4, 34: 2, 35: 4, 36: 2, 37: 1, 38: 0, 39: 4, 40: 3, 41: 0, 42: 3, 43: 4, 44: 4, 45: 4, 46: 4, 47: 4, 48: 3, 49: 0, 50: 4, 51: 4}
+    
+    
+    */
+    var comms=[];
+    var comms20=[];
+    var current_selection=[];
+    var htm=[];
+    
+    function getRadioVal(form, name) {
+    var val;
+    // get list of radio buttons with specified name
+    var radios = form.elements[name];
+    
+    // loop through list of radio buttons
+    for (var i=0, len=radios.length; i<len; i++) {
+        if ( radios[i].checked ) { // radio checked?
+            val = radios[i].value; // if so, hold its value in val
+            break; // and break out of for loop
+        }
+    }
+    return val; // return value of checked radio or undefined if none checked
+}
+ var data_keys={};
+var llist=[];
+var popup;
+var layerM;
+var map;
+mapboxgl.accessToken = 'pk.eyJ1Ijoib2J1Y2hlbCIsImEiOiJjanlrY3diNzIwZDdxM25uN2owN2c5ZHpiIn0.XzMbcbHF6H42u0Uxo1L8lg';
+map = new mapboxgl.Map({
+container: 'map',
+style: 'mapbox://styles/mapbox/light-v10',
+zoom: 3,
+  //  attributionControl: false,
+center: [-98.5795,39.828175]
+});
+var hoveredStateId = null;      
+map.addControl(new mapboxgl.NavigationControl(), 'top-left');      
+map.addControl(new mapboxgl.FullscreenControl(), 'top-right');
+        fetch('May24-30_comms_from_rels.json').then(res => res.json()) 
+.then(comms0 => { 
+            comms=comms0;
+          /*   var all=[];
+        for (var i=0; i<d3.keys(comms).length; i++) {
+            all.push(d3.sum(d3.values(comms[d3.keys(comms)[i]])));
+        }*/
+      // alert(d3.sum(all));833066
+    fetch('May24-30_comms_to_rels.json').then(res => res.json()) 
+.then(comms20 => { 
+        comms2=comms20;
+     /*   var all=[];
+        for (var i=0; i<d3.keys(comms2).length; i++) {
+            all.push(d3.sum(d3.values(comms2[d3.keys(comms2)[i]]))); 
+        }*/
+    //console.log(d3.sum(all));
+ fetch('May24-30_small_simplified2.json').then(res => res.json()) 
+.then(data => { 
+     for (var i=0; i<data["features"].length; i++) {
+         var cc=data["features"][i]["properties"]["GEOID"].replace("com_","");
+         if (cc.indexOf("_")>-1) {
+         htm.push(["Main: "+cc.split("_")[0]+" subcom:"+cc.split("_")[1],d3.sum(d3.values(comms2[cc])),d3.sum(d3.values(comms[cc]))]);
+         }
+         data["features"][i]["id"]=i;
+         data_keys[data["features"][i]["properties"]["GEOID"].replace("com_","")]=data["features"][i]["properties"]["center"];
+     }
+      $(document).ready(function() {
+    var table=$('#example1').DataTable( {
+         scrollY:        '70vh',
+        scrollCollapse: true,
+        paging:         false,
+        data: htm,
+        columns: [
+            { title: "Community" },
+            { title: "Incoming" },
+            { title: "Outgoing" }
+            
+        ],
+        createdRow: function ( row, data, index ) {
+            /*
+    
+           if ( data[2] =="red" ) {
+               $('td', row).eq(0).addClass('alert1');
+           } else if ( data[2] =="yellow" ) {
+               $('td', row).eq(0).addClass('alert2');
+           } else if ( data[2] =="orange" ) {
+               $('td', row).eq(0).addClass('alert3');
+           } else if ( data[2] =="green" ) {
+               $('td', row).eq(0).addClass('alert4');
+           } else {
+               $('td', row).eq(0).addClass('alert5');
+           }*/
+        },"footerCallback": function ( row, data, start, end, display ) {
+            var api = this.api(), data;
+ console.log(data);
+            // Remove the formatting to get integer data for summation
+            var intVal = function ( i ) {
+                return typeof i === 'string' ?
+                    i.replace(/[\$,]/g, '')*1 :
+                    typeof i === 'number' ?
+                        i : 0;
+            };
+ 
+            // Total over all pages
+            total = api
+                .column( 1 )
+                .data();
+               /* .reduce( function (a, b) {
+                    return intVal(a) + intVal(b);
+                }, 0 );*/
+ 
+            // Total over this page
+           /* pageTotal = api
+                .column( 1, { page: 'current'} )
+                .data()
+                .reduce( function (a, b) {
+                    return intVal(a) + intVal(b);
+                }, 0 );*/
+ 
+            // Update footer
+            $( api.column( 1 ).footer() ).html(
+                 total +' total'
+            );
+        }
+    } );
+          
+          //console.log(data_keys);
+          $('#example1 tbody').on('click', 'tr', function () {
+        var data = table.row( this ).data();
+        //alert( 'You clicked on '+data[0]+'\'s row' );
+              //Main: 0 subcom:0
+              
+             // console.log(data_keys[data[0].replace("Main: ","").replace(" subcom:","_")]);
+              map.flyTo({
+center: data_keys[data[0].replace("Main: ","").replace(" subcom:","_")],
+zoom:7,                  
+essential: true // this animation is considered essential with respect to prefers-reduced-motion
+});
+    } );
+} );
+
+map.on('load', function() {    
+
+    
+map.addSource('ethnicity', {
+type: 'geojson',
+'data': data
+});
+   
+
+map.addLayer({
+'id': 'place_data0',
+'type': 'fill',
+'source': 'ethnicity',
+'paint': {
+'fill-color': { "type": "identity", "property": "color" },
+'fill-opacity': [
+'case',
+['boolean', ['feature-state', 'hover'], false],
+1,
+0.8
+],
+    'fill-outline-color':"black"
+}
+});  
+    
+
+//console.log(comms);
+map.on('click', 'place_data0', function(e) {
+    
+   if (typeof map.getLayer('points')=="object") {
+       current_selection=[];
+        map.removeLayer('points');
+      map.removeSource('points');
+       document.getElementById("description").innerHTML="";
+       
+       if (typeof popup=="object") popup.remove();
+if (hoveredStateId) {
+map.setFeatureState(
+{ source: 'ethnicity', id: hoveredStateId },
+{ hover: false }
+);
+}
+hoveredStateId = null;
+       // change_click(e.features[0].properties.GEOID);
+}
+    
+    if (typeof map.getLayer('points0')=="object") {
+        current_selection=[];
+        map.removeLayer('points0');
+      map.removeSource('points0');
+        if (typeof popup=="object") popup.remove();
+if (hoveredStateId) {
+map.setFeatureState(
+{ source: 'ethnicity', id: hoveredStateId },
+{ hover: false }
+);
+}
+hoveredStateId = null;
+       //  change_click(e.features[0].properties.GEOID);
+}
+    change_click(e.features[0].properties.GEOID,e.features);
+});
+    
+    function change_click(vari,varis) {
+    if  (current_selection.length>0) {
+        current_selection=[];
+        if (hoveredStateId) {
+map.setFeatureState(
+{ source: 'ethnicity', id: hoveredStateId },
+{ hover: false }
+);
+}
+hoveredStateId = null;
+       //  ch
+      clear_rels();  
+    }   
+        else {
+    current_selection.push(vari);
+    
+    document.getElementById("description").innerHTML="<b>Main community</b>: "+vari.split("_")[1]+"<br><b>Subcommunity</b>: " +vari.split("_")[2]+"<br><b>Outgoing relationships from the subcommunity</b>: "+d3.sum(d3.values(comms[vari.replace("com_","")]))+"<br><b>Incoming relationships to the subcommunity</b>: "+d3.sum(d3.values(comms2[vari.replace("com_","")]));
+    //number of outgoing relationships from this subcommunity
+    //number of incoming relationships to the subcommunity
+    // if (typeof map.getLayer('points')=="object") {
+ 
+//});
+         
+   //  }
+    //data_keys[e.features[0].properties.GEOID.replace("com_","")]
+    
+var val=getRadioVal( document.getElementById('demoForm'), 'direction' );
+    if (val=="from") {
+        var lines=[];
+   var kk=d3.keys(comms[vari.replace("com_","")]);
+    for (var i=0; i<kk.length; i++) {
+   // console.log(data_keys[e.features[0].properties.GEOID.replace("com_","")]["geometry"]["coordinates"],comms[e.features[0].properties.GEOID.replace("com_","")]);
+         if (d3.keys(data_keys).indexOf(kk[i])>-1) {
+             var temp={"type":"Feature","geometry":{"type":"Point","coordinates":data_keys[kk[i]]},"properties":{}}
+             temp["properties"]["weight"]=Math.log(comms[vari.replace("com_","")][kk[i]]+0.1)+2;
+             var ll=temp;
+             
+           //  console.log(temp);
+        lines.push(ll);
+    }
+        
+    }
+    map.addSource('points', {
+'type': 'geojson',
+'data': {
+'type': 'FeatureCollection',
+'features':lines
+    }
+});
+    map.addLayer({
+'id': 'points',
+'type': 'circle',
+'source': 'points',
+'paint': {
+// make circles larger as the user zooms from z12 to z22
+'circle-radius': { "type": "identity", "property": "weight" },
+// color circles by ethnicity, using a match expression
+// https://docs.mapbox.com/mapbox-gl-js/style-spec/#expressions-match
+
+    'circle-color':  '#C0C0C0',
+'circle-stroke-color':'#000000',
+'circle-stroke-width':0.4
+
+}
+});
+    } else {
+    
+    
+    
+
+    var lines0=[];
+   var kk0=d3.keys(comms2[vari.replace("com_","")]);
+    for (var i=0; i<kk0.length; i++) {
+   // console.log(data_keys[e.features[0].properties.GEOID.replace("com_","")]["geometry"]["coordinates"],comms[e.features[0].properties.GEOID.replace("com_","")]);
+         if (d3.keys(data_keys).indexOf(kk0[i])>-1) {
+             var temp={"type":"Feature","geometry":{"type":"Point","coordinates":data_keys[kk0[i]]},"properties":{}}
+             var ll=temp;
+             temp["properties"]["weight"]=Math.log(comms2[vari.replace("com_","")][kk0[i]]+0.1)+2;
+             var ll=temp;
+             //console.log(temp);
+        lines0.push(ll);
+    }
+        
+    }
+    map.addSource('points0', {
+'type': 'geojson',
+'data': {
+'type': 'FeatureCollection',
+'features':lines0
+    }
+});
+    map.addLayer({
+'id': 'points0',
+'type': 'circle',
+'source': 'points0',
+'paint': {
+// make circles larger as the user zooms from z12 to z22
+'circle-radius': { "type": "identity", "property": "weight" },
+// color circles by ethnicity, using a match expression
+// https://docs.mapbox.com/mapbox-gl-js/style-spec/#expressions-match
+'circle-color':  '#d94801',
+   'circle-stroke-color':'#000000',
+'circle-stroke-width':0.4
+}
+});
+    
+    }
+    
+    
+    //console.log(lines);
+     if (typeof popup=="object") popup.remove();
+    //e.features[0].id=1;
+        //e.features[0].properties.GEOID;
+    //console.log(e.features);     
+   /* popup=new mapboxgl.Popup()
+.setLngLat(e.lngLat)
+.setHTML(e.features[0]["properties"]["GEOID"])
+.addTo(map);*/
+   if (varis.length > 0) {
+if (hoveredStateId) {
+map.setFeatureState(
+{ source: 'ethnicity', id: hoveredStateId },
+{ hover: false }
+);
+}
+hoveredStateId = varis[0].id;
+  
+map.setFeatureState(
+{ source: 'ethnicity', id: hoveredStateId },
+{ hover: true });
+}
+    
+
+   /* map.on('mouseleave', 'place_data0', function() {
+       map.removeSource('points');
+        map.removeLayer('points');
+          if (typeof popup=="object") popup.remove();
+if (hoveredStateId) {
+map.setFeatureState(
+{ source: 'ethnicity', id: hoveredStateId },
+{ hover: false }
+);
+}
+hoveredStateId = null;
+});
+    */
+
+//}
+
+}}
+//});
+   //  }
+
+       });
+   
+    });
+      
+    });
+        
+        
+         });
+    
+    function clear_rels(){
+        current_selection=[];
+         document.getElementById("description").innerHTML="";
+                 if (typeof map.getLayer('points')=="object") {
+        map.removeLayer('points');
+      map.removeSource('points');
+}
+    
+    if (typeof map.getLayer('points0')=="object") {
+        map.removeLayer('points0');
+      map.removeSource('points0');
+}
+        
+        if (hoveredStateId) {
+map.setFeatureState(
+{ source: 'ethnicity', id: hoveredStateId },
+{ hover: false }
+);
+}
+hoveredStateId = null;
+    }
+    
+    function change_directions() {
+if (typeof map.getLayer('points')=="object") {
+        map.removeLayer('points');
+      map.removeSource('points');
+}
+    
+    if (typeof map.getLayer('points0')=="object") {
+        map.removeLayer('points0');
+      map.removeSource('points0');
+}
+        
+        
+        var val=getRadioVal( document.getElementById('demoForm'), 'direction' );
+    if (val=="from") {
+        var lines=[];
+   var kk=d3.keys(comms[current_selection[0].replace("com_","")]);
+    for (var i=0; i<kk.length; i++) {
+   // console.log(data_keys[e.features[0].properties.GEOID.replace("com_","")]["geometry"]["coordinates"],comms[e.features[0].properties.GEOID.replace("com_","")]);
+         if (d3.keys(data_keys).indexOf(kk[i])>-1) {
+             var temp={"type":"Feature","geometry":{"type":"Point","coordinates":data_keys[kk[i]]},"properties":{}}
+            
+             temp["properties"]["weight"]=Math.log(comms[current_selection[0].replace("com_","")][kk[i]]+0.1)+2;
+             var ll=temp;
+        lines.push(ll);
+    }
+        
+    }
+    map.addSource('points', {
+'type': 'geojson',
+'data': {
+'type': 'FeatureCollection',
+'features':lines
+    }
+});
+    map.addLayer({
+'id': 'points',
+'type': 'circle',
+'source': 'points',
+'paint': {
+// make circles larger as the user zooms from z12 to z22
+'circle-radius': { "type": "identity", "property": "weight" },
+// color circles by ethnicity, using a match expression
+// https://docs.mapbox.com/mapbox-gl-js/style-spec/#expressions-match
+'circle-color':  '#C0C0C0',
+'circle-stroke-color':'#000000',
+'circle-stroke-width':0.4
+
+}
+});
+    } else {
+    
+    
+    
+
+    var lines0=[];
+   var kk0=d3.keys(comms2[current_selection[0].replace("com_","")]);
+    for (var i=0; i<kk0.length; i++) {
+   // console.log(data_keys[e.features[0].properties.GEOID.replace("com_","")]["geometry"]["coordinates"],comms[e.features[0].properties.GEOID.replace("com_","")]);
+         if (d3.keys(data_keys).indexOf(kk0[i])>-1) {
+             //console.log(data_keys[kk[i]]);
+             var temp={"type":"Feature","geometry":{"type":"Point","coordinates":data_keys[kk0[i]]},"properties":{}}
+            
+             temp["properties"]["weight"]=Math.log(comms2[current_selection[0].replace("com_","")][kk0[i]]+0.1)+2;
+             var ll=temp;
+        lines0.push(ll);
+    }
+        
+    }
+    map.addSource('points0', {
+'type': 'geojson',
+'data': {
+'type': 'FeatureCollection',
+'features':lines0
+    }
+});
+    map.addLayer({
+'id': 'points0',
+'type': 'circle',
+'source': 'points0',
+'paint': {
+// make circles larger as the user zooms from z12 to z22
+'circle-radius': { "type": "identity", "property": "weight" },
+// color circles by ethnicity, using a match expression
+// https://docs.mapbox.com/mapbox-gl-js/style-spec/#expressions-match
+'circle-color':  '#d94801',
+'circle-stroke-color':'#000000',
+'circle-stroke-width':0.4
+}
+});
+    
+    }
+    }
+function change_reps1(e) {
+     if (typeof map.getLayer('points2')=="object") {
+        map.removeLayer('points2');
+      map.removeSource('points2');
+}
+
+    clear_rels();
+   document.getElementById("degs").checked = false;
+      document.getElementById("in").checked = false;
+      document.getElementById("out").checked = false;
+     document.getElementById("from").checked = true;
+    
+}
+    function change_reps2(e) {
+ if (typeof map.getLayer('points2')=="object") {
+        map.removeLayer('points2');
+      map.removeSource('points2');
+}
+    clear_rels();
+    document.getElementById("rels").checked = false;
+    document.getElementById("to").checked = false;
+      document.getElementById("from").checked = false;
+         document.getElementById("in").checked = true;
+    add_ins();
+    add_ins();
+}
+function add_ins(){
+    if (typeof map.getLayer('points2')=="object") {
+        map.removeLayer('points2');
+      map.removeSource('points2');
+}
+    var degs2={};
+    for (var i=0; i<d3.keys(comms2).length; i++) {
+        degs2[d3.keys(comms2)[i]]=d3.sum(d3.values(comms2[d3.keys(comms2)[i]]));
+        
+    }
+    //console.log(comms2,degs2,data_keys);
+  var lines=[];
+   var kk=d3.keys(degs2);
+    for (var i=0; i<kk.length; i++) {
+   // console.log(data_keys[e.features[0].properties.GEOID.replace("com_","")]["geometry"]["coordinates"],comms[e.features[0].properties.GEOID.replace("com_","")]);
+         if (d3.keys(data_keys).indexOf(kk[i])>-1) {
+             var temp={"type":"Feature","geometry":{"type":"Point","coordinates":data_keys[kk[i]]},"properties":{}}
+            
+             temp["properties"]["weight_in"]=degs2[kk[i]]/100;
+             var ll=temp;
+        lines.push(ll);
+    }
+        
+    }
+    map.addSource('points2', {
+'type': 'geojson',
+'data': {
+'type': 'FeatureCollection',
+'features':lines
+    }
+});
+    map.addLayer({
+'id': 'points2',
+'type': 'circle',
+'source': 'points2',
+'paint': {
+// make circles larger as the user zooms from z12 to z22
+'circle-radius': { "type": "identity", "property": "weight_in" },
+// color circles by ethnicity, using a match expression
+// https://docs.mapbox.com/mapbox-gl-js/style-spec/#expressions-match
+'circle-color':  '#d94801',
+'circle-stroke-color':'#000000',
+'circle-stroke-width':0.4
+}
+});  
+}
+function add_outs(){
+    if (typeof map.getLayer('points2')=="object") {
+        map.removeLayer('points2');
+      map.removeSource('points2');
+}
+    var degs2={};
+    for (var i=0; i<d3.keys(comms).length; i++) {
+        degs2[d3.keys(comms)[i]]=d3.sum(d3.values(comms[d3.keys(comms)[i]]));
+
+    }
+    console.log(comms,degs2,data_keys);
+    
+            var lines=[];
+   var kk=d3.keys(degs2);
+    for (var i=0; i<kk.length; i++) {
+   // console.log(data_keys[e.features[0].properties.GEOID.replace("com_","")]["geometry"]["coordinates"],comms[e.features[0].properties.GEOID.replace("com_","")]);
+         if (d3.keys(data_keys).indexOf(kk[i])>-1) {
+             var temp={"type":"Feature","geometry":{"type":"Point","coordinates":data_keys[kk[i]]},"properties":{}}
+   
+             temp["properties"]["weight_out"]=degs2[kk[i]]/100;
+             var ll=temp;
+        lines.push(ll);
+    }
+        
+    }
+    map.addSource('points2', {
+'type': 'geojson',
+'data': {
+'type': 'FeatureCollection',
+'features':lines
+    }
+});
+    map.addLayer({
+'id': 'points2',
+'type': 'circle',
+'source': 'points2',
+'paint': {
+'circle-radius': { "type": "identity", "property": "weight_out" },
+'circle-color':  '#d94801',
+'circle-stroke-color':'#000000',
+'circle-stroke-width':0.4
+}
+});
+    
+    
+}
+//add centroids from geojson
+//change data_keys
+//remove turf
+//add a table    
+    document.getElementById("butt").addEventListener("click",clear_rels);
+    document.getElementById("from").addEventListener("click",change_directions);
+    document.getElementById("to").addEventListener("click",change_directions);
+    /*document.getElementById("rels").addEventListener("click",change_reps1);
+    document.getElementById("degs").addEventListener("click",change_reps2);
+    document.getElementById("in").addEventListener("click",add_ins);
+     document.getElementById("out").addEventListener("click",add_outs);*/
+    </script>
+</body>
+</html>
