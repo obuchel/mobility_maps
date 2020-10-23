@@ -93,6 +93,8 @@
          var arrG= [];
         var arrH= [];
         var arrI= [];
+    var arrK= [];
+    
 var data3=[];    
 var z0=[];
 var z1=[];
@@ -157,6 +159,13 @@ var z28=[];
 var z38=[];
 var z48=[];   
 var z58=[]; 
+    
+var z09=[];
+var z19=[];
+var z29=[];
+var z39=[];
+var z49=[];   
+var z59=[];     
     //April05-11
 var communitiesA={0: 0, 1: 0, 2: 1, 3: 0, 4: 1, 5: 2, 6: 3, 7: 3, 8: 1, 9: 1, 10: 3, 11: 3, 12: 4, 13: 0, 14: 0, 15: 1, 16: 1, 17: 3, 18: 0, 19: 2, 20: 3, 21: 0, 22: 4, 23: 4, 24: 0, 25: 0, 26: 0, 27: 3, 28: 3, 29: 3, 30: 2, 31: 2, 32: 2, 33: 1, 34: 1, 35: 2, 36: 2, 37: 2, 38: 2, 39: 4, 40: 0, 41: 2, 42: 1, 43: 2, 44: 2, 45: 2, 46: 0, 47: 2, 48: 2, 49: 4, 50: 4, 51: 4, 52: 1, 53: 0, 54: 0, 55: 4, 56: 4, 57: 1, 58: 2, 59: 2, 60: 1, 61: 3, 62: 1, 63: 2, 64: 1, 65: 4, 66: 3, 67: 0, 68: 1};
 
@@ -182,6 +191,10 @@ var communities_Apr26_May02={0: 0, 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 1, 7: 1, 8: 
     
 var communities_Apr19_25={0: 0, 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 1, 7: 0, 8: 0, 9: 2, 10: 0, 11: 1, 12: 3, 13: 0, 14: 4, 15: 1, 16: 0, 17: 2, 18: 1, 19: 1, 20: 1, 21: 1, 22: 2, 23: 3, 24: 3, 25: 3, 26: 0, 27: 1, 28: 3, 29: 3, 30: 3, 31: 4, 32: 1, 33: 0, 34: 2, 35: 2, 36: 2, 37: 4, 38: 4, 39: 1, 40: 1, 41: 1, 42: 1, 43: 1, 44: 2, 45: 4, 46: 1, 47: 4, 48: 1, 49: 4, 50: 4, 51: 4, 52: 4, 53: 2, 54: 1, 55: 4, 56: 4, 57: 3, 58: 4, 59: 4, 60: 0};
 var communities_May24_30={0: 0, 1: 0, 2: 0, 3: 0, 4: 0, 5: 1, 6: 2, 7: 1, 8: 1, 9: 1, 10: 2, 11: 2, 12: 0, 13: 1, 14: 3, 15: 3, 16: 4, 17: 0, 18: 2, 19: 0, 20: 4, 21: 4, 22: 0, 23: 0, 24: 0, 25: 4, 26: 1, 27: 4, 28: 4, 29: 2, 30: 3, 31: 4, 32: 4, 33: 4, 34: 2, 35: 4, 36: 2, 37: 1, 38: 0, 39: 4, 40: 3, 41: 0, 42: 3, 43: 4, 44: 4, 45: 4, 46: 4, 47: 4, 48: 3, 49: 0, 50: 4, 51: 4};   
+    
+var communities_Sep27_Oct3={0: 0, 1: 0, 2: 1, 3: 1, 4: 1, 5: 1, 6: 2, 7: 2, 8: 2, 9: 1, 10: 2, 11: 3, 12: 2, 13: 0, 14: 0, 15: 1, 16: 2, 17: 2, 18: 4, 19: 1, 20: 3, 21: 0, 22: 4, 23: 2, 24: 2, 25: 2, 26: 2, 27: 1, 28: 1, 29: 2, 30: 3, 31: 4, 32: 4, 33: 0, 34: 3, 35: 4, 36: 3, 37: 1, 38: 2, 39: 4, 40: 4, 41: 3, 42: 3, 43: 1, 44: 3, 45: 4, 46: 4, 47: 4, 48: 4, 49: 1, 50: 4};
+    
+    
 var zeros=["#023858","#9ecae1","#6baed6","#4292c6","#2171b5","#08519c","#08306b","#74a9cf","#3690c0","#0570b0","#045a8d","#a6bddb","#4682b4","#d0d1e6","#c6dbef","#d0d1e6","#a6bddb",      "#023858","#9ecae1","#6baed6","#4292c6","#2171b5","#08519c","#08306b","#74a9cf","#3690c0","#0570b0","#045a8d","#a6bddb","#4682b4","#d0d1e6","#c6dbef","#d0d1e6","#a6bddb"];
 var ones=["#feb24c","#fd8d3c","#fc4e2a","#fdae6b","#fd8d3c","#f16913","#d94801","#a63603","#7f2704","#fec44f","#fe9929","#ec7014","#cc4c02","#993404","#662506",         "#feb24c","#fd8d3c","#fc4e2a","#fdae6b","#fd8d3c","#f16913","#d94801","#a63603","#7f2704","#fec44f","#fe9929","#ec7014","#cc4c02","#993404","#662506","#feb24c","#fd8d3c","#fc4e2a","#fdae6b","#fd8d3c","#f16913","#d94801","#a63603","#7f2704","#fec44f","#fe9929","#ec7014","#cc4c02","#993404","#662506"];
 var twos=["#bdbdbd","#969696","#737373","#525252","#808080","#B8B8B8","#DCDCDC","#D3D3D3","#C0C0C0","#696969","#778899","#708090","#2F4F4F","#546161","#f0f0f0","#d9d9d9","#F5F5F5","#252525",  "#bdbdbd", "#969696", "#737373", "#525252","#B8B8B8","#DCDCDC","#DCDCDC","#D3D3D3","#C0C0C0","#808080","#696969","#778899","#708090","#2F4F4F","#546161","#f0f0f0","#d9d9d9","#F5F5F5","#252525"];
@@ -430,7 +443,31 @@ for (var i=0; i<d3.keys(communities).length; i++) {
     
 }
     
-    console.log(JSON.stringify(arrI));
+    
+     for (var i=0; i<d3.keys(communities_Sep27_Oct3).length; i++) {
+          //console.log(d3.values(communities_Mar08_14)[i]);
+    if (d3.values(communities_Sep27_Oct3)[i]==0) {
+        arrK.push(zeros[z09.length]);
+      z09.push(d3.values(communities_Sep27_Oct3)[i])  
+    } else if (d3.values(communities_Sep27_Oct3)[i]==1) {
+        arrK.push(threes[z19.length]);       
+      z19.push(d3.values(communities_Sep27_Oct3)[i])     
+    } else if (d3.values(communities_Sep27_Oct3)[i]==2) {
+        arrK.push(fours[z29.length]);       
+      z29.push(d3.values(communities_Sep27_Oct3)[i])  
+    } else if (d3.values(communities_Sep27_Oct3)[i]==3) {
+        arrK.push(twos[z39.length]);       
+      z39.push(d3.values(communities_Sep27_Oct3)[i])  
+    } else if (d3.values(communities_Sep27_Oct3)[i]==4) {
+        arrK.push(ones[z49.length]);       
+      z49.push(d3.values(communities_Sep27_Oct3)[i])    
+    } else {
+
+    }
+    
+}
+    
+    console.log(JSON.stringify(arrK));
 
     var arr=[];
     
@@ -497,9 +534,9 @@ for (var i=0; i<d3.keys(communities).length; i++) {
      var arr2=[[1, 0.1], [100, 0.2],[200, 0.7],[500, 1],[1000, 1],[2000, 1],[2500, 1],[3000, 1],[50000, 1]];  
 var comms=["All",0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 13, 14, 15, 16, 17, 18, 19, 20, 21];  
 var data3=[];    
-        var vals=["Feb23-29","Mar01-07","Mar08-14","Mar15-21","Mar22-28","Mar29-Apr04","Apr05-11","Apr19-25","Apr26-May02","May24-30"];
+        var vals=["Feb23-29","Mar01-07","Mar08-14","Mar15-21","Mar22-28","Mar29-Apr04","Apr05-11","Apr19-25","Apr26-May02","May24-30","Sep27-Oct3"];
 var x = document.getElementById("mySelect");
-for (var i=0; i<10; i++) {        
+for (var i=0; i<11; i++) {        
 var option = document.createElement("option");
 option.text = "Communities during week "+vals[i];
 option.value = vals[i];    
@@ -620,12 +657,23 @@ type: 'geojson',
     map.addSource('communities_large_May24-30', {
 type: 'geojson',
  data: 'May24-30_large_simplified.json'  
+});      
+    
+map.addSource('communities_large_Sep27-Oct3', {
+type: 'geojson',
+ data: 'Sep27-Oct3_large_simplified.json'  
 });   
+    
+    
 
 map.addSource('communities_small_May24-30', {
 type: 'geojson',
 'data': "May24-30_small_simplified.json"    
-});    
+});   
+map.addSource('communities_small_Sep27-Oct3', {
+type: 'geojson',
+'data': "Sep27-Oct3_small_simplified.json"    
+});     
     
 map.addSource('states', {
 type: 'geojson',
@@ -1990,6 +2038,116 @@ arrI[46],
 arrI[47], 
         'com_48',
 arrI[48], 
+/* other */ '#ccc'
+],"Sep27-Oct3":[
+'match',
+['get', 'GEOID'],
+'com_50',
+arrK[50],
+'com_39',
+arrK[39], 
+'com_23',
+arrK[23],  
+'com_49',
+arrK[49],  
+'com_41',
+arrK[41], 
+'com_22',
+arrK[22], 
+'com_35',
+arrK[35],   
+'com_0',
+arrK[0], 
+    'com_1',
+arrK[1], 
+    'com_2',
+arrK[2], 
+        'com_3',
+arrK[3], 
+        'com_4',
+arrK[4], 
+        'com_5',
+arrK[5], 
+        'com_6',
+arrK[6], 
+        'com_7',
+arrK[7], 
+        'com_8',
+arrK[8], 
+        'com_9',
+arrK[9], 
+        'com_10',
+arrK[10], 
+     'com_11',
+arrK[11], 
+     'com_12',
+arrK[12],
+     'com_13',
+arrK[13], 
+      'com_14',
+arrK[14], 
+    
+     'com_15',
+arrK[15], 
+     'com_16',
+arrK[16], 
+     'com_17',
+arrK[17], 
+     'com_18',
+arrK[18], 
+     'com_19',
+arrK[19], 
+     'com_20',
+arrK[20], 
+        'com_21',
+arrK[21],
+      'com_24',
+arrK[24], 
+    
+     'com_25',
+arrK[25], 
+     'com_26',
+arrK[26], 
+     'com_27',
+arrK[27], 
+     'com_28',
+arrK[28], 
+     'com_29',
+arrK[29], 
+     'com_30',
+arrK[30], 
+    'com_31',
+arrK[31], 
+    'com_32',
+arrK[32], 
+        'com_33',
+arrK[33], 
+        'com_34',
+arrK[34], 
+
+        'com_36',
+arrK[36], 
+        'com_37',
+arrK[37], 
+        'com_38',
+arrK[38], 
+    'com_40',
+arrK[40], 
+   
+    'com_42',
+arrK[42], 
+        'com_43',
+arrK[43], 
+        'com_44',
+arrK[44], 
+        'com_45',
+arrK[45], 
+        'com_46',
+arrK[46], 
+       'com_47',
+arrK[47], 
+        'com_48',
+arrK[48], 
 /* other */ '#ccc'
 ]};   
 //console.log(arrC);
