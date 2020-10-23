@@ -1,5 +1,4 @@
 
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -181,34 +180,42 @@ var llist=[];
 var popup;
 var layerM;
 var map;
-mapboxgl.accessToken = 'pk.eyJ1Ijoib2J1Y2hlbCIsImEiOiJjanlrY3diNzIwZDdxM25uN2owN2c5ZHpiIn0.XzMbcbHF6H42u0Uxo1L8lg';
-map = new mapboxgl.Map({
-container: 'map',
-style: 'mapbox://styles/mapbox/light-v10',
-zoom: 3,
-  //  attributionControl: false,
-center: [-98.5795,39.828175]
-});
-var hoveredStateId = null;      
-map.addControl(new mapboxgl.NavigationControl(), 'top-left');      
-map.addControl(new mapboxgl.FullscreenControl(), 'top-right');
-        fetch('May24-30_comms_from_rels.json').then(res => res.json()) 
+
+        fetch('May24-30_comms_from_rels.json', {
+      headers : { 
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+       }
+
+    }).then(res => res.json()) 
 .then(comms0 => { 
             comms=comms0;
-          /*   var all=[];
+             var all=[];
         for (var i=0; i<d3.keys(comms).length; i++) {
             all.push(d3.sum(d3.values(comms[d3.keys(comms)[i]])));
-        }*/
-      // alert(d3.sum(all));833066
-    fetch('May24-30_comms_to_rels.json').then(res => res.json()) 
+        }
+      // alert(d3.sum(all));
+    fetch('May24-30_comms_to_rels.json', {
+      headers : { 
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+       }
+
+    }).then(res => res.json()) 
 .then(comms20 => { 
         comms2=comms20;
-     /*   var all=[];
+        var all=[];
         for (var i=0; i<d3.keys(comms2).length; i++) {
             all.push(d3.sum(d3.values(comms2[d3.keys(comms2)[i]]))); 
-        }*/
-    //console.log(d3.sum(all));
- fetch('May24-30_small_simplified2.json').then(res => res.json()) 
+        }
+    console.log(d3.sum(all));
+ fetch('May24-30_small_simplified2.json', {
+      headers : { 
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+       }
+
+    }).then(res => res.json()) 
 .then(data => { 
      for (var i=0; i<data["features"].length; i++) {
          var cc=data["features"][i]["properties"]["GEOID"].replace("com_","");
@@ -246,7 +253,7 @@ map.addControl(new mapboxgl.FullscreenControl(), 'top-right');
            }*/
         },"footerCallback": function ( row, data, start, end, display ) {
             var api = this.api(), data;
- console.log(data);
+ //console.log(data);
             // Remove the formatting to get integer data for summation
             var intVal = function ( i ) {
                 return typeof i === 'string' ?
@@ -292,7 +299,17 @@ essential: true // this animation is considered essential with respect to prefer
 });
     } );
 } );
-
+mapboxgl.accessToken = 'pk.eyJ1Ijoib2J1Y2hlbCIsImEiOiJjanlrY3diNzIwZDdxM25uN2owN2c5ZHpiIn0.XzMbcbHF6H42u0Uxo1L8lg';
+map = new mapboxgl.Map({
+container: 'map',
+style: 'mapbox://styles/mapbox/light-v10',
+zoom: 3,
+  //  attributionControl: false,
+center: [-98.5795,39.828175]
+});
+var hoveredStateId = null;      
+map.addControl(new mapboxgl.NavigationControl(), 'top-left');      
+map.addControl(new mapboxgl.FullscreenControl(), 'top-right');
 map.on('load', function() {    
 
     
