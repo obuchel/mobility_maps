@@ -375,7 +375,7 @@ hoveredStateId = null;
     
     function change_click(vari,varis) {
         
-        console.log(vari,varis);
+       // console.log(vari,varis);
     if  (current_selection.length>0) {
         current_selection=[];
         if (hoveredStateId) {
@@ -405,6 +405,7 @@ var val=getRadioVal( document.getElementById('demoForm'), 'direction' );
     if (val=="from") {
         var lines=[];
    var kk=d3.keys(comms[vari.replace("com_","")]);
+        console.log(kk);
     for (var i=0; i<kk.length; i++) {
    // console.log(data_keys[e.features[0].properties.GEOID.replace("com_","")]["geometry"]["coordinates"],comms[e.features[0].properties.GEOID.replace("com_","")]);
          if (d3.keys(data_keys).indexOf(kk[i])>-1) {
