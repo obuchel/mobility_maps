@@ -181,7 +181,7 @@ var popup;
 var layerM;
 var map;
 
-        fetch('May24-30_comms_from_rels.json', {
+        fetch('Sep27_Oct3_comms_from_rels.json', {
       headers : { 
         'Content-Type': 'application/json',
         'Accept': 'application/json'
@@ -405,7 +405,7 @@ var val=getRadioVal( document.getElementById('demoForm'), 'direction' );
     if (val=="from") {
         var lines=[];
    var kk=d3.keys(comms[vari.replace("com_","")]);
-        console.log(data_keys);
+       // console.log(data_keys);
     for (var i=0; i<kk.length; i++) {
    // console.log(data_keys[e.features[0].properties.GEOID.replace("com_","")]["geometry"]["coordinates"],comms[e.features[0].properties.GEOID.replace("com_","")]);
          if (d3.keys(data_keys).indexOf(kk[i])>-1) {
