@@ -1,0 +1,2371 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>Style circles with a data-driven property</title>
+<meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
+<script src="https://api.mapbox.com/mapbox-gl-js/v1.8.1/mapbox-gl.js"></script>
+<link href="https://api.mapbox.com/mapbox-gl-js/v1.8.1/mapbox-gl.css" rel="stylesheet" />
+         <script src='https://unpkg.com/@turf/turf/turf.min.js'></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/5.16.0/d3.min.js" integrity="sha256-Xb6SSzhH3wEPC4Vy3W70Lqh9Y3Du/3KxPqI2JHQSpTw=" crossorigin="anonymous"></script>
+<style>
+	body { margin: 0; padding: 0; }
+	#map { position: absolute; top: 0;  width: 98%; height:95%;}
+  
+     #mySelect{ position: absolute; top: 600; }
+    .map-overlay {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  background: rgba(255, 255, 255, 0.8);
+  margin-right: 20px;
+  font-family: Arial, sans-serif;
+  overflow: auto;
+  border-radius: 3px;
+        
+}
+
+#features {
+  top: 0;
+  height: 130px;
+  margin-top: 20px;
+  width: 280px;
+}
+
+#legend {
+  padding: 10px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  line-height: 18px;
+  height: 10px;
+  margin-bottom: 60px;
+  width: 280px;
+}
+
+.legend-key {
+  display: inline-block;
+  border-radius: 20%;
+  width: 10px;
+  height: 10px;
+  margin-right: 5px;
+}
+    select{
+        height:25px;
+        line-height:25px;
+    }   
+</style>
+</head>
+<body>
+<body>
+    
+     
+
+<div id="map"></div> <div id="map2"></div>
+    
+ 
+    
+    <div class='map-overlay'  id="features">
+        <select id="mySelect"></select>
+        <br>
+        <div id='pd'>
+        <br> <input type="checkbox" id="covid" name="checks" value="covid"> COVID-19 cases
+        <br> <input type="checkbox" id="counties" name="checks" value="counties"> Counties
+     <br><input type="checkbox" id="communities" name="checks" value="communities"> Small communities
+        <br><input type="checkbox" id="states" name="checks" value="states"> State borders
+        </div></div>
+<div class='map-overlay' id='legend'>
+    Data source: <a href="https://www.safegraph.com/">SafeGraph Inc.</a>
+    
+    
+    </div>
+    
+    
+<script>
+    var popup;
+    var large_layers=[];
+    var small_layers=[];
+    var arr0= [];
+    var arrA= [];
+    var arrB= [];
+    var arrC= [];
+    var arrD= [];
+        var arrE= [];
+        var arrF= [];
+         var arrG= [];
+        var arrH= [];
+        var arrI= [];
+    var arrK= [];
+    
+var data3=[];    
+var z0=[];
+var z1=[];
+var z2=[];
+var z3=[];
+var z4=[];    
+    var z00=[];
+var z10=[];
+var z20=[];
+var z30=[];
+var z40=[];   
+        var z01=[];
+var z11=[];
+var z21=[];
+var z31=[];
+var z41=[]; 
+    
+var z02=[];
+var z12=[];
+var z22=[];
+var z32=[];
+var z42=[];  
+    
+var z03=[];
+var z13=[];
+var z23=[];
+var z33=[];
+var z43=[];  
+    
+var z04=[];
+var z14=[];
+var z24=[];
+var z34=[];
+var z44=[];   
+var z54=[];   
+    
+var z05=[];
+var z15=[];
+var z25=[];
+var z35=[];
+var z45=[];   
+var z55=[];  
+    
+    var z06=[];
+var z16=[];
+var z26=[];
+var z36=[];
+var z46=[];   
+var z56=[];  
+    
+        var z07=[];
+var z17=[];
+var z27=[];
+var z37=[];
+var z47=[];   
+var z57=[];  
+    
+    
+var z08=[];
+var z18=[];
+var z28=[];
+var z38=[];
+var z48=[];   
+var z58=[]; 
+    
+var z09=[];
+var z19=[];
+var z29=[];
+var z39=[];
+var z49=[];   
+var z59=[];     
+    //April05-11
+var communitiesA={0: 0, 1: 0, 2: 1, 3: 0, 4: 1, 5: 2, 6: 3, 7: 3, 8: 1, 9: 1, 10: 3, 11: 3, 12: 4, 13: 0, 14: 0, 15: 1, 16: 1, 17: 3, 18: 0, 19: 2, 20: 3, 21: 0, 22: 4, 23: 4, 24: 0, 25: 0, 26: 0, 27: 3, 28: 3, 29: 3, 30: 2, 31: 2, 32: 2, 33: 1, 34: 1, 35: 2, 36: 2, 37: 2, 38: 2, 39: 4, 40: 0, 41: 2, 42: 1, 43: 2, 44: 2, 45: 2, 46: 0, 47: 2, 48: 2, 49: 4, 50: 4, 51: 4, 52: 1, 53: 0, 54: 0, 55: 4, 56: 4, 57: 1, 58: 2, 59: 2, 60: 1, 61: 3, 62: 1, 63: 2, 64: 1, 65: 4, 66: 3, 67: 0, 68: 1};
+
+  //Feb23-29 4 and 2  
+var communities={0: 0, 1: 0, 2: 1, 3: 2, 4: 2, 5: 2, 6: 0, 7: 3, 8: 4, 9: 0, 10: 0, 11: 0, 12: 2, 13: 4, 14: 3, 15: 2, 16: 2, 17: 4, 18: 0, 19: 3, 20: 4, 21: 1, 22: 4, 23: 3, 24: 3, 25: 1, 26: 1, 27: 4, 28: 4, 29: 4, 30: 4, 31: 3, 32: 3, 33: 4, 34: 2, 35: 2, 36: 4, 37: 4, 38: 1, 39: 1, 40: 2, 41: 1, 42: 1, 43: 1, 44: 1, 45: 2};
+    
+    
+//3 - 2    2 - 4 
+var communities_Mar01_07={0: 0, 1: 0, 2: 0, 3: 1, 4: 1, 5: 0, 6: 2, 7: 1, 8: 0, 9: 1, 10: 0, 11: 0, 12: 3, 13: 3, 14: 4, 15: 4, 16: 2, 17: 1, 18: 2, 19: 1, 20: 0, 21: 2, 22: 1, 23: 2, 24: 1, 25: 3, 26: 3, 27: 3, 28: 1, 29: 4, 30: 4, 31: 4, 32: 2, 33: 3, 34: 3, 35: 3, 36: 1, 37: 2, 38: 1, 39: 2, 40: 3, 41: 3, 42: 3, 43: 1, 44: 1, 45: 1, 46: 4, 47: 4, 48: 4, 49: 3};
+    
+var communities_Mar08_14={0: 0, 1: 0, 2: 1, 3: 2, 4: 0, 5: 0, 6: 3, 7: 1, 8: 2, 9: 4, 10: 1, 11: 3, 12: 3, 13: 0, 14: 0, 15: 4, 16: 2, 17: 2, 18: 0, 19: 0, 20: 1, 21: 3, 22: 1, 23: 2, 24: 1, 25: 4, 26: 4, 27: 1, 28: 2, 29: 4, 30: 3, 31: 1, 32: 2, 33: 2, 34: 2, 35: 3, 36: 3, 37: 2, 38: 3, 39: 2, 40: 2, 41: 3, 42: 4, 43: 2, 44: 4, 45: 4, 46: 2, 47: 3};    
+    
+var communities_Mar15_21= {0: 0, 1: 0, 2: 0, 3: 1, 4: 0, 5: 0, 6: 0, 7: 0, 8: 2, 9: 1, 10: 1, 11: 2, 12: 1, 13: 1, 14: 3, 15: 1, 16: 4, 17: 0, 18: 3, 19: 3, 20: 1, 21: 2, 22: 1, 23: 1, 24: 0, 25: 3, 26: 1, 27: 4, 28: 3, 29: 3, 30: 2, 31: 2, 32: 2, 33: 0, 34: 3, 35: 4, 36: 3, 37: 2, 38: 3, 39: 3, 40: 4, 41: 3, 42: 3, 43: 3, 44: 4, 45: 2, 46: 3, 47: 2, 48: 2, 49: 4, 50: 4, 51: 0, 52: 0};
+
+    
+    
+var communities_Mar29_Apr04={0: 0, 1: 0, 2: 1, 3: 0, 4: 0, 5: 0, 6: 2, 7: 0, 8: 3, 9: 3, 10: 2, 11: 2, 12: 3, 13: 4, 14: 0, 15: 1, 16: 0, 17: 2, 18: 0, 19: 0, 20: 0, 21: 3, 22: 3, 23: 1, 24: 0, 25: 4, 26: 2, 27: 4, 28: 4, 29: 0, 30: 4, 31: 3, 32: 2, 33: 3, 34: 3, 35: 3, 36: 0, 37: 5, 38: 4, 39: 5, 40: 3, 41: 5, 42: 5, 43: 0, 44: 3, 45: 1, 46: 5, 47: 5, 48: 2, 49: 4, 50: 1, 51: 0, 52: 4, 53: 1, 54: 0, 55: 1, 56: 4, 57: 4, 58: 3, 59: 2, 60: 3, 61: 1, 62: 3, 63: 4, 64: 0};    
+    
+var communities_Mar22_28= {0: 0, 1: 0, 2: 1, 3: 0, 4: 1, 5: 0, 6: 2, 7: 3, 8: 3, 9: 0, 10: 3, 11: 0, 12: 4, 13: 0, 14: 4, 15: 4, 16: 4, 17: 0, 18: 5, 19: 5, 20: 5, 21: 5, 22: 3, 23: 2, 24: 4, 25: 3, 26: 2, 27: 2, 28: 0, 29: 2, 30: 3, 31: 5, 32: 5, 33: 2, 34: 2, 35: 2, 36: 3, 37: 4, 38: 4, 39: 4, 40: 2, 41: 4, 42: 4, 43: 5, 44: 4, 45: 5, 46: 5, 47: 1, 48: 5, 49: 4, 50: 5, 51: 5, 52: 5, 53: 4, 54: 3, 55: 1, 56: 5};
+
+
+var communities_Apr26_May02={0: 0, 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 1, 7: 1, 8: 1, 9: 2, 10: 0, 11: 1, 12: 0, 13: 3, 14: 0, 15: 0, 16: 1, 17: 0, 18: 2, 19: 4, 20: 1, 21: 0, 22: 4, 23: 4, 24: 1, 25: 3, 26: 1, 27: 1, 28: 3, 29: 2, 30: 2, 31: 2, 32: 2, 33: 4, 34: 4, 35: 2, 36: 0, 37: 1, 38: 3, 39: 0, 40: 1, 41: 4, 42: 2, 43: 4, 44: 3, 45: 1, 46: 4, 47: 3, 48: 3, 49: 4, 50: 2, 51: 3, 52: 3, 53: 1, 54: 1, 55: 4, 56: 4, 57: 4, 58: 4, 59: 2, 60: 0, 61: 4};
+    
+var communities_Apr19_25={0: 0, 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 1, 7: 0, 8: 0, 9: 2, 10: 0, 11: 1, 12: 3, 13: 0, 14: 4, 15: 1, 16: 0, 17: 2, 18: 1, 19: 1, 20: 1, 21: 1, 22: 2, 23: 3, 24: 3, 25: 3, 26: 0, 27: 1, 28: 3, 29: 3, 30: 3, 31: 4, 32: 1, 33: 0, 34: 2, 35: 2, 36: 2, 37: 4, 38: 4, 39: 1, 40: 1, 41: 1, 42: 1, 43: 1, 44: 2, 45: 4, 46: 1, 47: 4, 48: 1, 49: 4, 50: 4, 51: 4, 52: 4, 53: 2, 54: 1, 55: 4, 56: 4, 57: 3, 58: 4, 59: 4, 60: 0};
+var communities_May24_30={0: 0, 1: 0, 2: 0, 3: 0, 4: 0, 5: 1, 6: 2, 7: 1, 8: 1, 9: 1, 10: 2, 11: 2, 12: 0, 13: 1, 14: 3, 15: 3, 16: 4, 17: 0, 18: 2, 19: 0, 20: 4, 21: 4, 22: 0, 23: 0, 24: 0, 25: 4, 26: 1, 27: 4, 28: 4, 29: 2, 30: 3, 31: 4, 32: 4, 33: 4, 34: 2, 35: 4, 36: 2, 37: 1, 38: 0, 39: 4, 40: 3, 41: 0, 42: 3, 43: 4, 44: 4, 45: 4, 46: 4, 47: 4, 48: 3, 49: 0, 50: 4, 51: 4};   
+    
+var communities_Sep27_Oct3={0: 0, 1: 0, 2: 1, 3: 1, 4: 1, 5: 1, 6: 2, 7: 2, 8: 2, 9: 1, 10: 2, 11: 3, 12: 2, 13: 0, 14: 0, 15: 1, 16: 2, 17: 2, 18: 4, 19: 1, 20: 3, 21: 0, 22: 4, 23: 2, 24: 2, 25: 2, 26: 2, 27: 1, 28: 1, 29: 2, 30: 3, 31: 4, 32: 4, 33: 0, 34: 3, 35: 4, 36: 3, 37: 1, 38: 2, 39: 4, 40: 4, 41: 3, 42: 3, 43: 1, 44: 3, 45: 4, 46: 4, 47: 4, 48: 4, 49: 1, 50: 4};
+    
+    
+var zeros=["#023858","#9ecae1","#6baed6","#4292c6","#2171b5","#08519c","#08306b","#74a9cf","#3690c0","#0570b0","#045a8d","#a6bddb","#4682b4","#d0d1e6","#c6dbef","#d0d1e6","#a6bddb",      "#023858","#9ecae1","#6baed6","#4292c6","#2171b5","#08519c","#08306b","#74a9cf","#3690c0","#0570b0","#045a8d","#a6bddb","#4682b4","#d0d1e6","#c6dbef","#d0d1e6","#a6bddb"];
+var ones=["#feb24c","#fd8d3c","#fc4e2a","#fdae6b","#fd8d3c","#f16913","#d94801","#a63603","#7f2704","#fec44f","#fe9929","#ec7014","#cc4c02","#993404","#662506",         "#feb24c","#fd8d3c","#fc4e2a","#fdae6b","#fd8d3c","#f16913","#d94801","#a63603","#7f2704","#fec44f","#fe9929","#ec7014","#cc4c02","#993404","#662506","#feb24c","#fd8d3c","#fc4e2a","#fdae6b","#fd8d3c","#f16913","#d94801","#a63603","#7f2704","#fec44f","#fe9929","#ec7014","#cc4c02","#993404","#662506"];
+var twos=["#bdbdbd","#969696","#737373","#525252","#808080","#B8B8B8","#DCDCDC","#D3D3D3","#C0C0C0","#696969","#778899","#708090","#2F4F4F","#546161","#f0f0f0","#d9d9d9","#F5F5F5","#252525",  "#bdbdbd", "#969696", "#737373", "#525252","#B8B8B8","#DCDCDC","#DCDCDC","#D3D3D3","#C0C0C0","#808080","#696969","#778899","#708090","#2F4F4F","#546161","#f0f0f0","#d9d9d9","#F5F5F5","#252525"];
+var threes=["#D8BFD8","#FF00FF","#fcc5c0","#fa9fb5","#f768a1","#dd3497","#ae017e","#fa9fb5","#f768a1","#dd3497","#88419d","#810f7c","#4d004b","#ae017e",                   "#D8BFD8","#FF00FF","#fcc5c0","#fa9fb5","#f768a1","#dd3497","#ae017e","#fa9fb5","#f768a1","#dd3497","#88419d","#810f7c","#4d004b","#ae017e","#D8BFD8","#FF00FF","#fcc5c0","#fa9fb5","#f768a1","#dd3497","#ae017e","#fa9fb5","#f768a1","#dd3497","#88419d","#810f7c","#4d004b","#ae017e"];
+var fours=["#bcbddc","#9e9ac8","#807dba","#6a51a3","#54278f","#3f007d","#8c6bb1","#8c96c6","#88419d","#810f7c","#4d004b","#4d004b","#fcfbfd","#efedf5","#dadaeb","#e0ecf4","#bfd3e6","#9ebcda",     "#bcbddc","#9e9ac8","#807dba","#6a51a3","#54278f","#3f007d","#8c6bb1","#8c96c6","#88419d","#810f7c","#4d004b","#4d004b","#fcfbfd","#efedf5","#dadaeb","#e0ecf4","#bfd3e6","#9ebcda","#bcbddc","#9e9ac8","#807dba","#6a51a3","#54278f","#3f007d","#8c6bb1","#8c96c6","#88419d","#810f7c","#4d004b","#4d004b","#fcfbfd","#efedf5","#dadaeb","#e0ecf4","#bfd3e6","#9ebcda"];
+    
+    
+var fives=["#fc9272","#fb6a4a","#ef3b2c","#cb181d","#a50f15","#67000d","#31000d","#ef3b2c","#fc9272","#fb6a4a","#ef3b2c","#cb181d","#a50f15","#67000d","#31000d","#ef3b2c"];
+        
+    
+for (var i=0; i<d3.keys(communities).length; i++) {
+    if (d3.values(communities)[i]==0) {
+        arr0.push(zeros[z0.length]);
+      z0.push(d3.values(communities)[i])  
+    } else if (d3.values(communities)[i]==1) {
+        arr0.push(ones[z1.length]);       
+      z1.push(d3.values(communities)[i])     
+    } else if (d3.values(communities)[i]==2) {
+        arr0.push(fours[z2.length]);       
+      z2.push(d3.values(communities)[i])  
+    } else if (d3.values(communities)[i]==3) {
+        arr0.push(threes[z3.length]);       
+      z3.push(d3.values(communities)[i])  
+    } else if (d3.values(communities)[i]==4) {
+        arr0.push(twos[z4.length]);       
+      z4.push(d3.values(communities)[i])    
+    } else {
+        
+    }
+    
+}
+    
+    //console.log(JSON.stringify(arr0));
+    for (var i=0; i<d3.keys(communitiesA).length; i++) {
+    if (d3.values(communitiesA)[i]==0) {
+        arrA.push(zeros[z01.length]);
+      z01.push(d3.values(communitiesA)[i])  
+    } else if (d3.values(communitiesA)[i]==1) {
+        arrA.push(ones[z11.length]);       
+      z11.push(d3.values(communitiesA)[i])     
+    } else if (d3.values(communitiesA)[i]==2) {
+        arrA.push(twos[z21.length]);       
+      z21.push(d3.values(communitiesA)[i])  
+    } else if (d3.values(communitiesA)[i]==3) {
+        arrA.push(threes[z31.length]);       
+      z31.push(d3.values(communitiesA)[i])  
+    } else if (d3.values(communitiesA)[i]==4) {
+        arrA.push(fours[z41.length]);       
+      z41.push(d3.values(communitiesA)[i])    
+    } else {
+
+    }
+    
+}
+    console.log(JSON.stringify(arrA));
+    
+        for (var i=0; i<d3.keys(communities_Mar01_07).length; i++) {
+    if (d3.values(communities_Mar01_07)[i]==0) {
+        arrB.push(zeros[z02.length]);
+      z02.push(d3.values(communities_Mar01_07)[i])  
+    } else if (d3.values(communities_Mar01_07)[i]==1) {
+        arrB.push(fours[z12.length]);       
+      z12.push(d3.values(communities_Mar01_07)[i])     
+    } else if (d3.values(communities_Mar01_07)[i]==2) {
+        arrB.push(threes[z22.length]);       
+      z22.push(d3.values(communities_Mar01_07)[i])  
+    } else if (d3.values(communities_Mar01_07)[i]==3) {
+        arrB.push(ones[z32.length]);       
+      z32.push(d3.values(communities_Mar01_07)[i])  
+    } else if (d3.values(communities_Mar01_07)[i]==4) {
+        arrB.push(twos[z42.length]);       
+      z42.push(d3.values(communities_Mar01_07)[i])    
+    } else {
+
+    }
+    
+}
+    
+      for (var i=0; i<d3.keys(communities_Mar08_14).length; i++) {
+          //console.log(d3.values(communities_Mar08_14)[i]);
+    if (d3.values(communities_Mar08_14)[i]==0) {
+        arrC.push(zeros[z00.length]);
+      z00.push(d3.values(communities_Mar08_14)[i])  
+    } else if (d3.values(communities_Mar08_14)[i]==1) {
+        arrC.push(threes[z10.length]);       
+      z10.push(d3.values(communities_Mar08_14)[i])     
+    } else if (d3.values(communities_Mar08_14)[i]==2) {
+        arrC.push(fours[z20.length]);       
+      z20.push(d3.values(communities_Mar08_14)[i])  
+    } else if (d3.values(communities_Mar08_14)[i]==3) {
+        arrC.push(ones[z30.length]);       
+      z30.push(d3.values(communities_Mar08_14)[i])  
+    } else if (d3.values(communities_Mar08_14)[i]==4) {
+        arrC.push(twos[z40.length]);       
+      z40.push(d3.values(communities_Mar08_14)[i])    
+    } else {
+
+    }
+    
+}
+    
+          for (var i=0; i<d3.keys(communities_Mar15_21).length; i++) {
+          //console.log(d3.values(communities_Mar08_14)[i]);
+    if (d3.values(communities_Mar15_21)[i]==0) {
+        arrD.push(zeros[z03.length]);
+      z03.push(d3.values(communities_Mar15_21)[i])  
+    } else if (d3.values(communities_Mar15_21)[i]==1) {
+        arrD.push(threes[z13.length]);       
+      z13.push(d3.values(communities_Mar15_21)[i])     
+    } else if (d3.values(communities_Mar15_21)[i]==2) {
+        arrD.push(ones[z23.length]);       
+      z23.push(d3.values(communities_Mar15_21)[i])  
+    } else if (d3.values(communities_Mar15_21)[i]==3) {
+        arrD.push(twos[z33.length]);       
+      z33.push(d3.values(communities_Mar15_21)[i])  
+    } else if (d3.values(communities_Mar15_21)[i]==4) {
+        arrD.push(fours[z43.length]);       
+      z43.push(d3.values(communities_Mar15_21)[i])    
+    } else {
+
+    }
+    
+}
+    
+    
+      for (var i=0; i<d3.keys(communities_Mar29_Apr04).length; i++) {
+          //console.log(d3.values(communities_Mar08_14)[i]);
+    if (d3.values(communities_Mar29_Apr04)[i]==0) {
+        arrE.push(zeros[z04.length]);
+      z04.push(d3.values(communities_Mar29_Apr04)[i])  
+    } else if (d3.values(communities_Mar29_Apr04)[i]==1) {
+        arrE.push(fours[z14.length]);       
+      z14.push(d3.values(communities_Mar29_Apr04)[i])     
+    } else if (d3.values(communities_Mar29_Apr04)[i]==2) {
+        arrE.push(threes[z24.length]);       
+      z24.push(d3.values(communities_Mar29_Apr04)[i])  
+    } else if (d3.values(communities_Mar29_Apr04)[i]==3) {
+        arrE.push(ones[z34.length]);       
+      z34.push(d3.values(communities_Mar29_Apr04)[i])  
+    } else if (d3.values(communities_Mar29_Apr04)[i]==4) {
+        arrE.push(twos[z44.length]);       
+      z44.push(d3.values(communities_Mar29_Apr04)[i])    
+    } else {
+        
+         arrE.push(fives[z54.length]);       
+      z54.push(d3.values(communities_Mar29_Apr04)[i])  
+
+    }
+    
+}
+    
+    
+     for (var i=0; i<d3.keys(communities_Mar22_28).length; i++) {
+          //console.log(d3.values(communities_Mar08_14)[i]);
+    if (d3.values(communities_Mar22_28)[i]==0) {
+        arrF.push(zeros[z05.length]);
+      z05.push(d3.values(communities_Mar22_28)[i])  
+    } else if (d3.values(communities_Mar22_28)[i]==1) {
+        arrF.push(fives[z15.length]);       
+      z15.push(d3.values(communities_Mar22_28)[i])     
+    } else if (d3.values(communities_Mar22_28)[i]==2) {
+        arrF.push(twos[z25.length]);       
+      z25.push(d3.values(communities_Mar22_28)[i])  
+    } else if (d3.values(communities_Mar22_28)[i]==3) {
+        arrF.push(threes[z35.length]);       
+      z35.push(d3.values(communities_Mar22_28)[i])  
+    } else if (d3.values(communities_Mar22_28)[i]==4) {
+        arrF.push(fours[z45.length]);       
+      z45.push(d3.values(communities_Mar22_28)[i])    
+    } else {
+         arrF.push(ones[z55.length]);       
+      z55.push(d3.values(communities_Mar29_Apr04)[i])  
+
+    }
+    
+}
+    
+     for (var i=0; i<d3.keys(communities_Apr26_May02).length; i++) {
+    if (d3.values(communities_Apr26_May02)[i]==0) {
+        arrG.push(zeros[z06.length]);
+      z06.push(d3.values(communities_Apr26_May02)[i])  
+    } else if (d3.values(communities_Apr26_May02)[i]==1) {
+        arrG.push(twos[z16.length]);       
+      z16.push(d3.values(communities_Apr26_May02)[i])     
+    } else if (d3.values(communities_Apr26_May02)[i]==2) {
+        arrG.push(threes[z26.length]);       
+      z26.push(d3.values(communities_Apr26_May02)[i])  
+    } else if (d3.values(communities_Apr26_May02)[i]==3) {
+        arrG.push(fours[z36.length]);       
+      z36.push(d3.values(communities_Apr26_May02)[i])  
+    } else if (d3.values(communities_Apr26_May02)[i]==4) {
+        arrG.push(ones[z46.length]);       
+      z46.push(d3.values(communities_Apr26_May02)[i])    
+    } else {
+         arrG.push(fives[z56.length]);       
+      z56.push(d3.values(communities_Apr26_May02)[i])  
+
+    }
+    
+}
+     //  console.log(JSON.stringify(arrG));
+    
+     for (var i=0; i<d3.keys(communities_Apr19_25).length; i++) {
+          //console.log(d3.values(communities_Mar08_14)[i]);
+    if (d3.values(communities_Apr19_25)[i]==0) {
+        arrH.push(zeros[z07.length]);
+      z07.push(d3.values(communities_Apr19_25)[i])  
+    } else if (d3.values(communities_Apr19_25)[i]==1) {
+        arrH.push(twos[z17.length]);       
+      z17.push(d3.values(communities_Apr19_25)[i])     
+    } else if (d3.values(communities_Apr19_25)[i]==2) {
+        arrH.push(fours[z27.length]);       
+      z27.push(d3.values(communities_Apr19_25)[i])  
+    } else if (d3.values(communities_Apr19_25)[i]==3) {
+        arrH.push(threes[z37.length]);       
+      z37.push(d3.values(communities_Apr19_25)[i])  
+    } else if (d3.values(communities_Apr19_25)[i]==4) {
+        arrH.push(ones[z47.length]);       
+      z47.push(d3.values(communities_Apr19_25)[i])    
+    } else {
+
+    }
+    
+}
+    
+    for (var i=0; i<d3.keys(communities_May24_30).length; i++) {
+          //console.log(d3.values(communities_Mar08_14)[i]);
+    if (d3.values(communities_May24_30)[i]==0) {
+        arrI.push(zeros[z08.length]);
+      z08.push(d3.values(communities_May24_30)[i])  
+    } else if (d3.values(communities_May24_30)[i]==1) {
+        arrI.push(threes[z18.length]);       
+      z18.push(d3.values(communities_May24_30)[i])     
+    } else if (d3.values(communities_May24_30)[i]==2) {
+        arrI.push(fours[z28.length]);       
+      z28.push(d3.values(communities_May24_30)[i])  
+    } else if (d3.values(communities_May24_30)[i]==3) {
+        arrI.push(twos[z38.length]);       
+      z38.push(d3.values(communities_May24_30)[i])  
+    } else if (d3.values(communities_May24_30)[i]==4) {
+        arrI.push(ones[z48.length]);       
+      z48.push(d3.values(communities_May24_30)[i])    
+    } else {
+
+    }
+    
+}
+    
+    
+     for (var i=0; i<d3.keys(communities_Sep27_Oct3).length; i++) {
+          //console.log(d3.values(communities_Mar08_14)[i]);
+    if (d3.values(communities_Sep27_Oct3)[i]==0) {
+        arrK.push(fours[z09.length]);
+      z09.push(d3.values(communities_Sep27_Oct3)[i])  
+    } else if (d3.values(communities_Sep27_Oct3)[i]==1) {
+        arrK.push(zeros[z19.length]);       
+      z19.push(d3.values(communities_Sep27_Oct3)[i])     
+    } else if (d3.values(communities_Sep27_Oct3)[i]==2) {
+        arrK.push(twos[z29.length]);       
+      z29.push(d3.values(communities_Sep27_Oct3)[i])  
+    } else if (d3.values(communities_Sep27_Oct3)[i]==3) {
+        arrK.push(threes[z39.length]);       
+      z39.push(d3.values(communities_Sep27_Oct3)[i])  
+    } else if (d3.values(communities_Sep27_Oct3)[i]==4) {
+        arrK.push(ones[z49.length]);       
+      z49.push(d3.values(communities_Sep27_Oct3)[i])    
+    } else {
+
+    }
+    
+}
+    
+    console.log(JSON.stringify(arrK));
+
+    var arr=[];
+    
+    for (var i=0; i<arr0.length; i++) {
+        
+        arr.push([i,arr0[i]]);
+    } 
+    
+   // console.log(arr0);
+    
+
+    var data0=[];
+    var map;
+            fetch('output/classification/classification_ids_counties2.json').then(res => res.json()) 
+.then(data10 => { 
+        data0=data10;        
+            //  console.log(data0.length);  
+         var cols={"green":0,"yellow":0.1,"orange":0.4,"red":1}       
+                var ids=[];
+                
+                data10.map(function(d,i){if (d.id.toString().length>3) {ids.push(d.id.toString().substr(3)) }else 
+                    
+                                                                     {ids.push(d.id.toString())}});           
+    fetch('counties5.json').then(res => res.json()) 
+.then(data => {  
+ var data2={"type":"FeatureCollection"};
+    data2["features"]=[];        
+            data0=data10;
+            for (var i=0; i<data["features"].length; i++) {
+                data["features"][i]["id"]=data["features"][i]["properties"]["GEOID"].toString();
+
+                if (ids.indexOf(data["features"][i]["properties"]["GEOID"].toString())>-1) {
+                 
+                      data["features"][i]["properties"]["c"]=data0[ids.indexOf(data["features"][i]["properties"]["GEOID"].toString())]["c"];
+                    
+                    
+                    data["features"][i]["properties"]["max"]=data0[ids.indexOf(data["features"][i]["properties"]["GEOID"].toString())]["max"];
+                     data["features"][i]["properties"]["max1"]=Math.log(data0[ids.indexOf(data["features"][i]["properties"]["GEOID"].toString())]["max"]+1)*0.9;
+                data["features"][i]["properties"]["v"]=cols[data0[ids.indexOf(data["features"][i]["properties"]["GEOID"].toString())]["c"]];
+                } else {
+
+                    data["features"][i]["properties"]["v"]=-1;
+                    data["features"][i]["properties"]["max"]=0;
+                     data["features"][i]["properties"]["max1"]=Math.log(1)*0.9;
+                }
+                if (data["features"][i]["geometry"]["type"]=="Polygon"){
+         var polygon = turf.polygon(data["features"][i]["geometry"]["coordinates"]);
+
+            var center = turf.centerOfMass(polygon);
+
+                data2["features"].push({"type": "Feature", "geometry": {"type": "Point", "coordinates":center["geometry"]["coordinates"]},"properties":data["features"][i]["properties"]});
+               } else {
+                    var polygon = turf.polygon(data["features"][i]["geometry"]["coordinates"][0]);
+
+            var center = turf.centerOfMass(polygon);
+
+                data2["features"].push({"type": "Feature", "geometry": {"type": "Point", "coordinates":center["geometry"]["coordinates"]},"properties":data["features"][i]["properties"]});
+        
+               }
+ 
+            }
+            
+    
+     var arr2=[[1, 0.1], [100, 0.2],[200, 0.7],[500, 1],[1000, 1],[2000, 1],[2500, 1],[3000, 1],[50000, 1]];  
+var comms=["All",0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 13, 14, 15, 16, 17, 18, 19, 20, 21];  
+var data3=[];    
+        var vals=["Feb23-29","Mar01-07","Mar08-14","Mar15-21","Mar22-28","Mar29-Apr04","Apr05-11","Apr19-25","Apr26-May02","May24-30","Sep27-Oct3"];
+var x = document.getElementById("mySelect");
+for (var i=0; i<11; i++) {        
+var option = document.createElement("option");
+option.text = "Communities during week "+vals[i];
+option.value = vals[i];    
+x.add(option, x[i]);
+}
+    
+    var data0=[];
+    
+    
+
+	mapboxgl.accessToken = 'pk.eyJ1Ijoib2J1Y2hlbCIsImEiOiJmOWQ2MzQxNmE0M2Y3YmVjNzA2NmM2MGQzYTIwYmQ3OCJ9.psxJSN8q9n2-HfFGoIUNJA';
+map = new mapboxgl.Map({
+container: 'map',
+style: 'mapbox://styles/mapbox/streets-v11',
+zoom: 3,
+center: [-82.447303,37.753574]
+});
+map.addControl(new mapboxgl.NavigationControl(), 'top-left');      
+map.addControl(new mapboxgl.FullscreenControl(), 'top-right');            
+            
+map.on('load', function() {     
+map.addSource('communities_large_Feb23-29', {
+type: 'geojson',
+ data: 'Feb23-29_large_simplified.json'  
+});   
+
+map.addSource('communities_small_Feb23-29', {
+type: 'geojson',
+'data': "Feb23-29_small_simplified.json"    
+});
+    
+    
+map.addSource('communities_large_Mar01-07', {
+type: 'geojson',
+ data: 'Mar01-07_large_simplified.json'  
+});   
+
+map.addSource('communities_small_Mar01-07', {
+type: 'geojson',
+'data': "Mar01-07_small_simplified.json"    
+});
+    
+    map.addSource('communities_large_Mar08-14', {
+type: 'geojson',
+ data: 'Mar08-14_large_simplified.json'  
+}); 
+    
+map.addSource('communities_small_Mar08-14', {
+type: 'geojson',
+'data': "Mar08-14_small_simplified.json"    
+});    
+
+map.addSource('communities_small_Mar15-21', {
+type: 'geojson',
+'data': "Mar15-21_small_simplified.json"    
+});
+    
+map.addSource('communities_large_Mar15-21', {
+type: 'geojson',
+ data: 'Mar15-21_large_simplified.json'  
+});   
+
+map.addSource('communities_small_Mar22-28', {
+type: 'geojson',
+'data': "Mar22-28_small_simplified.json"    
+});
+    
+map.addSource('communities_large_Mar22-28', {
+type: 'geojson',
+ data: 'Mar22-28_large_simplified.json'  
+});  
+    
+    
+ map.addSource('communities_small_Mar29-Apr04', {
+type: 'geojson',
+'data': "Mar29-Apr04_small_simplified.json"    
+});
+    
+map.addSource('communities_large_Mar29-Apr04', {
+type: 'geojson',
+ data: 'Mar29-Apr04_large_simplified.json'  
+});     
+    
+    
+    
+    
+map.addSource('communities_large_Apr05-11', {
+type: 'geojson',
+ data: 'Apr05-11_large_simplified.json'  
+});   
+
+map.addSource('communities_small_Apr05-11', {
+type: 'geojson',
+'data': "Apr05-11_small_simplified.json"    
+});  
+    
+map.addSource('communities_large_Apr19-25', {
+type: 'geojson',
+ data: 'Apr19-25_large_simplified.json'  
+});   
+
+map.addSource('communities_small_Apr19-25', {
+type: 'geojson',
+'data': "Apr19-25_small_simplified.json"    
+});  
+       
+    
+map.addSource('communities_large_Apr26-May02', {
+type: 'geojson',
+ data: 'Apr26-May02_large_simplified.json'  
+});   
+
+map.addSource('communities_small_Apr26-May02', {
+type: 'geojson',
+'data': "Apr26-May02_small_simplified.json"    
+});    
+    
+    map.addSource('communities_large_May24-30', {
+type: 'geojson',
+ data: 'May24-30_large_simplified.json'  
+});      
+    
+map.addSource('communities_large_Sep27-Oct3', {
+type: 'geojson',
+ data: 'Sep27-Oct3_large_simplified.json'  
+});   
+    
+    
+
+map.addSource('communities_small_May24-30', {
+type: 'geojson',
+'data': "May24-30_small_simplified.json"    
+});   
+map.addSource('communities_small_Sep27-Oct3', {
+type: 'geojson',
+'data': "Sep27-Oct3_small_simplified.json"    
+});     
+    
+map.addSource('states', {
+type: 'geojson',
+'data': "states5.json"    
+});    
+map.addSource('counties', {
+type: 'geojson',
+'data': data   
+});    
+map.addSource('covid', {
+type: 'geojson',
+'data': data2    
+});
+large_layers.push('communities_large_Feb23-29');
+map.addLayer({
+'id': 'communities_large_Feb23-29',
+'type': 'fill',
+'source': 'communities_large_Feb23-29',
+'paint': {
+'fill-color':  [
+'match',
+['get', 'GEOID'],
+'com_39',
+arr0[39], 
+'com_23',
+arr0[23],  
+'com_41',
+arr0[41], 
+'com_22',
+arr0[22], 
+'com_35',
+arr0[35],    
+'com_0',
+arr0[0], 
+    'com_1',
+arr0[1], 
+    'com_2',
+arr0[2], 
+        'com_3',
+arr0[3], 
+        'com_4',
+arr0[4], 
+        'com_5',
+arr0[5], 
+        'com_6',
+arr0[6], 
+        'com_7',
+arr0[7], 
+        'com_8',
+arr0[8], 
+        'com_9',
+arr0[9], 
+        'com_10',
+arr0[10], 
+     'com_11',
+arr0[11], 
+     'com_12',
+arr0[12],
+     'com_13',
+arr0[13], 
+      'com_14',
+arr0[14], 
+    
+     'com_15',
+arr0[15], 
+     'com_16',
+arr0[16], 
+     'com_17',
+arr0[17], 
+     'com_18',
+arr0[18], 
+     'com_19',
+arr0[19], 
+     'com_20',
+arr0[20], 
+        'com_21',
+arr0[21],
+      'com_24',
+arr0[24], 
+    
+     'com_25',
+arr0[25], 
+     'com_26',
+arr0[26], 
+     'com_27',
+arr0[27], 
+     'com_28',
+arr0[28], 
+     'com_29',
+arr0[29], 
+     'com_30',
+arr0[30], 
+    'com_31',
+arr0[31], 
+    'com_32',
+arr0[32], 
+        'com_33',
+arr0[33], 
+        'com_34',
+arr0[34], 
+
+        'com_36',
+arr0[36], 
+        'com_37',
+arr0[37], 
+        'com_38',
+arr0[38], 
+    'com_40',
+arr0[40], 
+   
+    'com_42',
+arr0[42], 
+        'com_43',
+arr0[43], 
+        'com_44',
+arr0[44], 
+        'com_45',
+arr0[45], 
+/* other */ '#ccc'
+],   
+'fill-outline-color':'black',    
+'fill-opacity': 0.8
+}
+
+},"state-label");    
+         
+
+    
+      
+map.on('click', 'communities_large_Feb23-29', function(e,i) {
+        //console.log(e.features[0].properties,i);
+popup=new mapboxgl.Popup()
+.setLngLat(e.lngLat)
+.setHTML(e.features[0].properties.GEOID)
+.addTo(map);
+});  
+      
+      
+      
+      });
+
+         });
+    
+  });      
+    
+    
+function change_map(e){
+    
+var fill_arrays={"Apr05-11":[
+'match',
+['get', 'GEOID'],
+'com_55',
+arrA[55],
+'com_51',
+arrA[51],
+'com_65',
+arrA[65],
+'com_50',
+arrA[50],
+'com_39',
+arrA[39], 
+'com_56',
+arrA[56],
+'com_23',
+arrA[23],  
+'com_49',
+arrA[49],  
+'com_41',
+arrA[41], 
+'com_22',
+arrA[22], 
+'com_35',
+arrA[35],   
+'com_0',
+arrA[0], 
+    'com_1',
+arrA[1], 
+    'com_2',
+arrA[2], 
+        'com_3',
+arrA[3], 
+        'com_4',
+arrA[4], 
+        'com_5',
+arrA[5], 
+        'com_6',
+arrA[6], 
+        'com_7',
+arrA[7], 
+        'com_8',
+arrA[8], 
+        'com_9',
+arrA[9], 
+        'com_10',
+arrA[10], 
+     'com_11',
+arrA[11], 
+     'com_12',
+arrA[12],
+     'com_13',
+arrA[13], 
+      'com_14',
+arrA[14], 
+    
+     'com_15',
+arrA[15], 
+     'com_16',
+arrA[16], 
+     'com_17',
+arrA[17], 
+     'com_18',
+arrA[18], 
+     'com_19',
+arrA[19], 
+     'com_20',
+arrA[20], 
+        'com_21',
+arrA[21],
+      'com_24',
+arrA[24], 
+    
+     'com_25',
+arrA[25], 
+     'com_26',
+arrA[26], 
+     'com_27',
+arrA[27], 
+     'com_28',
+arrA[28], 
+     'com_29',
+arrA[29], 
+     'com_30',
+arrA[30], 
+    'com_31',
+arrA[31], 
+    'com_32',
+arrA[32], 
+        'com_33',
+arrA[33], 
+        'com_34',
+arrA[34], 
+
+        'com_36',
+arrA[36], 
+        'com_37',
+arrA[37], 
+        'com_38',
+arrA[38], 
+    'com_40',
+arrA[40], 
+   
+    'com_42',
+arrA[42], 
+        'com_43',
+arrA[43], 
+        'com_44',
+arrA[44], 
+        'com_45',
+arrA[45], 
+        'com_46',
+arrA[46], 
+       'com_47',
+arrA[47], 
+        'com_48',
+arrA[48], 
+    
+     'com_52',
+arrA[52], 
+        'com_53',
+arrA[53], 
+        'com_54',
+arrA[54], 
+         'com_57',
+arrA[57], 
+        'com_58',
+arrA[58], 
+        'com_59',
+arrA[59], 
+        'com_60',
+arrA[60], 
+     'com_61',
+arrA[61], 
+     'com_62',
+arrA[62],
+     'com_63',
+arrA[63], 
+      'com_64',
+arrA[64], 
+    'com_66',
+arrA[66], 
+        'com_67',
+arrA[67], 
+        'com_68',
+arrA[68], 
+/* other */ '#ccc'
+],"Mar01-07":[
+'match',
+['get', 'GEOID'],
+'com_39',
+arrB[39], 
+'com_23',
+arrB[23],  
+'com_49',
+arrB[49],  
+'com_41',
+arrB[41], 
+'com_22',
+arrB[22], 
+'com_35',
+arrB[35],   
+'com_0',
+arrB[0], 
+    'com_1',
+arrB[1], 
+    'com_2',
+arrB[2], 
+        'com_3',
+arrB[3], 
+        'com_4',
+arrB[4], 
+        'com_5',
+arrB[5], 
+        'com_6',
+arrB[6], 
+        'com_7',
+arrB[7], 
+        'com_8',
+arrB[8], 
+        'com_9',
+arrB[9], 
+        'com_10',
+arrB[10], 
+     'com_11',
+arrB[11], 
+     'com_12',
+arrB[12],
+     'com_13',
+arrB[13], 
+      'com_14',
+arrB[14], 
+    
+     'com_15',
+arrB[15], 
+     'com_16',
+arrB[16], 
+     'com_17',
+arrB[17], 
+     'com_18',
+arrB[18], 
+     'com_19',
+arrB[19], 
+     'com_20',
+arrB[20], 
+        'com_21',
+arrB[21],
+      'com_24',
+arrB[24], 
+    
+     'com_25',
+arrB[25], 
+     'com_26',
+arrB[26], 
+     'com_27',
+arrB[27], 
+     'com_28',
+arrB[28], 
+     'com_29',
+arrB[29], 
+     'com_30',
+arrB[30], 
+    'com_31',
+arrB[31], 
+    'com_32',
+arrB[32], 
+        'com_33',
+arrB[33], 
+        'com_34',
+arrB[34], 
+
+        'com_36',
+arrB[36], 
+        'com_37',
+arrB[37], 
+        'com_38',
+arrB[38], 
+    'com_40',
+arrB[40], 
+   
+    'com_42',
+arrB[42], 
+        'com_43',
+arrB[43], 
+        'com_44',
+arrB[44], 
+        'com_45',
+arrB[45], 
+        'com_46',
+arrB[46], 
+       'com_47',
+arrB[47], 
+        'com_48',
+arrB[48], 
+/* other */ '#ccc'
+],"Feb23-29":[
+'match',
+['get', 'GEOID'],
+'com_39',
+arr0[39], 
+'com_23',
+arr0[23],  
+'com_41',
+arr0[41], 
+'com_22',
+arr0[22], 
+'com_35',
+arr0[35],   
+'com_0',
+arr0[0], 
+    'com_1',
+arr0[1], 
+    'com_2',
+arr0[2], 
+        'com_3',
+arr0[3], 
+        'com_4',
+arr0[4], 
+        'com_5',
+arr0[5], 
+        'com_6',
+arr0[6], 
+        'com_7',
+arr0[7], 
+        'com_8',
+arr0[8], 
+        'com_9',
+arr0[9], 
+        'com_10',
+arr0[10], 
+     'com_11',
+arr0[11], 
+     'com_12',
+arr0[12],
+     'com_13',
+arr0[13], 
+      'com_14',
+arr0[14], 
+    
+     'com_15',
+arr0[15], 
+     'com_16',
+arr0[16], 
+     'com_17',
+arr0[17], 
+     'com_18',
+arr0[18], 
+     'com_19',
+arr0[19], 
+     'com_20',
+arr0[20], 
+        'com_21',
+arr0[21],
+      'com_24',
+arr0[24], 
+    
+     'com_25',
+arr0[25], 
+     'com_26',
+arr0[26], 
+     'com_27',
+arr0[27], 
+     'com_28',
+arr0[28], 
+     'com_29',
+arr0[29], 
+     'com_30',
+arr0[30], 
+    'com_31',
+arr0[31], 
+    'com_32',
+arr0[32], 
+        'com_33',
+arr0[33], 
+        'com_34',
+arr0[34], 
+
+        'com_36',
+arr0[36], 
+        'com_37',
+arr0[37], 
+        'com_38',
+arr0[38], 
+    'com_40',
+arr0[40], 
+   
+    'com_42',
+arr0[42], 
+        'com_43',
+arr0[43], 
+        'com_44',
+arr0[44], 
+        'com_45',
+arr0[45], 
+ '#ccc'
+],"Mar08-14":[
+'match',
+['get', 'GEOID'],
+'com_0',
+arrC[0], 
+    'com_1',
+arrC[1], 
+    'com_2',
+arrC[2], 
+        'com_3',
+arrC[3], 
+        'com_4',
+arrC[4], 
+        'com_5',
+arrC[5], 
+        'com_6',
+arrC[6], 
+        'com_7',
+arrC[7], 
+        'com_8',
+arrC[8], 
+        'com_9',
+arrC[9], 
+        'com_10',
+arrC[10], 
+     'com_11',
+arrC[11], 
+     'com_12',
+arrC[12],
+     'com_13',
+arrC[13], 
+      'com_14',
+arrC[14], 
+    
+     'com_15',
+arrC[15], 
+     'com_16',
+arrC[16], 
+     'com_17',
+arrC[17], 
+     'com_18',
+arrC[18], 
+     'com_19',
+arrC[19], 
+     'com_20',
+arrC[20], 
+        'com_21',
+arrC[21],
+
+    'com_22',
+arrC[22], 
+'com_23',
+arrC[23],  
+      'com_24',
+arrC[24], 
+    
+     'com_25',
+arrC[25], 
+     'com_26',
+arrC[26], 
+     'com_27',
+arrC[27], 
+     'com_28',
+arrC[28], 
+     'com_29',
+arrC[29], 
+     'com_30',
+arrC[30], 
+    'com_31',
+arrC[31], 
+    'com_32',
+arrC[32], 
+        'com_33',
+arrC[33], 
+        'com_34',
+arrC[34], 
+
+'com_35',
+arrC[35],   
+        'com_36',
+arrC[36], 
+        'com_37',
+arrC[37], 
+        'com_38',
+arrC[38], 
+            'com_39',
+arrC[39], 
+
+    'com_40',
+arrC[40], 
+   'com_41',
+arrC[41], 
+    'com_42',
+arrC[42], 
+        'com_43',
+arrC[43], 
+        'com_44',
+arrC[44], 
+        'com_45',
+arrC[45], 
+        'com_46',
+arrC[46], 
+       'com_47',
+arrC[47], 
+        
+/* other */ '#ccc'
+],"Mar15-21":[
+'match',
+['get', 'GEOID'],
+'com_0',
+arrD[0], 
+    'com_1',
+arrD[1], 
+    'com_2',
+arrD[2], 
+        'com_3',
+arrD[3], 
+        'com_4',
+arrD[4], 
+        'com_5',
+arrD[5], 
+        'com_6',
+arrD[6], 
+        'com_7',
+arrD[7], 
+        'com_8',
+arrD[8], 
+        'com_9',
+arrD[9], 
+        'com_10',
+arrD[10], 
+     'com_11',
+arrD[11], 
+     'com_12',
+arrD[12],
+     'com_13',
+arrD[13], 
+      'com_14',
+arrD[14], 
+    
+     'com_15',
+arrD[15], 
+     'com_16',
+arrD[16], 
+     'com_17',
+arrD[17], 
+     'com_18',
+arrD[18], 
+     'com_19',
+arrD[19], 
+     'com_20',
+arrD[20], 
+        'com_21',
+arrD[21],
+
+    'com_22',
+arrD[22], 
+'com_23',
+arrD[23],  
+      'com_24',
+arrD[24], 
+    
+     'com_25',
+arrD[25], 
+     'com_26',
+arrD[26], 
+     'com_27',
+arrD[27], 
+     'com_28',
+arrD[28], 
+     'com_29',
+arrD[29], 
+     'com_30',
+arrD[30], 
+    'com_31',
+arrD[31], 
+    'com_32',
+arrD[32], 
+        'com_33',
+arrD[33], 
+        'com_34',
+arrD[34], 
+'com_35',
+arrD[35],   
+        'com_36',
+arrD[36], 
+        'com_37',
+arrD[37], 
+        'com_38',
+arrD[38], 
+        'com_39',
+arrD[39], 
+    'com_40',
+arrD[40], 
+   'com_41',
+arrD[41], 
+    'com_42',
+arrD[42], 
+        'com_43',
+arrD[43], 
+        'com_44',
+arrD[44], 
+        'com_45',
+arrD[45], 
+        'com_46',
+arrD[46], 
+       'com_47',
+arrD[47], 
+    'com_48',
+arrD[48], 
+    'com_49',
+arrD[49], 
+    'com_50',
+arrD[50], 
+   'com_51',
+arrD[51], 
+    'com_52',
+arrD[52],
+        
+/* other */ '#ccc'
+],"Mar29-Apr04":[
+'match',
+['get', 'GEOID'],
+'com_55',
+arrE[55],
+'com_51',
+arrE[51],
+'com_50',
+arrE[50],
+'com_39',
+arrE[39], 
+'com_56',
+arrE[56],
+'com_23',
+arrE[23],  
+'com_49',
+arrE[49],  
+'com_41',
+arrE[41], 
+'com_22',
+arrE[22], 
+'com_35',
+arrE[35],   
+'com_0',
+arrE[0], 
+    'com_1',
+arrE[1], 
+    'com_2',
+arrE[2], 
+        'com_3',
+arrE[3], 
+        'com_4',
+arrE[4], 
+        'com_5',
+arrE[5], 
+        'com_6',
+arrE[6], 
+        'com_7',
+arrE[7], 
+        'com_8',
+arrE[8], 
+        'com_9',
+arrE[9], 
+        'com_10',
+arrE[10], 
+     'com_11',
+arrE[11], 
+     'com_12',
+arrE[12],
+     'com_13',
+arrE[13], 
+      'com_14',
+arrE[14], 
+    
+     'com_15',
+arrE[15], 
+     'com_16',
+arrE[16], 
+     'com_17',
+arrE[17], 
+     'com_18',
+arrE[18], 
+     'com_19',
+arrE[19], 
+     'com_20',
+arrE[20], 
+        'com_21',
+arrE[21],
+      'com_24',
+arrE[24], 
+    
+     'com_25',
+arrE[25], 
+     'com_26',
+arrE[26], 
+     'com_27',
+arrE[27], 
+     'com_28',
+arrE[28], 
+     'com_29',
+arrE[29], 
+     'com_30',
+arrE[30], 
+    'com_31',
+arrE[31], 
+    'com_32',
+arrE[32], 
+        'com_33',
+arrE[33], 
+        'com_34',
+arrE[34], 
+
+        'com_36',
+arrE[36], 
+        'com_37',
+arrE[37], 
+        'com_38',
+arrE[38], 
+    'com_40',
+arrE[40], 
+   
+    'com_42',
+arrE[42], 
+        'com_43',
+arrE[43], 
+        'com_44',
+arrE[44], 
+        'com_45',
+arrE[45], 
+        'com_46',
+arrE[46], 
+       'com_47',
+arrE[47], 
+        'com_48',
+arrE[48], 
+    
+     'com_52',
+arrE[52], 
+        'com_53',
+arrE[53], 
+        'com_54',
+arrE[54], 
+         'com_57',
+arrE[57], 
+        'com_58',
+arrE[58], 
+        'com_59',
+arrE[59], 
+        'com_60',
+arrE[60], 
+     'com_61',
+arrE[61], 
+     'com_62',
+arrE[62],
+     'com_63',
+arrE[63], 
+      'com_64',
+arrE[64], 
+    
+/* other */ '#ccc'
+],"Mar22-28":[
+'match',
+['get', 'GEOID'],
+'com_55',
+arrF[55],
+'com_51',
+arrF[51],
+'com_50',
+arrF[50],
+'com_39',
+arrF[39], 
+'com_56',
+arrF[56],
+'com_23',
+arrF[23],  
+'com_49',
+arrF[49],  
+'com_41',
+arrF[41], 
+'com_22',
+arrF[22], 
+'com_35',
+arrF[35],   
+'com_0',
+arrF[0], 
+    'com_1',
+arrF[1], 
+    'com_2',
+arrF[2], 
+        'com_3',
+arrF[3], 
+        'com_4',
+arrF[4], 
+        'com_5',
+arrF[5], 
+        'com_6',
+arrF[6], 
+        'com_7',
+arrF[7], 
+        'com_8',
+arrF[8], 
+        'com_9',
+arrF[9], 
+        'com_10',
+arrF[10], 
+     'com_11',
+arrF[11], 
+     'com_12',
+arrF[12],
+     'com_13',
+arrF[13], 
+      'com_14',
+arrF[14], 
+    
+     'com_15',
+arrF[15], 
+     'com_16',
+arrF[16], 
+     'com_17',
+arrF[17], 
+     'com_18',
+arrF[18], 
+     'com_19',
+arrF[19], 
+     'com_20',
+arrF[20], 
+        'com_21',
+arrF[21],
+      'com_24',
+arrF[24], 
+    
+     'com_25',
+arrF[25], 
+     'com_26',
+arrF[26], 
+     'com_27',
+arrF[27], 
+     'com_28',
+arrF[28], 
+     'com_29',
+arrF[29], 
+     'com_30',
+arrF[30], 
+    'com_31',
+arrF[31], 
+    'com_32',
+arrF[32], 
+        'com_33',
+arrF[33], 
+        'com_34',
+arrF[34], 
+
+        'com_36',
+arrF[36], 
+        'com_37',
+arrF[37], 
+        'com_38',
+arrF[38], 
+    'com_40',
+arrF[40], 
+   
+    'com_42',
+arrF[42], 
+        'com_43',
+arrF[43], 
+        'com_44',
+arrF[44], 
+        'com_45',
+arrF[45], 
+        'com_46',
+arrF[46], 
+       'com_47',
+arrF[47], 
+        'com_48',
+arrF[48], 
+    
+     'com_52',
+arrF[52], 
+        'com_53',
+arrF[53], 
+        'com_54',
+arrF[54], 
+         
+    
+/* other */ '#ccc'
+],"Apr26-May02":[
+'match',
+['get', 'GEOID'],
+'com_55',
+arrG[55],
+'com_51',
+arrG[51],
+'com_50',
+arrG[50],
+'com_39',
+arrG[39], 
+'com_56',
+arrG[56],
+'com_23',
+arrG[23],  
+'com_49',
+arrG[49],  
+'com_41',
+arrG[41], 
+'com_22',
+arrG[22], 
+'com_35',
+arrG[35],   
+'com_0',
+arrG[0], 
+    'com_1',
+arrG[1], 
+    'com_2',
+arrG[2], 
+        'com_3',
+arrG[3], 
+        'com_4',
+arrG[4], 
+        'com_5',
+arrG[5], 
+        'com_6',
+arrG[6], 
+        'com_7',
+arrG[7], 
+        'com_8',
+arrG[8], 
+        'com_9',
+arrG[9], 
+        'com_10',
+arrG[10], 
+     'com_11',
+arrG[11], 
+     'com_12',
+arrG[12],
+     'com_13',
+arrG[13], 
+      'com_14',
+arrG[14], 
+    
+     'com_15',
+arrG[15], 
+     'com_16',
+arrG[16], 
+     'com_17',
+arrG[17], 
+     'com_18',
+arrG[18], 
+     'com_19',
+arrG[19], 
+     'com_20',
+arrG[20], 
+        'com_21',
+arrG[21],
+      'com_24',
+arrG[24], 
+    
+     'com_25',
+arrG[25], 
+     'com_26',
+arrG[26], 
+     'com_27',
+arrG[27], 
+     'com_28',
+arrG[28], 
+     'com_29',
+arrG[29], 
+     'com_30',
+arrG[30], 
+    'com_31',
+arrG[31], 
+    'com_32',
+arrG[32], 
+        'com_33',
+arrG[33], 
+        'com_34',
+arrG[34], 
+
+        'com_36',
+arrG[36], 
+        'com_37',
+arrG[37], 
+        'com_38',
+arrG[38], 
+    'com_40',
+arrG[40], 
+   
+    'com_42',
+arrG[42], 
+        'com_43',
+arrG[43], 
+        'com_44',
+arrG[44], 
+        'com_45',
+arrG[45], 
+        'com_46',
+arrG[46], 
+       'com_47',
+arrG[47], 
+        'com_48',
+arrG[48], 
+    
+     'com_52',
+arrG[52], 
+        'com_53',
+arrG[53], 
+        'com_54',
+arrG[54], 
+         'com_57',
+arrG[57], 
+        'com_58',
+arrG[58], 
+        'com_59',
+arrG[59], 
+        'com_60',
+arrG[60], 
+     'com_61',
+arrG[61], 
+    
+/* other */ '#ccc'
+],"Apr19-25":[
+'match',
+['get', 'GEOID'],
+'com_55',
+arrH[55],
+'com_51',
+arrH[51],
+'com_50',
+arrH[50],
+'com_39',
+arrH[39], 
+'com_56',
+arrH[56],
+'com_23',
+arrH[23],  
+'com_49',
+arrH[49],  
+'com_41',
+arrH[41], 
+'com_22',
+arrH[22], 
+'com_35',
+arrH[35],   
+'com_0',
+arrH[0], 
+    'com_1',
+arrH[1], 
+    'com_2',
+arrH[2], 
+        'com_3',
+arrH[3], 
+        'com_4',
+arrH[4], 
+        'com_5',
+arrH[5], 
+        'com_6',
+arrH[6], 
+        'com_7',
+arrH[7], 
+        'com_8',
+arrH[8], 
+        'com_9',
+arrH[9], 
+        'com_10',
+arrH[10], 
+     'com_11',
+arrH[11], 
+     'com_12',
+arrH[12],
+     'com_13',
+arrH[13], 
+      'com_14',
+arrH[14], 
+    
+     'com_15',
+arrH[15], 
+     'com_16',
+arrH[16], 
+     'com_17',
+arrH[17], 
+     'com_18',
+arrH[18], 
+     'com_19',
+arrH[19], 
+     'com_20',
+arrH[20], 
+        'com_21',
+arrH[21],
+      'com_24',
+arrH[24], 
+    
+     'com_25',
+arrH[25], 
+     'com_26',
+arrH[26], 
+     'com_27',
+arrH[27], 
+     'com_28',
+arrH[28], 
+     'com_29',
+arrH[29], 
+     'com_30',
+arrH[30], 
+    'com_31',
+arrH[31], 
+    'com_32',
+arrH[32], 
+        'com_33',
+arrH[33], 
+        'com_34',
+arrH[34], 
+
+        'com_36',
+arrH[36], 
+        'com_37',
+arrH[37], 
+        'com_38',
+arrH[38], 
+    'com_40',
+arrH[40], 
+   
+    'com_42',
+arrH[42], 
+        'com_43',
+arrH[43], 
+        'com_44',
+arrH[44], 
+        'com_45',
+arrH[45], 
+        'com_46',
+arrH[46], 
+       'com_47',
+arrH[47], 
+        'com_48',
+arrH[48], 
+    
+     'com_52',
+arrH[52], 
+        'com_53',
+arrH[53], 
+        'com_54',
+arrH[54], 
+         'com_57',
+arrH[57], 
+        'com_58',
+arrH[58], 
+        'com_59',
+arrH[59], 
+        'com_60',
+arrH[60], 
+/* other */ '#ccc'
+],"May24-30":[
+'match',
+['get', 'GEOID'],
+'com_51',
+arrI[51],
+'com_50',
+arrI[50],
+'com_39',
+arrI[39], 
+'com_23',
+arrI[23],  
+'com_49',
+arrI[49],  
+'com_41',
+arrI[41], 
+'com_22',
+arrI[22], 
+'com_35',
+arrI[35],   
+'com_0',
+arrI[0], 
+    'com_1',
+arrI[1], 
+    'com_2',
+arrI[2], 
+        'com_3',
+arrI[3], 
+        'com_4',
+arrI[4], 
+        'com_5',
+arrI[5], 
+        'com_6',
+arrI[6], 
+        'com_7',
+arrI[7], 
+        'com_8',
+arrI[8], 
+        'com_9',
+arrI[9], 
+        'com_10',
+arrI[10], 
+     'com_11',
+arrI[11], 
+     'com_12',
+arrI[12],
+     'com_13',
+arrI[13], 
+      'com_14',
+arrI[14], 
+    
+     'com_15',
+arrI[15], 
+     'com_16',
+arrI[16], 
+     'com_17',
+arrI[17], 
+     'com_18',
+arrI[18], 
+     'com_19',
+arrI[19], 
+     'com_20',
+arrI[20], 
+        'com_21',
+arrI[21],
+      'com_24',
+arrI[24], 
+    
+     'com_25',
+arrI[25], 
+     'com_26',
+arrI[26], 
+     'com_27',
+arrI[27], 
+     'com_28',
+arrI[28], 
+     'com_29',
+arrI[29], 
+     'com_30',
+arrI[30], 
+    'com_31',
+arrI[31], 
+    'com_32',
+arrI[32], 
+        'com_33',
+arrI[33], 
+        'com_34',
+arrI[34], 
+
+        'com_36',
+arrI[36], 
+        'com_37',
+arrI[37], 
+        'com_38',
+arrI[38], 
+    'com_40',
+arrI[40], 
+   
+    'com_42',
+arrI[42], 
+        'com_43',
+arrI[43], 
+        'com_44',
+arrI[44], 
+        'com_45',
+arrI[45], 
+        'com_46',
+arrI[46], 
+       'com_47',
+arrI[47], 
+        'com_48',
+arrI[48], 
+/* other */ '#ccc'
+],"Sep27-Oct3":[
+'match',
+['get', 'GEOID'],
+'com_50',
+arrK[50],
+'com_39',
+arrK[39], 
+'com_23',
+arrK[23],  
+'com_49',
+arrK[49],  
+'com_41',
+arrK[41], 
+'com_22',
+arrK[22], 
+'com_35',
+arrK[35],   
+'com_0',
+arrK[0], 
+    'com_1',
+arrK[1], 
+    'com_2',
+arrK[2], 
+        'com_3',
+arrK[3], 
+        'com_4',
+arrK[4], 
+        'com_5',
+arrK[5], 
+        'com_6',
+arrK[6], 
+        'com_7',
+arrK[7], 
+        'com_8',
+arrK[8], 
+        'com_9',
+arrK[9], 
+        'com_10',
+arrK[10], 
+     'com_11',
+arrK[11], 
+     'com_12',
+arrK[12],
+     'com_13',
+arrK[13], 
+      'com_14',
+arrK[14], 
+    
+     'com_15',
+arrK[15], 
+     'com_16',
+arrK[16], 
+     'com_17',
+arrK[17], 
+     'com_18',
+arrK[18], 
+     'com_19',
+arrK[19], 
+     'com_20',
+arrK[20], 
+        'com_21',
+arrK[21],
+      'com_24',
+arrK[24], 
+    
+     'com_25',
+arrK[25], 
+     'com_26',
+arrK[26], 
+     'com_27',
+arrK[27], 
+     'com_28',
+arrK[28], 
+     'com_29',
+arrK[29], 
+     'com_30',
+arrK[30], 
+    'com_31',
+arrK[31], 
+    'com_32',
+arrK[32], 
+        'com_33',
+arrK[33], 
+        'com_34',
+arrK[34], 
+
+        'com_36',
+arrK[36], 
+        'com_37',
+arrK[37], 
+        'com_38',
+arrK[38], 
+    'com_40',
+arrK[40], 
+   
+    'com_42',
+arrK[42], 
+        'com_43',
+arrK[43], 
+        'com_44',
+arrK[44], 
+        'com_45',
+arrK[45], 
+        'com_46',
+arrK[46], 
+       'com_47',
+arrK[47], 
+        'com_48',
+arrK[48], 
+/* other */ '#ccc'
+]};   
+//console.log(arrC);
+    for (var i=0; i<large_layers.length; i++){
+       // map.setPaintProperty(large_layers[i], 'fill-opacity',0);
+        map.removeLayer(large_layers[i]);
+    }
+    large_layers=[];
+
+            map.addLayer({
+'id': 'communities_large_'+e.target.value,
+'type': 'fill',
+'source': 'communities_large_'+e.target.value,
+'paint': {
+'fill-color':fill_arrays[e.target.value],   
+'fill-outline-color':'black',    
+'fill-opacity': 0.8
+}
+
+},"state-label");  
+            
+         
+map.on('click', 'communities_large_'+e.target.value, function(e,i) {
+
+  
+   
+ if (!popup) {    
+popup=new mapboxgl.Popup()
+.setLngLat(e.lngLat)
+.setHTML(e.features[0].properties.GEOID)
+.addTo(map);
+ 
+}
+else {
+    popup.remove();
+                     popup=new mapboxgl.Popup()
+.setLngLat(e.lngLat)
+.setHTML(e.features[0].properties.GEOID)
+.addTo(map);
+    
+                         }
+       
+       });  
+             large_layers.push("communities_large_"+e.target.value);
+    
+    
+     add_communities();
+     add_counties();
+     add_covid();
+     add_states();
+}    
+    
+   function add_communities() { 
+
+       
+    if (document.getElementById("communities").checked == true) {
+        
+        for (var i=0; i<small_layers.length; i++){
+            map.removeLayer(small_layers[i]);
+        }
+        
+       small_layers=[]; 
+        
+        
+        
+        
+        
+   // if (typeof map.getLayer('small_communities_'+document.getElementById("mySelect").value) == 'undefined') {
+      map.addLayer({
+'id': 'small_communities_'+document.getElementById("mySelect").value,
+'type': 'line',
+'source': 'communities_small_'+document.getElementById("mySelect").value,
+'layout': {
+'line-join': 'round',
+'line-cap': 'round'
+},
+'paint': {
+'line-color': '#000000',
+'line-width': 0.2,
+   'line-opacity': 1    
+}
+},"state-label");  
+        small_layers.push('small_communities_'+document.getElementById("mySelect").value);
+    } else {
+        
+         for (var i=0; i<small_layers.length; i++){
+            map.removeLayer(small_layers[i]);
+        }
+        
+       small_layers=[]; 
+    }
+    
+   }
+     
+     function add_states(e) {
+   
+         if (document.getElementById("states").checked == true) {
+             
+             //    if (typeof map.getLayer('states') == 'undefined') {
+    map.addLayer({
+'id': 'states',
+'type': 'line',
+'source': 'states',
+'layout': {
+'line-join': 'round',
+'line-cap': 'round'
+},
+'paint': {
+'line-color': 'yellow',
+'line-width': 1,
+ 'line-opacity': 1   
+}
+},"state-label");
+                /* } else {
+             
+map.setPaintProperty( 'states', 'line-opacity', 1);
+//map.getLayer('states').setLayoutProperty( 'visibility', 'visible');
+ }*/
+                     
+         } else {
+//console.log(document.getElementById("states").checked);
+//map.getLayer('states').setLayoutProperty( 'visibility', 'none');
+//map.setPaintProperty('states', 'line-opacity', 0);
+                  var mapLayer = map.getLayer('states');
+
+    if(typeof mapLayer !== 'undefined') {
+              map.removeLayer("states");
+    }
+         }
+         
+         
+         
+         
+         
+         
+     }
+
+function add_covid(e) {
+if (document.getElementById("covid").checked == true) {
+//if (typeof map.getLayer('covid') == 'undefined') {
+map.addLayer({
+'id': 'covid',
+'type': 'circle',
+'source': 'covid',
+'paint': {
+    'circle-radius':['get', 'max1'],
+  'circle-stroke-color': '#000000',
+    'circle-stroke-opacity': 1,
+    'circle-stroke-width': 0.5,
+'circle-color': "grey",
+     'circle-opacity': 1
+}
+},"state-label");    
+        /* } else {
+             
+map.setPaintProperty( 'covid', 'circle-opacity', 1);
+             map.setPaintProperty( 'covid', 'circle-stroke-opacity', 1);
+//map.getLayer('states').setLayoutProperty( 'visibility', 'visible');
+ }*/
+                     
+         } else {
+          //     map.setPaintProperty( 'covid', 'circle-stroke-opacity', 0);
+//console.log(document.getElementById("states").checked);
+//map.getLayer('states').setLayoutProperty( 'visibility', 'none');
+//map.setPaintProperty('covid', 'circle-opacity', 0);
+                var mapLayer = map.getLayer('covid');
+
+    if(typeof mapLayer !== 'undefined') {
+              map.removeLayer("covid");
+    }
+         }
+    }
+    
+     function add_counties(e) {
+          
+         if (document.getElementById("counties").checked == true) {
+             
+              //   if (typeof map.getLayer('counties') == 'undefined') {
+    map.addLayer({
+'id': 'counties',
+'type': 'line',
+'source': 'counties',
+'layout': {
+'line-join': 'round',
+'line-cap': 'round'
+},
+'paint': {
+'line-color': 'yellow',
+'line-width': 0.5,
+ 'line-opacity': 1   
+}
+},"state-label");
+               /*  } else {
+              map.removeLayer("counties");
+//map.setPaintProperty( 'counties', 'line-opacity', 1);
+
+ }*/
+                     
+         } else {
+             
+             var mapLayer = map.getLayer('counties');
+
+    if(typeof mapLayer !== 'undefined') {
+ map.removeLayer("counties");
+    }
+//map.setPaintProperty('counties', 'line-opacity', 0);
+         }
+         
+         
+         
+     }
+    
+document.getElementById("mySelect").addEventListener("change",change_map);  
+    document.getElementById("states").addEventListener("change",add_states);  
+    document.getElementById("counties").addEventListener("change",add_counties); 
+document.getElementById("communities").addEventListener("change",add_communities); 
+document.getElementById("covid").addEventListener("change",add_covid); 
+</script>
+ 
+</body>
+</html>
