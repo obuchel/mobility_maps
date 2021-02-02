@@ -839,7 +839,7 @@ map.addLayer({
 'line-width': ['get', 'weight']
 }
 });
-    
+    large_layers.push('intercommunities_Feb23-29');
       
 map.on('click', 'communities_large_Feb23-29', function(e,i) {
         //console.log(e.features[0].properties,i);
@@ -2207,7 +2207,21 @@ arrK[48],
 
 },"state-label");  
             
-         
+     map.addLayer({
+'id': 'intercommunities_'+e.target.value,
+'type': 'line',
+'source': 'intercommunities_'+e.target.value,
+'layout': {
+'line-join': 'round',
+'line-cap': 'round'
+},
+'paint': {
+'line-color': '#888',
+'line-width': ['get', 'weight']
+}
+});
+    
+    
 map.on('click', 'communities_large_'+e.target.value, function(e,i) {
 
   
@@ -2230,7 +2244,7 @@ else {
        
        });  
              large_layers.push("communities_large_"+e.target.value);
-    
+    large_layers.push('intercommunities_'+e.target.value);
     
    //  add_communities();
    //  add_counties();
