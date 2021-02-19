@@ -1,0 +1,65 @@
+
+<!DOCTYPE html>
+<html lang="en" >
+
+<head>
+  <meta charset="UTF-8">
+  <title>deck.gl HexagonLayer demo</title>
+  
+
+<link href='https://api.mapbox.com/mapbox-gl-js/v2.0.1/mapbox-gl.css' rel='stylesheet' />
+      <link rel="stylesheet" href="./style.css">
+
+  
+</head>
+
+<body>
+
+  <div id="control-panel">
+  <div>
+    <label>Radius</label>
+    <input id="radius" type="range" min="1000" max="20000" step="1000" value="1000"></input>
+    <span id="radius-value"></span>
+  </div>
+  <div>
+    <label>Coverage</label>
+    <input id="coverage" type="range" min="0" max="1" step="0.1" value="1"></input>
+    <span id="coverage-value"></span>
+  </div>
+  <div style="visibility:hidden">
+    <label>Upper Percentile</label>
+    <input id="upperPercentile" type="range" min="90" max="100" step="1" value="100"></input>
+    <span id="upperPercentile-value"></span>
+  </div>
+  <div>
+<input type="radio" id="november" name="date" value="11" checked>
+<label for="male">November, 2020</label>
+<input type="radio" id="october" name="date" value="10">
+<label for="female">October, 2020</label>
+<input type="radio" id="september" name="date" value="9">
+<label for="other">September, 2020</label>
+<input type="radio" id="august" name="date" value="8">
+<label for="other">August, 2020</label><br>
+<input type="radio" id="july" name="date" value="7">
+<label for="other">July, 2020</label>
+<input type="radio" id="june" name="date" value="6">
+<label for="other">June, 2020</label>
+<input type="radio" id="may" name="date" value="5">
+<label for="other">May, 2020</label>
+</div>  
+
+</div>
+<script src='https://api.mapbox.com/mapbox-gl-js/v2.0.1/mapbox-gl.js'></script>
+<script src='https://unpkg.com/deck.gl@~7.0.0/dist.min.js'></script>
+<script src='https://d3js.org/d3.v5.min.js'></script>
+
+  
+
+    <script  src="script1.js"></script>
+
+
+
+
+</body>
+
+</html>

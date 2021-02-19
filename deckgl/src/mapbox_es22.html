@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>Add multiple geometries from one GeoJSON source</title>
+<meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
+<script src="https://api.mapbox.com/mapbox-gl-js/v1.8.1/mapbox-gl.js"></script>
+<link href="https://api.mapbox.com/mapbox-gl-js/v1.8.1/mapbox-gl.css" rel="stylesheet" />
+    <script src="https://d3js.org/d3.v5.min.js"></script>
+   
+<style>
+	body { margin: 0; padding: 0; }
+	#map { position: absolute; top: 0; bottom: 0; width: 100%; }
+</style>
+</head>
+<body>
+    <style>
+.legend {
+background-color: #fff;
+border-radius: 3px;
+bottom: 30px;
+box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
+padding: 10px;
+position: absolute;
+right: 10px;
+z-index: 1;
+    width:300px;
+}
+ 
+.legend h4 {
+margin: 0 0 10px;
+}
+ 
+.legend div span {
+border-radius: 50%;
+display: inline-block;
+height: 10px;
+margin-right: 5px;
+width: 10px;
+}
+</style>
+     <style> /* set the CSS */
+
+.line3 {
+  fill: none;
+  stroke: green;
+  stroke-width: 2px;
+}
+.line1 {
+  fill: none;
+  stroke: red;
+  stroke-width: 2px;
+}   
+        
+.line2 {
+  fill: none;
+  stroke: black;
+  stroke-width: 2px;
+}           
+
+</style>
+    <form id="formSelects">
+   <div id="state-legend" class="legend">
+           <div id="confirm">
+       
+       </div>
+       
+        <div id="deaths">
+       
+       </div>
+       
+        <div id="recover">
+       
+       </div>
+<select id="select_change">
+    <option value="confirm">
+    Confirmed
+    </option>
+    <option value="confirm_daily">
+    Last day change in confirmed
+    </option>
+    <option value="deaths">
+    Deaths
+    </option>
+    <option value="deaths_daily">
+    Last day change in deaths
+    </option>
+    <option value="recover">
+    Recovered
+    </option>
+    <option value="recover_daily">
+    Last day change in recovered
+    </option>
+       
+</select>       
+       <br>
+     <input type="radio" 
+       name="log_linear" 
+       value="adaptive"
+       checked>
+            Adaptive
+</input>  
+       
+       
+       
+       
+<input type="radio" 
+       name="log_linear" 
+       value="linear">
+            Linear
+</input>
+
+<input type="radio"
+  name="log_linear" 
+       value="log">
+            Log
+</input>
+    
+    </form>   
+     <span id="selected">
+<h4>Confirmed</h4>
+<div><span style="background-color: #7f2704"></span><span id="max0">81,000</span></div>
+<div><span style="background-color: #a63603"></span><span id="seven">20,000</span></div>
+<div><span style="background-color: #d94801"></span><span id="six">10,000</span></div>
+<div><span style="background-color: #f16913"></span><span id="five">20,000</span></div>
+<div><span style="background-color: #fd8d3c"></span><span id="four">1,000</span></div>
+<div><span style="background-color: #fdae6b"></span><span id="three">500</span></div>
+<div><span style="background-color: #fdd0a2"></span><span id="two">200</span></div>
+<div id="hide_layer"><span style="background-color: #fee6ce"></span><span id="one">100</span></div>
+<div><span style="background-color: #000000"></span>0</div>
+         </span>  
+</div>
+ 
+<!---
+ [[1, '#fff5eb'], [100, '#fee6ce'],[200, '#fdd0a2'],[500, '#fdae6b'],[1000, '#fd8d3c'],[2000, '#f16913'],[10000, '#d94801'],[20000, '#a63603'],[max0, '#7f2704']]
+},
+"confirm":20,"recover":3,"deaths":0,"confirm_daily":1,"recover_daily":0,"deaths_daily"
+
+
+[1, '#fff5eb'], [50, '#fee6ce'],[100, '#fdd0a2'],[500, '#fdae6b'],[5000, '#fd8d3c'],[10000, '#f16913'],[20000, '#d94801'],[50000, '#a63603'],[70000, '#7f2704']
+
+--->
+ 
+<div id="map"></div>
+<script>
+      var popup;
+     var data0=[];
+        var map;
+    var layer;
+     var all_ranges={"confirm":[],"deaths":[],"recover":[],"confirm_daily":[],"recover_daily":[],"deaths_daily":[]}; 
+    
+    var dd=[];
+    d3.csv('Color code - world.csv', function(dat,i){
+   
+        dd.push(dat);
+        if (i==163) {
+            
+            draw_map();
+        }      
+    });
+    
+    console.log(dd);
+    
+    function draw_map(){  
+        
+        
+        
+document.getElementById("select_change").addEventListener("change",change_map);
+    
+    var rad = document.getElementsByName("log_linear");
+var prev = null;
+for (var i = 0; i < rad.length; i++) {
+    rad[i].addEventListener('change', function() {
+        (prev) ? console.log(prev.value): null;
+        if (this !== prev) {
+            prev = this;
+        }
+       // alert(this.value)
+        change_map();
+    });
+}
+    
+  
+	mapboxgl.accessToken = 'pk.eyJ1Ijoib2J1Y2hlbCIsImEiOiJmOWQ2MzQxNmE0M2Y3YmVjNzA2NmM2MGQzYTIwYmQ3OCJ9.psxJSN8q9n2-HfFGoIUNJA';
+map = new mapboxgl.Map({
+container: 'map',
+style: 'mapbox://styles/mapbox/dark-v8',
+center: [-12.403732, 10.492392],
+zoom: 1
+});
+ 
+    var stateLegendEl = document.getElementById('state-legend');
+    
+    stateLegendEl.style.display = 'block';
+   // document.getElementById('#map').style.display = 'block';
+fetch('update.json').then(res => res.json()) //ne_10m_admin_1_states_provinces102
+.then(data => {  
+    
+      data0=data;
+    //console.log(data);
+   
+for (var i=0; i<data["features"].length; i++) {
+    if (typeof data["features"][i].properties.confirm!="undefined") {
+    all_ranges["confirm"].push(data["features"][i].properties.confirm);
+    all_ranges["deaths"].push(data["features"][i].properties.deaths);
+    all_ranges["recover"].push(data["features"][i].properties.recover);
+    all_ranges["confirm_daily"].push(data["features"][i].properties.confirm_daily);
+    all_ranges["deaths_daily"].push(data["features"][i].properties.deaths_daily);
+    all_ranges["recover_daily"].push(data["features"][i].properties.recover_daily);
+    }
+}
+// console.log(Math.max(...all_ranges["confirm"]),Math.min(...all_ranges["confirm"]));
+    
+var max0=Math.max(...all_ranges["confirm"]);
+var min0=Math.min(...all_ranges["confirm"]);    
+document.getElementById('max0').innerHTML=formatNumber(max0).toString();    
+document.getElementById('one').innerHTML=formatNumber(Math.round(max0/8)).toString();    
+document.getElementById('two').innerHTML=formatNumber(Math.round(max0/4)).toString(); 
+document.getElementById('three').innerHTML=formatNumber(Math.round(max0/4)+Math.round(max0/8)).toString();   
+document.getElementById('four').innerHTML=formatNumber(Math.round(max0/2)).toString(); 
+document.getElementById('five').innerHTML=formatNumber(Math.round(max0*0.63)).toString();   
+document.getElementById('six').innerHTML=formatNumber(Math.round(max0*0.75)).toString();  
+document.getElementById('seven').innerHTML=formatNumber(Math.round(max0*0.88)).toString();      
+    
+map.on('load', function() {
+layer=map.addSource('places', {
+'type': 'geojson',
+'data': data
+});
+  map.addLayer({
+'id': 'place_data',
+'type': 'fill',
+'source': 'places',
+className: {
+property: "country"
+},
+'paint': {
+'fill-color': {
+property: "confirm",
+stops: [[1, '#fff5eb'], [100, '#fee6ce'],[200, '#fdd0a2'],[500, '#fdae6b'],[1000, '#fd8d3c'],[2000, '#f16913'],[10000, '#d94801'],[20000, '#a63603'],[max0, '#7f2704']]
+},
+'fill-opacity': 0.5
+},
+'filter': ['==', '$type', 'Polygon']
+});
+   
+        map.on('click', 'place_data', function(e,i) {
+            if (typeof popup=="object") {
+            popup.remove();
+        }
+             
+            if (["US","CA","AU"].indexOf(e.features[0].properties.iso)==-1) {
+var ll=e.features[0].properties.iso;    
+        draw_plots(ll);
+} else {
+    
+    var ll=e.features[0].properties.iso+"-"+e.features[0].properties.province;    
+        draw_plots(ll);
+}
+           // console.log(e.features[0].properties.country);
+        if (e.features[0].properties.province!=""){
+            var name=e.features[0].properties.province+", "+e.features[0].properties.country;
+        } else {
+            
+            var name=e.features[0].properties.country
+        }
+if  (d3.keys(e.features[0].properties).length>1) {              
+            
+popup=new mapboxgl.Popup()
+.setLngLat(e.lngLat)
+.setHTML("<b>"+name+"</b> <br>Confirmed:"+formatNumber(e.features[0].properties.confirm).toString()+" <br>Recovered:"+formatNumber(e.features[0].properties.recover).toString()+" <br>Deaths:"+formatNumber(e.features[0].properties.deaths).toString()+" <br>+Confirmed:"+formatNumber(e.features[0].properties.confirm_daily).toString()+" <br>+Recovered:"+formatNumber(e.features[0].properties.recover_daily).toString()+" <br>+Deaths:"+formatNumber(e.features[0].properties.deaths_daily).toString())
+.addTo(map);
+    
+}
+});
+
+});
+    
+    //[[min0, '#fff5eb'], [Math.round(max0/8), '#fee6ce'],[Math.round(max0/4), '#fdd0a2'],[Math.round(max0/4)+Math.round(max0/8), '#fdae6b'],[Math.round(max0/2), '#fd8d3c'],[Math.round(max0*0.63), '#f16913'],[Math.round(max0*0.75), '#d94801'],[Math.round(max0*0.88), '#a63603'],[max0, '#7f2704']]
+});  
+    }
+function change_map(e){
+   // alert(document.querySelectorAll("input[name=log_linear]:checked")[0].value);
+    
+    if (typeof e!="undefined") {
+    var nn=e.target.value;
+    } else {
+    var nn=document.getElementById("select_change").value;
+    }
+    map.removeLayer('place_data');
+    if (document.querySelectorAll("input[name=log_linear]:checked")[0].value=="linear") {
+   var max0=Math.max(...all_ranges[nn]);
+var min0=Math.min(...all_ranges[nn]);    
+        
+document.getElementById('max0').innerHTML=formatNumber(max0).toString();    
+document.getElementById('one').innerHTML=formatNumber(Math.round(max0/8)).toString();    
+document.getElementById('two').innerHTML=formatNumber(Math.round(max0/4)).toString(); 
+document.getElementById('three').innerHTML=formatNumber((Math.round(max0/4)+Math.round(max0/8))).toString();   
+document.getElementById('four').innerHTML=formatNumber(Math.round(max0/2)).toString(); 
+document.getElementById('five').innerHTML=formatNumber(Math.round(max0*0.63)).toString();   
+document.getElementById('six').innerHTML=formatNumber(Math.round(max0*0.75)).toString();  
+document.getElementById('seven').innerHTML=formatNumber(Math.round(max0*0.88)).toString();  
+        var arr=[[min0, '#fff5eb'], [Math.round(max0/8), '#fee6ce'],[Math.round(max0/4), '#fdd0a2'],[Math.round(max0/4)+Math.round(max0/8), '#fdae6b'],[Math.round(max0/2), '#fd8d3c'],[Math.round(max0*0.63), '#f16913'],[Math.round(max0*0.75), '#d94801'],[Math.round(max0*0.88), '#a63603'],[max0, '#7f2704']];
+      
+    } else if (document.querySelectorAll("input[name=log_linear]:checked")[0].value=="log"){
+         var max0=Math.log(Math.max(...all_ranges[nn])+0.001);
+var min0=Math.log(Math.min(...all_ranges[nn])+0.001);    
+        
+document.getElementById('max0').innerHTML=max0.toString();    
+document.getElementById('one').innerHTML=(max0/8).toString();    
+document.getElementById('two').innerHTML=(max0/4).toString(); 
+document.getElementById('three').innerHTML=(max0/4+max0/8).toString();   
+document.getElementById('four').innerHTML=(max0/2).toString(); 
+document.getElementById('five').innerHTML=(max0*0.63).toString();   
+document.getElementById('six').innerHTML=(max0*0.75).toString();  
+document.getElementById('seven').innerHTML=(max0*0.88).toString(); 
+if (min0>=0) {       
+var arr=[[min0, '#fff5eb'], [max0/8, '#fee6ce'],[max0/4, '#fdd0a2'],[max0/4+max0/8, '#fdae6b'],[max0/2, '#fd8d3c'],[max0*0.63, '#f16913'],[max0*0.75, '#d94801'],[max0*0.88, '#a63603'],[max0, '#7f2704']];      
+document.getElementById("hide_layer").visibility="visible";    
+} else {
+    var arr=[ [max0/8, '#fee6ce'],[max0/4, '#fdd0a2'],[max0/4+max0/8, '#fdae6b'],[max0/2, '#fd8d3c'],[max0*0.63, '#f16913'],[max0*0.75, '#d94801'],[max0*0.88, '#a63603'],[max0, '#7f2704']];   
+document.getElementById("hide_layer").visibility="hidden";    
+    
+}
+        
+    } else if (document.querySelectorAll("input[name=log_linear]:checked")[0].value=="adaptive"){
+        
+      if (nn=="confirm" || nn=="recover") {  
+var max0=Math.max(...all_ranges[nn]);
+var min0=Math.min(...all_ranges[nn]);    
+        
+document.getElementById('max0').innerHTML=formatNumber(max0).toString();    
+document.getElementById('one').innerHTML= "100";
+    //formatNumber(Math.round(max0/8)).toString();    
+document.getElementById('two').innerHTML= "200";
+    //formatNumber(Math.round(max0/4)).toString(); 
+document.getElementById('three').innerHTML= "500";
+    //formatNumber((Math.round(max0/4)+Math.round(max0/8))).toString();   
+document.getElementById('four').innerHTML="1,000";
+    //formatNumber(Math.round(max0/2)).toString(); 
+document.getElementById('five').innerHTML="2,000";
+    //formatNumber(Math.round(max0*0.63)).toString();   
+document.getElementById('six').innerHTML="10,000";
+    //formatNumber(Math.round(max0*0.75)).toString();  
+document.getElementById('seven').innerHTML="20,000";
+    //formatNumber(Math.round(max0*0.88)).toString();  
+        var arr=[[1, '#fff5eb'], [100, '#fee6ce'],[200, '#fdd0a2'],[500, '#fdae6b'],[1000, '#fd8d3c'],[2000, '#f16913'],[10000, '#d94801'],[20000, '#a63603'],[max0, '#7f2704']];
+        
+    } else if (nn=="confirm_daily" || nn=="deaths") {
+        
+        var max0=Math.max(...all_ranges[nn]);
+var min0=Math.min(...all_ranges[nn]);    
+        
+document.getElementById('max0').innerHTML=formatNumber(max0).toString();    
+document.getElementById('one').innerHTML= "100";
+    //formatNumber(Math.round(max0/8)).toString();    
+document.getElementById('two').innerHTML= "200";
+    //formatNumber(Math.round(max0/4)).toString(); 
+document.getElementById('three').innerHTML= "500";
+    //formatNumber((Math.round(max0/4)+Math.round(max0/8))).toString();   
+document.getElementById('four').innerHTML="1,000";
+    //formatNumber(Math.round(max0/2)).toString(); 
+document.getElementById('five').innerHTML="2,000";
+    //formatNumber(Math.round(max0*0.63)).toString();   
+document.getElementById('six').innerHTML="2,500";
+    //formatNumber(Math.round(max0*0.75)).toString();  
+document.getElementById('seven').innerHTML="3,000";
+    //formatNumber(Math.round(max0*0.88)).toString();  
+        var arr=[[1, '#fff5eb'], [100, '#fee6ce'],[200, '#fdd0a2'],[500, '#fdae6b'],[1000, '#fd8d3c'],[2000, '#f16913'],[2500, '#d94801'],[3000, '#a63603'],[max0, '#7f2704']];
+        
+        
+        
+    } else  {
+        
+        var max0=Math.max(...all_ranges[nn]);
+var min0=Math.min(...all_ranges[nn]);    
+        
+document.getElementById('max0').innerHTML=formatNumber(max0).toString();    
+document.getElementById('one').innerHTML= "10";
+    //formatNumber(Math.round(max0/8)).toString();    
+document.getElementById('two').innerHTML= "50";
+    //formatNumber(Math.round(max0/4)).toString(); 
+document.getElementById('three').innerHTML= "100";
+    //formatNumber((Math.round(max0/4)+Math.round(max0/8))).toString();   
+document.getElementById('four').innerHTML="150";
+    //formatNumber(Math.round(max0/2)).toString(); 
+document.getElementById('five').innerHTML="200";
+    //formatNumber(Math.round(max0*0.63)).toString();   
+document.getElementById('six').innerHTML="250";
+    //formatNumber(Math.round(max0*0.75)).toString();  
+document.getElementById('seven').innerHTML="300";
+    //formatNumber(Math.round(max0*0.88)).toString();  
+        var arr=[[1, '#fff5eb'], [10, '#fee6ce'],[50, '#fdd0a2'],[100, '#fdae6b'],[150, '#fd8d3c'],[200, '#f16913'],[250, '#d94801'],[300, '#a63603'],[max0, '#7f2704']];
+        
+        
+        
+    }
+            
+            //[[min0, '#fff5eb'], [Math.round(max0/8), '#fee6ce'],[Math.round(max0/4), '#fdd0a2'],[Math.round(max0/4)+Math.round(max0/8), '#fdae6b'],[Math.round(max0/2), '#fd8d3c'],[Math.round(max0*0.63), '#f16913'],[Math.round(max0*0.75), '#d94801'],[Math.round(max0*0.88), '#a63603'],[max0, '#7f2704']];
+      
+        
+        //[[1, '#fff5eb'], [100, '#fee6ce'],[200, '#fdd0a2'],[500, '#fdae6b'],[1000, '#fd8d3c'],[2000, '#f16913'],[10000, '#d94801'],[20000, '#a63603'],[max0, '#7f2704']]
+    }
+    
+    
+      //console.log(arr);
+
+    map.addLayer({
+'id': 'place_data',
+'type': 'fill',
+'source': 'places',
+className: {
+property: "country"
+},
+'paint': {
+'fill-color': {
+property: nn,
+stops: arr
+},
+'fill-opacity': 0.5
+},
+'filter': ['==', '$type', 'Polygon']
+});
+   
+        map.on('click', 'place_data', function(e,i) {
+            
+             if (typeof popup=="object") {
+            popup.remove();
+        }
+            //console.log(e.features[0].properties.country);
+        if (e.features[0].properties.province!=""){
+            var name=e.features[0].properties.province+", "+e.features[0].properties.country;
+        } else {
+            
+            var name=e.features[0].properties.country
+        }
+            
+     if (document.querySelectorAll("input[name=log_linear]:checked")[0].value=="linear") {         
+   var html="<b>"+name+"</b> <br>Confirmed:"+formatNumber(e.features[0].properties.confirm)+" <br>Recovered:"+formatNumber(e.features[0].properties.recover)+" <br>Deaths:"+formatNumber(e.features[0].properties.deaths)+" <br>+Confirmed:"+formatNumber(e.features[0].properties.confirm_daily)+" <br>+Recovered:"+formatNumber(e.features[0].properties.recover_daily)+" <br>+Deaths:"+formatNumber(e.features[0].properties.deaths_daily);  
+         
+     } else {
+       var html="<b>"+name+"</b> <br>Confirmed:"+formatNumber(e.features[0].properties.confirm)+" <br>Recovered:"+formatNumber(e.features[0].properties.recover)+" <br>Deaths:"+formatNumber(e.features[0].properties.deaths)+" <br>+Confirmed:"+formatNumber(e.features[0].properties.confirm_daily)+" <br>+Recovered:"+formatNumber(e.features[0].properties.recover_daily)+" <br>+Deaths:"+formatNumber(e.features[0].properties.deaths_daily);     
+         
+     }
+            
+           // alert(d3.keys(e.features[0].properties));
+            
+if  (d3.keys(e.features[0].properties).length>1) {         
+popup=new mapboxgl.Popup()
+.setLngLat(e.lngLat)
+.setHTML(html)
+.addTo(map);
+}
+            if (["US","CA","AU"].indexOf(e.features[0].properties.iso)==-1) {
+var ll=e.features[0].properties.iso;    
+        draw_plots(ll);
+} else {
+    
+    var ll=e.features[0].properties.iso+"-"+e.features[0].properties.province;    
+        draw_plots(ll);
+}
+
+            
+            
+});
+
+}        
+function formatNumber(num) {
+  return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
+}
+    
+    function draw_plots(iso){
+   // alert(iso);
+    
+d3.json("img0/"+iso+".json").then(function(data) {
+ // console.log(data);
+    d3.select("#confirm").html("");
+     d3.select("#deaths").html("");
+     d3.select("#recover").html("");
+    draw_histogram(data,"confirm","line1");
+    draw_histogram(data,"deaths","line2");
+    draw_histogram(data,"recover","line3");
+});
+
+}    
+    
+    
+function draw_histogram(data,name,cl){
+  //  d3.select("#"+name).html("");
+    
+    // set the dimensions and margins of the graph
+var margin = {top: 20, right: 20, bottom: 30, left: 50},
+    width = 300 - margin.left - margin.right,
+    height = 120- margin.top - margin.bottom;
+
+// parse the date / time
+var parseTime = d3.timeParse("%M/%d/%y");
+
+// set the ranges
+var x = d3.scaleTime().range([0, width]);
+var y = d3.scaleLinear().range([height, 0]);
+
+// define the line
+var valueline = d3.line()
+    .x(function(d) { return x(d["date_"+name]); })
+    .y(function(d) { return y(d[name]); });
+
+// append the svg obgect to the body of the page
+// appends a 'group' element to 'svg'
+// moves the 'group' element to the top left margin
+var svg = d3.select("#"+name).append("svg")
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom)
+  .append("g")
+    .attr("transform",
+          "translate(" + margin.left + "," + margin.top + ")");
+
+// Get the data
+//d3.csv("data.csv").then(function(data) {
+
+  // format the data
+  data.forEach(function(d) {
+      d["date_"+name] = new Date(2020,d.date.toString().split("/")[0]-1,d.date.toString().split("/")[1])
+      d[name] = +d[name];
+  });
+//console.log(data);
+  // Scale the range of the data
+  x.domain(d3.extent(data,function(d){return d["date_"+name];}));
+    console.log(x.domain())
+  y.domain([0, d3.max(data, function(d) { return d[name]; })+1]);
+
+  // Add the valueline path.
+  svg.append("path")
+      .data([data])
+      .attr("class", cl)
+      .attr("d", valueline);
+
+  // Add the x Axis
+  svg.append("g")
+      .attr("transform", "translate(0," + height + ")")
+      .call(d3.axisBottom(x).ticks(5))
+    .selectAll("text")
+    .attr("y", 7)
+   // .attr("x", 9)
+   .attr("dy", ".35em")
+    .attr("transform", "rotate(35)")
+    .style("text-anchor", "start");
+
+  // Add the y Axis
+  svg.append("g")
+      .call(d3.axisLeft(y).ticks(5));
+
+//});
+
+}    
+    
+    
+
+</script>
+ 
+</body>
+</html>
