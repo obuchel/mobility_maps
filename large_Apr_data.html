@@ -71,10 +71,13 @@
   </head>
   <body>
     <div id="map"></div>
+      
+      <!----
     <div class="map-overlay" id="features">
       <h2>US population density</h2>
       <div id="pd"><p>Hover over a state!</p></div>
     </div>
+---->
     <div class="map-overlay" id="legend"></div>
 
     <script>
@@ -161,6 +164,28 @@ map.addLayer({
 'line-width': 0.5
 }
 });
+//	  Apr05-11_large_simplified_data_added2.json
+map.addSource('route2', {
+'type': 'geojson',
+'data': 'Apr05-11_large_simplified_data_added2.json'
+});
+
+	  
+
+	  map.addLayer({
+'id': 'route2',
+'type': 'line',
+'source': 'route2',
+'layout': {
+'line-join': 'round',
+'line-cap': 'round'
+},
+'paint': {
+'line-color': 'yellow',
+'line-width': 2
+}
+});
+
       });
     </script>
   </body>

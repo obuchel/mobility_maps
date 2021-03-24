@@ -93,7 +93,8 @@
          var arrG= [];
         var arrH= [];
         var arrI= [];
-    var arrK= [];
+  var arrK= [];
+  var arrL=[];
     
 var data3=[];    
 var z0=[];
@@ -165,7 +166,16 @@ var z19=[];
 var z29=[];
 var z39=[];
 var z49=[];   
-var z59=[];     
+  var z59=[];
+//Feb28_Mar6_2021
+
+var z091=[];
+var z191=[];
+var z291=[];
+var z391=[];
+var z491=[];
+ var z591=[];  
+  
     //April05-11
 var communitiesA={0: 0, 1: 0, 2: 1, 3: 0, 4: 1, 5: 2, 6: 3, 7: 3, 8: 1, 9: 1, 10: 3, 11: 3, 12: 4, 13: 0, 14: 0, 15: 1, 16: 1, 17: 3, 18: 0, 19: 2, 20: 3, 21: 0, 22: 4, 23: 4, 24: 0, 25: 0, 26: 0, 27: 3, 28: 3, 29: 3, 30: 2, 31: 2, 32: 2, 33: 1, 34: 1, 35: 2, 36: 2, 37: 2, 38: 2, 39: 4, 40: 0, 41: 2, 42: 1, 43: 2, 44: 2, 45: 2, 46: 0, 47: 2, 48: 2, 49: 4, 50: 4, 51: 4, 52: 1, 53: 0, 54: 0, 55: 4, 56: 4, 57: 1, 58: 2, 59: 2, 60: 1, 61: 3, 62: 1, 63: 2, 64: 1, 65: 4, 66: 3, 67: 0, 68: 1};
 
@@ -193,8 +203,8 @@ var communities_Apr19_25={0: 0, 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 1, 7: 0, 8: 0, 
 var communities_May24_30={0: 0, 1: 0, 2: 0, 3: 0, 4: 0, 5: 1, 6: 2, 7: 1, 8: 1, 9: 1, 10: 2, 11: 2, 12: 0, 13: 1, 14: 3, 15: 3, 16: 4, 17: 0, 18: 2, 19: 0, 20: 4, 21: 4, 22: 0, 23: 0, 24: 0, 25: 4, 26: 1, 27: 4, 28: 4, 29: 2, 30: 3, 31: 4, 32: 4, 33: 4, 34: 2, 35: 4, 36: 2, 37: 1, 38: 0, 39: 4, 40: 3, 41: 0, 42: 3, 43: 4, 44: 4, 45: 4, 46: 4, 47: 4, 48: 3, 49: 0, 50: 4, 51: 4};   
     
 var communities_Sep27_Oct3={0: 0, 1: 0, 2: 1, 3: 1, 4: 1, 5: 1, 6: 2, 7: 2, 8: 2, 9: 1, 10: 2, 11: 3, 12: 2, 13: 0, 14: 0, 15: 1, 16: 2, 17: 2, 18: 4, 19: 1, 20: 3, 21: 0, 22: 4, 23: 2, 24: 2, 25: 2, 26: 2, 27: 1, 28: 1, 29: 2, 30: 3, 31: 4, 32: 4, 33: 0, 34: 3, 35: 4, 36: 3, 37: 1, 38: 2, 39: 4, 40: 4, 41: 3, 42: 3, 43: 1, 44: 3, 45: 4, 46: 4, 47: 4, 48: 4, 49: 1, 50: 4};
-    
-    
+  var communities_Feb28_Mar6_2021={0: 0, 1: 0, 2: 1, 3: 2, 4: 1, 5: 1, 6: 1, 7: 1, 8: 1, 9: 0, 10: 0, 11: 2, 12: 3, 13: 3, 14: 3, 15: 2, 16: 2, 17: 1, 18: 1, 19: 1, 20: 1, 21: 3, 22: 0, 23: 1, 24: 0, 25: 4, 26: 4, 27: 4, 28: 2, 29: 2, 30: 4, 31: 2, 32: 5, 33: 1, 34: 5, 35: 5, 36: 5, 37: 4, 38: 4, 39: 2, 40: 2, 41: 4, 42: 2, 43: 5, 44: 5, 45: 2, 46: 4, 47: 5, 48: 1, 49: 4, 50: 4, 51: 4, 52: 4};    
+  
 var zeros=["#023858","#9ecae1","#6baed6","#4292c6","#2171b5","#08519c","#08306b","#74a9cf","#3690c0","#0570b0","#045a8d","#a6bddb","#4682b4","#d0d1e6","#c6dbef","#d0d1e6","#a6bddb",      "#023858","#9ecae1","#6baed6","#4292c6","#2171b5","#08519c","#08306b","#74a9cf","#3690c0","#0570b0","#045a8d","#a6bddb","#4682b4","#d0d1e6","#c6dbef","#d0d1e6","#a6bddb"];
 var ones=["#feb24c","#fd8d3c","#fc4e2a","#fdae6b","#fd8d3c","#f16913","#d94801","#a63603","#7f2704","#fec44f","#fe9929","#ec7014","#cc4c02","#993404","#662506",         "#feb24c","#fd8d3c","#fc4e2a","#fdae6b","#fd8d3c","#f16913","#d94801","#a63603","#7f2704","#fec44f","#fe9929","#ec7014","#cc4c02","#993404","#662506","#feb24c","#fd8d3c","#fc4e2a","#fdae6b","#fd8d3c","#f16913","#d94801","#a63603","#7f2704","#fec44f","#fe9929","#ec7014","#cc4c02","#993404","#662506"];
 var twos=["#bdbdbd","#969696","#737373","#525252","#808080","#B8B8B8","#DCDCDC","#D3D3D3","#C0C0C0","#696969","#778899","#708090","#2F4F4F","#546161","#f0f0f0","#d9d9d9","#F5F5F5","#252525",  "#bdbdbd", "#969696", "#737373", "#525252","#B8B8B8","#DCDCDC","#DCDCDC","#D3D3D3","#C0C0C0","#808080","#696969","#778899","#708090","#2F4F4F","#546161","#f0f0f0","#d9d9d9","#F5F5F5","#252525"];
@@ -271,8 +281,37 @@ for (var i=0; i<d3.keys(communities).length; i++) {
 
     }
     
+	}
+  
+
+   for (var i=0; i<d3.keys(communities_Feb28_Mar6_2021).length; i++) {
+    if (d3.values(communities_Feb28_Mar6_2021)[i]==0) {
+        arrL.push(zeros[z091.length]);
+      z091.push(d3.values(communities_Feb28_Mar6_2021)[i])
+    } else if (d3.values(communities_Feb28_Mar6_2021)[i]==1) {
+        arrL.push(fours[z191.length]);
+      z191.push(d3.values(communities_Feb28_Mar6_2021)[i])
+    } else if (d3.values(communities_Feb28_Mar6_2021)[i]==2) {
+        arrL.push(threes[z291.length]);
+      z291.push(d3.values(communities_Feb28_Mar6_2021)[i])
+    } else if (d3.values(communities_Feb28_Mar6_2021)[i]==3) {
+        arrL.push(ones[z391.length]);
+      z391.push(d3.values(communities_Feb28_Mar6_2021)[i])
+    } else if (d3.values(communities_Feb28_Mar6_2021)[i]==4) {
+        arrL.push(twos[z491.length]);
+      z491.push(d3.values(communities_Feb28_Mar6_2021)[i])
+    } else if (d3.values(communities_Feb28_Mar6_2021)[i]==5) {
+        arrL.push(twos[z591.length]);
+      z591.push(d3.values(communities_Feb28_Mar6_2021)[i])
+    } else {
+
+    }
+
 }
-    
+
+  
+    console.log(JSON.stringify(arrL));
+  
       for (var i=0; i<d3.keys(communities_Mar08_14).length; i++) {
           //console.log(d3.values(communities_Mar08_14)[i]);
     if (d3.values(communities_Mar08_14)[i]==0) {
@@ -467,7 +506,7 @@ for (var i=0; i<d3.keys(communities).length; i++) {
     
 }
     
-    console.log(JSON.stringify(arrK));
+   // console.log(JSON.stringify(arrK));
 
     var arr=[];
     
@@ -531,10 +570,10 @@ for (var i=0; i<d3.keys(communities).length; i++) {
             }
             
     
-     var arr2=[[1, 0.1], [100, 0.2],[200, 0.7],[500, 1],[1000, 1],[2000, 1],[2500, 1],[3000, 1],[50000, 1]];  
+var arr2=[[1, 0.1], [100, 0.2],[200, 0.7],[500, 1],[1000, 1],[2000, 1],[2500, 1],[3000, 1],[50000, 1]];  
 var comms=["All",0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 13, 14, 15, 16, 17, 18, 19, 20, 21];  
-var data3=[];    
-        var vals=["Feb23-29","Mar01-07","Mar08-14","Mar15-21","Mar22-28","Mar29-Apr04","Apr05-11","Apr19-25","Apr26-May02","May24-30","Sep27-Oct3"];
+var data3=[];
+var vals=["Feb23-29","Mar01-07","Mar08-14","Mar15-21","Mar22-28","Mar29-Apr04","Apr05-11","Apr19-25","Apr26-May02","May24-30","Sep27-Oct3","Feb28_Mar6_2021"];
 var x = document.getElementById("mySelect");
 for (var i=0; i<11; i++) {        
 var option = document.createElement("option");
@@ -567,7 +606,20 @@ map.addSource('communities_small_Feb23-29', {
 type: 'geojson',
 'data': "Feb23-29_small_simplified.json"    
 });
-    
+   
+
+map.on('load', function() {
+map.addSource('communities_large_Feb28_Mar6_2021', {
+type: 'geojson',
+ data: 'Feb28_Mar6_2021_large_simplified.json'
+});
+
+map.addSource('communities_small_Feb28_Mar6_2021', {
+type: 'geojson',
+'data': "Feb28_Mar6_2021_small_simplified.json"
+});
+
+
     
 map.addSource('communities_large_Mar01-07', {
 type: 'geojson',
@@ -1014,7 +1066,6 @@ arrB[12],
 arrB[13], 
       'com_14',
 arrB[14], 
-    
      'com_15',
 arrB[15], 
      'com_16',
@@ -1030,8 +1081,7 @@ arrB[20],
         'com_21',
 arrB[21],
       'com_24',
-arrB[24], 
-    
+arrB[24],  
      'com_25',
 arrB[25], 
      'com_26',
@@ -1052,7 +1102,6 @@ arrB[32],
 arrB[33], 
         'com_34',
 arrB[34], 
-
         'com_36',
 arrB[36], 
         'com_37',
@@ -2148,6 +2197,120 @@ arrK[46],
 arrK[47], 
         'com_48',
 arrK[48], 
+/* other */ '#ccc'
+],
+"Feb28_Mar6_2021":[
+'match',
+['get', 'GEOID'],
+'com_39',
+arrL[39],
+'com_23',
+arrL[23],
+'com_49',
+arrL[49],
+'com_41',
+arrL[41],
+'com_22',
+arrL[22],
+'com_35',
+arrL[35],
+'com_0',
+arrL[0],
+    'com_1',
+arrL[1],
+    'com_2',
+arrL[2],
+        'com_3',
+arrL[3],
+        'com_4',
+arrL[4],
+ 'com_40',
+arrL[40],
+        'com_5',
+arrL[5],
+        'com_6',
+arrL[6],
+        'com_7',
+arrL[7],
+        'com_8',
+arrL[8],
+        'com_9',
+arrL[9],
+        'com_10',
+arrL[10],
+     'com_11',
+arrL[11],
+     'com_12',
+arrL[12],
+ 'com_13',
+arrL[13],
+'com_14',
+arrL[14],
+
+     'com_15',
+arrL[15],
+     'com_16',
+arrL[16],
+     'com_17',
+arrL[17],
+     'com_18',
+arrL[18],
+     'com_19',
+arrL[19],
+     'com_20',
+arrL[20],
+        'com_21',
+arrL[21],
+      'com_24',
+arrL[24],
+     'com_25',
+arrL[25],
+     'com_26',
+arrL[26],
+     'com_27',
+arrL[27],
+     'com_28',
+arrL[28],
+     'com_29',
+arrL[29],
+     'com_30',
+arrL[30],
+    'com_31',
+arrL[31],
+    'com_32',
+arrL[32],
+        'com_33',
+arrL[33],
+        'com_34',
+arrL[34],
+        'com_36',
+arrL[36],
+        'com_37',
+arrL[37],
+ 'com_42',
+arrL[42],
+        'com_43',
+arrL[43],
+        'com_44',
+arrL[44],
+        'com_45',
+arrL[45],
+        'com_46',
+arrL[46],
+       'com_47',
+arrL[47],
+        'com_48',
+arrL[48],
+'com_50',
+arrL[50],
+'com_51',
+arrL[51],
+'com_52',
+arrL[52],
+'com_53',
+arrL[53],
+'com_54',
+arrL[54],
 /* other */ '#ccc'
 ]};   
 //console.log(arrC);
