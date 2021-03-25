@@ -610,7 +610,7 @@ type: 'geojson',
 
 //map.on('load', function() {
 map.addSource('communities_large_Feb28-Mar6-2021', {
-type: 'geojson',Feb28-Mar6-2021_large_simplified.json
+type: 'geojson',//Feb28-Mar6-2021_large_simplified.json
  data: 'Feb28-Mar6-2021_large_simplified.json'
 });
 
@@ -2314,6 +2314,8 @@ arrL[53],
 arrL[54],
 /* other */ '#ccc'
 ]};   
+    
+    console.log(fill_arrays[e.target.value]);
 
 for (var i=0; i<large_layers.length; i++){
        // map.setPaintProperty(large_layers[i], 'fill-opacity',0);
