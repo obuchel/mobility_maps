@@ -529,8 +529,8 @@ for (var i=0; i<d3.keys(communities).length; i++) {
                 
                 data10.map(function(d,i){if (d.id.toString().length>3) {ids.push(d.id.toString().substr(3)) }else 
                     
-                                                                     {ids.push(d.id.toString())}});           
-    fetch('counties5.json').then(res => res.json()) 
+                                                                        {ids.push(d.id.toString())}});    
+        fetch('counties5.json').then(res => res.json()) 
 .then(data => {  
  var data2={"type":"FeatureCollection"};
     data2["features"]=[];        
@@ -608,7 +608,7 @@ type: 'geojson',
 });
    
 
-map.on('load', function() {
+//map.on('load', function() {
 map.addSource('communities_large_Feb28_Mar6_2021', {
 type: 'geojson',
  data: 'Feb28_Mar6_2021_large_simplified.json'
@@ -706,7 +706,7 @@ type: 'geojson',
 'data': "Apr26-May02_small_simplified.json"    
 });    
     
-    map.addSource('communities_large_May24-30', {
+map.addSource('communities_large_May24-30', {
 type: 'geojson',
  data: 'May24-30_large_simplified.json'  
 });      
@@ -739,6 +739,8 @@ map.addSource('covid', {
 type: 'geojson',
 'data': data2    
 });
+    
+    
 large_layers.push('communities_large_Feb23-29');
 map.addLayer({
 'id': 'communities_large_Feb23-29',
@@ -870,7 +872,7 @@ popup=new mapboxgl.Popup()
          });
     
   });      
-    
+
     
 function change_map(e){
     
@@ -2311,8 +2313,8 @@ arrL[53],
 arrL[54],
 /* other */ '#ccc'
 ]};   
-console.log(arrL);
-    for (var i=0; i<large_layers.length; i++){
+
+for (var i=0; i<large_layers.length; i++){
        // map.setPaintProperty(large_layers[i], 'fill-opacity',0);
         map.removeLayer(large_layers[i]);
     }
@@ -2333,7 +2335,7 @@ console.log(arrL);
          
 map.on('click', 'communities_large_'+e.target.value, function(e,i) {
 
-  
+  console.log(e.target.value);
    
  if (!popup) {    
 popup=new mapboxgl.Popup()
@@ -2521,7 +2523,7 @@ document.getElementById("mySelect").addEventListener("change",change_map);
     document.getElementById("counties").addEventListener("change",add_counties); 
 document.getElementById("communities").addEventListener("change",add_communities); 
 document.getElementById("covid").addEventListener("change",add_covid); 
-            });
+           
 </script>
  
 </body>
