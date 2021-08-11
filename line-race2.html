@@ -80,7 +80,7 @@ function run(_rawData) {
             endLabel: {
                 show: true,
                 formatter: function (params) {
-                    return params.value[1] + ': ' + params.value[0];
+                    return params.value[1];// + ': ' + params.value[0];
                 }
             },
             labelLayout: {
@@ -92,9 +92,9 @@ function run(_rawData) {
             encode: {
                 x: 'Year',
                 y: 'Income',
-                label: ['Country', 'Income'],
+                label: ['Country'],
                 itemName: 'Year',
-                tooltip: ['Income'],
+                tooltip: ['Country'],
             }
         });
     });
@@ -106,7 +106,7 @@ function run(_rawData) {
             source: _rawData
         }].concat(datasetWithFilters),
         title: {
-            text: 'Mar29-Apr04,2020: differences between infection distributions if contagion starts from different communities.'
+            text: 'Mar29-Apr04,2020: differences between inf. distributions if contagion starts from diff. communities.'
         },
         tooltip: {
             order: 'valueDesc',
@@ -117,7 +117,7 @@ function run(_rawData) {
             nameLocation: 'middle'
         },
         yAxis: {
-            name: ''
+            name: 'Population'
         },
         grid: {
             right: 140
